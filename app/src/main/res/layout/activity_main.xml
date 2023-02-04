@@ -1,18 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp">
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_height="44dp"
+            android:layout_width="44dp"
+            android:src="@mipmap/main_default_avatar"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp">
+        </ImageView>
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical|left"
+            android:text="test">
+        </TextView>
+        <View
+            android:id="@+id/v_status"
+            android:topLeftRadius="3dp"
+            android:topRightRadius="3dp"
+            android:bottomLeftRadius="3dp"
+            android:bottomRightRadius="3dp"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/design_default_color_primary"
+            android:layout_toRightOf="@+id/iv_avatar"
+            >
+        </View>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:layout_marginStart="4dp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@+id/v_status"
+            android:layout_marginTop="28dp"
+            android:gravity="center_vertical|left"
+            android:text="connected">
+        </TextView>
+    </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
