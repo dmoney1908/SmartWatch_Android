@@ -9,6 +9,11 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_height="44dp"
@@ -17,7 +22,7 @@
             android:id="@+id/iv_avatar"
             android:layout_height="44dp"
             android:layout_width="44dp"
-            android:src="@mipmap/main_default_avatar"
+            android:src="@drawable/main_default_avatar"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="0dp">
         </ImageView>
@@ -28,9 +33,9 @@
             android:textSize="18dp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_toEndOf="@+id/iv_avatar"
             android:layout_marginTop="2dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:gravity="center_vertical|left"
             android:text="test">
         </TextView>
@@ -44,8 +49,8 @@
             android:layout_height="6dp"
             android:layout_marginTop="32dp"
             android:layout_marginStart="10dp"
-            android:background="@color/design_default_color_primary"
-            android:layout_toRightOf="@+id/iv_avatar"
+            android:background="@color/primary_blue"
+            android:layout_toEndOf="@+id/iv_avatar"
             >
         </View>
 
@@ -55,11 +60,213 @@
             android:layout_height="14dp"
             android:layout_marginStart="4dp"
             android:textSize="12dp"
-            android:layout_toRightOf="@+id/v_status"
+            android:layout_toEndOf="@+id/v_status"
             android:layout_marginTop="28dp"
             android:gravity="center_vertical|left"
-            android:text="connected">
+            android:text="@string/connected">
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/ib_add"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/main_add"
+            android:contentDescription="add"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/ib_scan"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_toStartOf="@+id/ib_add"
+            android:contentDescription="scan"
+            android:src="@drawable/main_scanner"
+            tools:ignore="TouchTargetSizeCheck" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_status_bg"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_height="258dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="128dp">
+
+        <ImageView
+            android:id="@+id/iv_status_bg"
+            android:layout_width="258dp"
+            android:layout_height="258dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/main_status_bg">
+        </ImageView>
+        <TextView
+            android:id="@+id/tv_steps"
+            android:layout_width="120dp"
+            android:layout_height="38dp"
+            android:textSize="32dp"
+            android:textStyle="bold"
+            android:layout_marginTop="57dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|left"
+            android:text="9950">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_step_name"
+            android:layout_width="120dp"
+            android:layout_height="14dp"
+
+            android:textSize="12dp"
+            android:textStyle="normal"
+            android:layout_marginTop="96dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="step">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_goal"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:textSize="14dp"
+            android:textStyle="normal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="126dp"
+            android:gravity="center"
+            android:text="10000">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_goal_name"
+            android:layout_width="120dp"
+            android:layout_height="14dp"
+            android:textSize="12dp"
+            android:textStyle="normal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="141dp"
+            android:gravity="center"
+            android:text="test">
         </TextView>
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_calories_bg"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_height="90dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="335dp">
+
+        <ImageView
+            android:id="@+id/iv_calories_bg"
+            android:layout_width="match_parent"
+            android:layout_height="291dp"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/main_calories_bg">
+        </ImageView>
+        <TextView
+            android:id="@+id/tv_calories_name"
+            android:layout_width="120dp"
+            android:layout_height="34dp"
+            android:textSize="28dp"
+            android:layout_marginStart="40dp"
+            android:textStyle="bold"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical|left"
+            android:text="50">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_calories_num"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="40dp"
+            android:textSize="14dp"
+            android:textStyle="normal"
+            android:layout_marginTop="56dp"
+            android:gravity="center_vertical|left"
+            android:text="@string/calories">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_distance_name"
+            android:layout_width="120dp"
+            android:layout_height="34dp"
+            android:textSize="28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="40dp"
+            android:textStyle="bold"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical|right"
+            android:text="8500">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_distance"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="40dp"
+            android:layout_alignParentEnd="true"
+
+            android:textSize="14dp"
+            android:textStyle="normal"
+            android:layout_marginTop="56dp"
+            android:gravity="center_vertical|right"
+            android:text="@string/distance">
+        </TextView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_behavior"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_height="90dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="425dp">
+        <View android:id="@+id/strut"
+            android:layout_width="15dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"/>
+        <RelativeLayout
+            android:id="@+id/rl_heart_rate"
+            android:layout_marginStart="0dp"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_alignRight="@id/strut"
+            android:layout_alignParentLeft="true"
+            tools:ignore="NotSibling">
+
+            <ImageView
+                android:id="@+id/iv_heart_rate"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/main_heart_rate"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:layout_toRightOf="@+id/rl_heart_rate"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            tools:ignore="NotSibling">
+
+            <ImageView
+                android:id="@+id/iv_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/main_sleep_bg">
+
+            </ImageView>
+    </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+
 
 </ScrollView>
