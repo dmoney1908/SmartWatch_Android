@@ -41,15 +41,11 @@
         </TextView>
         <View
             android:id="@+id/v_status"
-            android:topLeftRadius="3dp"
-            android:topRightRadius="3dp"
-            android:bottomLeftRadius="3dp"
-            android:bottomRightRadius="3dp"
             android:layout_width="6dp"
             android:layout_height="6dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="33dp"
             android:layout_marginStart="10dp"
-            android:background="@color/primary_blue"
+            android:background="@drawable/green_corner_shape"
             android:layout_toEndOf="@+id/iv_avatar"
             >
         </View>
@@ -60,8 +56,9 @@
             android:layout_height="14dp"
             android:layout_marginStart="4dp"
             android:textSize="12dp"
+            android:textColor="@color/green"
             android:layout_toEndOf="@+id/v_status"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="27dp"
             android:gravity="center_vertical|left"
             android:text="@string/connected">
         </TextView>
@@ -70,11 +67,12 @@
             android:id="@+id/ib_add"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/main_add"
             android:contentDescription="add"
+            android:scaleType="center"
+            android:src="@drawable/main_add"
             tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton
@@ -85,6 +83,7 @@
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@+id/ib_add"
             android:contentDescription="scan"
+            android:scaleType="center"
             android:src="@drawable/main_scanner"
             tools:ignore="TouchTargetSizeCheck" />
     </RelativeLayout>
@@ -166,8 +165,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/main_calories_bg">
-        </ImageView>
+            android:scaleType="fitXY"
+            android:src="@drawable/main_calories_bg"/>
         <TextView
             android:id="@+id/tv_calories_name"
             android:layout_width="120dp"
@@ -220,50 +219,245 @@
         android:id="@+id/rl_behavior"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_height="90dp"
+        android:layout_height="275dp"
         android:layout_width="match_parent"
-        android:layout_marginTop="425dp">
+        android:layout_marginTop="441dp">
         <View android:id="@+id/strut"
             android:layout_width="15dp"
-            android:layout_height="0dp"
+            android:layout_height="275dp"
             android:layout_centerHorizontal="true"/>
         <RelativeLayout
             android:id="@+id/rl_heart_rate"
             android:layout_marginStart="0dp"
+            android:layout_marginEnd="15dp"
             android:layout_width="0dp"
-            android:layout_height="90dp"
-            android:layout_alignRight="@id/strut"
-            android:layout_alignParentLeft="true"
+            android:layout_height="184dp"
+            android:layout_alignEnd="@id/strut"
+            android:layout_alignParentStart="true"
             tools:ignore="NotSibling">
 
             <ImageView
                 android:id="@+id/iv_heart_rate"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
+                android:layout_height="184dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/main_heart_rate"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/main_heart_rate" />
+            <ImageView
+                android:id="@+id/iv_heart_rate_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_heart_icon" />
+            <TextView
+                android:id="@+id/tv_heart_rate_name"
+                android:layout_width="120dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/red"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:text="@string/heart_rate"/>
+            <TextView
+                android:id="@+id/tv_heart_rate_num"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15.5dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/dark_gray"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:hint="59"/>
+            <TextView
+                android:id="@+id/tv_heart_rate_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/tv_heart_rate_num"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="18dp"
+                android:textColor="@color/light_gray"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:text="@string/bpm"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_alignLeft="@id/strut"
+            android:layout_alignStart="@id/strut"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="0dp"
-            android:layout_toRightOf="@+id/rl_heart_rate"
+            android:layout_toEndOf="@+id/rl_heart_rate"
             android:layout_marginStart="15dp"
-            android:layout_alignParentRight="true"
             android:layout_width="0dp"
-            android:layout_height="90dp"
+            android:layout_height="76dp"
             tools:ignore="NotSibling">
 
             <ImageView
                 android:id="@+id/iv_sleep"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
+                android:layout_height="76dp"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="0dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/main_sleep_bg">
 
             </ImageView>
+            <ImageView
+                android:id="@+id/iv_sleep_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_sleep_icon" />
+            <TextView
+                android:id="@+id/tv_sleep_name"
+                android:layout_width="120dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/pink"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:text="@string/sleep"/>
+            <TextView
+                android:id="@+id/tv_sleep_num"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15.5dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/dark_gray"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:hint="79"/>
+            <TextView
+                android:id="@+id/tv_sleep_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/tv_sleep_num"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="18dp"
+                android:textColor="@color/light_gray"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:text="@string/hr"/>
     </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_met"
+            android:layout_marginStart="0dp"
+            android:layout_width="0dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="199dp"
+            android:layout_alignEnd="@id/strut"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentStart="true"
+            tools:ignore="NotSibling">
+
+            <ImageView
+                android:id="@+id/iv_met"
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_met_bg" />
+            <ImageView
+                android:id="@+id/iv_met_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_met_icon" />
+            <TextView
+                android:id="@+id/tv_met_name"
+                android:layout_width="120dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="12dp"
+                android:textSize="12dp"
+                android:textColor="@color/orange"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:text="@string/met."/>
+            <TextView
+                android:id="@+id/tv_met_num"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15.5dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/dark_gray"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:hint="19"/>
+            <TextView
+                android:id="@+id/tv_met_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/tv_met_num"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="18dp"
+                android:textColor="@color/light_gray"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:text="@string/met."/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_alignStart="@id/strut"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="91dp"
+            android:layout_marginEnd="0dp"
+            android:layout_toEndOf="@+id/rl_heart_rate"
+            android:layout_marginStart="15dp"
+            android:layout_width="0dp"
+            android:layout_height="184dp"
+            tools:ignore="NotSibling">
+
+            <ImageView
+                android:id="@+id/iv_blood_pressure"
+                android:layout_width="match_parent"
+                android:layout_height="184dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_pressure_bg">
+
+            </ImageView>
+            <ImageView
+                android:id="@+id/iv_blood_pressure_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_pressure_icon" />
+            <TextView
+                android:id="@+id/tv_pressure_name"
+                android:layout_width="120dp"
+                android:layout_height="14dp"
+                android:textColor="@color/purple"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="12dp"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|left"
+                android:text="@string/blood_pressure"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

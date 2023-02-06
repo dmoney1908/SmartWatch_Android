@@ -9,6 +9,7 @@
     <string name="heart_rate">Heart Rate</string>
     <string name="blood_pressure">Blood Pressure</string>
     <string name="sleep">Sleep</string>
+    <string name="hr">Hr</string>
     <string name="met.">MET.</string>
     <string name="bpm">Bpm</string>
 </resources>
