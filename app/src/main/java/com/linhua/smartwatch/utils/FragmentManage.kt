@@ -23,10 +23,10 @@ class FragmentManage private constructor(){
 
     fun getFragmentById(id:Int):BaseFragment?{
         when(id){
-            R.id.tab_home->return homeFragment
-            R.id.tab_favorites->return sportFragment
-            R.id.tab_personal->return deviceFragment
-            R.id.tab_message->return personalFragment
+            R.id.navigation_home->return homeFragment
+            R.id.navigation_sport->return sportFragment
+            R.id.navigation_device->return deviceFragment
+            R.id.navigation_profile->return personalFragment
         }
         return null
     }

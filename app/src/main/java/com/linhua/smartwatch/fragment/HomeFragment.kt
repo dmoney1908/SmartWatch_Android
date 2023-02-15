@@ -20,10 +20,4 @@ class HomeFragment: BaseFragment(){
     }
     override fun onListener() {
     }
-
-
-    val handler:android.os.Handler=object :android.os.Handler(){
-        override fun handleMessage(msg: Message) {
-        }
-    }
 }
