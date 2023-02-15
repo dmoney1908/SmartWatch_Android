@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/home_icon"
+        title="" />
+    <tab
+        id="@+id/tab_favorites"
+        icon="@drawable/favorite_icon"
+        title="" />
+    <tab
+        id="@+id/tab_message"
+        icon="@drawable/message_icon"
+        title="" />
+    <tab
+        id="@+id/tab_personal"
+        icon="@drawable/personal_icon"
+        title="" />
+</tabs>

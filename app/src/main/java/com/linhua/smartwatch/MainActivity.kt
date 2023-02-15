@@ -1,11 +1,21 @@
 package com.linhua.smartwatch
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import com.linhua.smartwatch.base.BaseActivity
+import com.linhua.smartwatch.utils.FragmentManage
+import com.roughike.bottombar.BottomBar
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity() {
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun onListener() {
+        val bottom_bar = findViewById<BottomBar>(R.id.bottom_bar)
+        bottom_bar.setOnTabSelectListener{
+            val transAction=supportFragmentManager.beginTransaction()
+            transAction.replace(R.id.content_container,
+                FragmentManage.fragmentManage.getFragmentById(it)!!,it.toString())
+            transAction.commit()
+        }
     }
 }
