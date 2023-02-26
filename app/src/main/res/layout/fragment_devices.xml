@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:screenOrientation="portrait">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        >
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:textSize="30dp"
+            android:textColor="@color/primary_black"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center_vertical|left"
+            android:text="@string/my_devices"/>
+        <ImageButton
+            android:id="@+id/ib_add"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="add"
+            android:scaleType="center"
+            android:src="@drawable/main_add"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/ib_scan"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_toStartOf="@+id/ib_add"
+            android:contentDescription="scan"
+            android:scaleType="center"
+            android:src="@drawable/main_scanner"
+            tools:ignore="TouchTargetSizeCheck" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_devices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        tools:listitem="@layout/item_device_info" />
+</LinearLayout>

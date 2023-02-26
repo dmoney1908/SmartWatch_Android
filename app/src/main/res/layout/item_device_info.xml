@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="104dp"
+    android:background="@color/white"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:topLeftRadius="12dp"
+        android:topRightRadius="12dp"
+        android:bottomLeftRadius="12dp"
+        android:bottomRightRadius="12dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="13dp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/dark"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Device" />
+
+    <TextView
+        android:id="@+id/tv_mac"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:layout_marginStart="112dp"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/light_gray"
+        android:textSize="12dp"
+        android:textStyle="normal"
+        tools:text="MAC:" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:textStyle="bold"
+        android:layout_width="80dp"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/green"
+        android:background="@drawable/light_green_corner_shape"
+        android:textSize="10dp"
+        android:layout_marginStart="112dp"
+        android:gravity="center"
+        tools:text="Connected" />
+
+    <ImageButton
+        android:id="@+id/ib_delete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="delete"
+        android:scaleType="fitCenter"
+        android:src="@drawable/devices_trash"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/ib_reconnect"
+        android:layout_width="100dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/white"
+        android:gravity="right|center_vertical"
+        android:scaleType="center"
+        android:text="@string/reconnect" />
+
+</RelativeLayout>
