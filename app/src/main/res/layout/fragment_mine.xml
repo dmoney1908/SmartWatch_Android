@@ -19,7 +19,7 @@
             <TextView
                 android:id="@+id/tv_profile"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
+                android:layout_height="36dp"
                 android:textSize="30dp"
                 android:textColor="@color/primary_black"
                 android:textStyle="bold"
@@ -28,13 +28,14 @@
                 android:layout_marginEnd="15dp"
                 android:gravity="center_vertical|left"
                 android:text="@string/profile"/>
+
             <ImageButton
                 android:id="@+id/ib_photo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="26dp"
+                android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="35dp"
                 android:contentDescription="photo"
                 android:scaleType="center"
                 android:src="@drawable/mine_photo"
@@ -215,9 +216,147 @@
             </View>
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_help"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@+id/rl_settings"
+            android:layout_height="64dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp">
 
+            <ImageView
+                android:id="@+id/iv_help"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:src="@drawable/mine_call">
+            </ImageView>
+            <TextView
+                android:id="@+id/tv_help"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="36dp"
+                android:textSize="16dp"
+                android:textColor="@color/dark"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|left"
+                android:text="@string/help">
+            </TextView>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/arrow_right">
+            </ImageView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="7.5dp"
+                android:layout_marginStart="7.5dp"
+                android:background="@color/line"
+                android:layout_alignParentBottom="true"
+                >
+            </View>
 
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_feedback"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@+id/rl_help"
+            android:layout_height="64dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp">
 
+            <ImageView
+                android:id="@+id/iv_feedback"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:src="@drawable/mine_feedback">
+            </ImageView>
+            <TextView
+                android:id="@+id/tv_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="36dp"
+                android:textSize="16dp"
+                android:textColor="@color/dark"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|left"
+                android:text="@string/feedback">
+            </TextView>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/arrow_right">
+            </ImageView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="7.5dp"
+                android:layout_marginStart="7.5dp"
+                android:background="@color/line"
+                android:layout_alignParentBottom="true"
+                >
+            </View>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_about"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@+id/rl_feedback"
+            android:layout_height="64dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/iv_about"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:src="@drawable/mine_about">
+            </ImageView>
+            <TextView
+                android:id="@+id/tv_about"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="36dp"
+                android:textSize="16dp"
+                android:textColor="@color/dark"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|left"
+                android:text="@string/about">
+            </TextView>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/arrow_right">
+            </ImageView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="7.5dp"
+                android:layout_marginStart="7.5dp"
+                android:background="@color/line"
+                android:layout_alignParentBottom="true"
+                >
+            </View>
+
+        </RelativeLayout>
     </RelativeLayout>
 
 

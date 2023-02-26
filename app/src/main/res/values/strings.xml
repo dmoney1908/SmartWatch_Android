@@ -22,4 +22,10 @@
     <string name="email">Email</string>
     <string name="personal_info">Personal Information</string>
     <string name="system_settings">System Settings</string>
+    <string name="help">Questions &amp; Help</string>
+    <string name="feedback">Feedback</string>
+    <string name="about">About</string>
+
+
+
 </resources>
