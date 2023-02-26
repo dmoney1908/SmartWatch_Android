@@ -1,9 +1,8 @@
-package com.linhua.smartwatch
+package com.linhua.smartwatch.activity
 
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseActivity
-import com.linhua.smartwatch.utils.FragmentManage
 
 class MainActivity : BaseActivity() {
     override fun getLayoutId(): Int {

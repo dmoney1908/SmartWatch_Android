@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.color.MaterialColors.getColor
@@ -25,6 +26,7 @@ class DeviceAdapter(data: MutableList<DeviceItem>?) :
             MultipleEntity.TWO -> {
                 holder.setText(R.id.tv_title, item.name)
                 holder.setText(R.id.tv_mac, item.mac)
+                holder.getView<ImageView>(R.id.iv_avatar).setImageResource(R.drawable.main_default_avatar)
                 holder.getView<Button>(R.id.ib_reconnect).visibility =
                     if (item.status) View.VISIBLE else View.GONE
                 var drawable = holder.getView<Button>(R.id.tv_status).background as GradientDrawable

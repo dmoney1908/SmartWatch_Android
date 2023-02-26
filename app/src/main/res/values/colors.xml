@@ -15,6 +15,10 @@
     <color name="orange">#FD7E14</color>
     <color name="primary_black">#101529</color>
     <color name="dark">#31344B</color>
+    <color name="light">#F4F6FF</color>
+    <color name="line">#E1E3FF</color>
+
+
 
 
     <color name="purple_200">#FA5252</color>

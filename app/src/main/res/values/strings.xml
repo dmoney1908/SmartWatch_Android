@@ -16,6 +16,10 @@
     <string name="title_sport">SPORT</string>
     <string name="title_device">DEVICE</string>
     <string name="title_profile">PROFILE</string>
+    <string name="profile">Profile</string>
     <string name="my_devices">My Devices</string>
     <string name="reconnect">Reconnect</string>
+    <string name="email">Email</string>
+    <string name="personal_info">Personal Information</string>
+    <string name="system_settings">System Settings</string>
 </resources>
