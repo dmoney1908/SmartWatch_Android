@@ -15,7 +15,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_devices
+        return R.layout.activity_heart_rate
     }
 
     override fun onListener() {

@@ -10,6 +10,7 @@
     <string name="blood_pressure">Blood Pressure</string>
     <string name="sleep">Sleep</string>
     <string name="hr">Hr</string>
+    <string name="HR">HR</string>
     <string name="met.">MET.</string>
     <string name="bpm">Bpm</string>
     <string name="title_home">HOME</string>
@@ -25,6 +26,11 @@
     <string name="help">Questions &amp; Help</string>
     <string name="feedback">Feedback</string>
     <string name="about">About</string>
+
+    <string name="lowest_value">Lowest value</string>
+    <string name="average_value">Average value</string>
+    <string name="highest_value">Highest value</string>
+
     <string name="google_map_key">AIzaSyDjDSFh4fIjakS6TDu3tpkHeVWMeF72NDY</string>
     <string name="map_id">3f39d80104495bc0</string>
 

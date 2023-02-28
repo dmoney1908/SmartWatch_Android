@@ -1,9 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".heartrate.HeartRateActivity">
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="44dp">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="19dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:text="@string/HR">
+        </TextView>
+        <RelativeLayout
+            android:id="@+id/rl_month"
+            android:layout_width="118dp"
+            android:background="@drawable/light_blue_corner_shape"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="34dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center_vertical|right"
+                android:text="Augest,2023">
+            </TextView>
+            <ImageView
+                android:id="@+id/iv_down"
+                android:layout_height="14dp"
+                android:layout_width="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/main_arrow_down"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="0dp">
+            </ImageView>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.linhua.smartwatch.view.ScrollDateView
+        android:layout_height="48dp"
+        android:layout_below="@+id/rl_top"
+        android:id="@+id/rl_scroll"
+        android:layout_width="match_parent">
+    </com.linhua.smartwatch.view.ScrollDateView>
+    <RelativeLayout
+        android:id="@+id/rl_hr_time"
+        android:layout_below="@+id/rl_scroll"
+        android:layout_width="118dp"
+        android:background="@drawable/light_blue_corner_shape"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="84dp"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/tv_hr"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:textSize="62dp"
+            android:textColor="@color/dark"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="62">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_bmp"
+            android:layout_width="match_parent"
+            android:layout_height="19dp"
+            android:layout_marginTop="65dp"
+            android:textSize="16dp"
+            android:textColor="@color/primary_blue"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/bpm">
+        </TextView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_last"
+        android:layout_below="@+id/rl_hr_time"
+        android:layout_width="118dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/light_blue_corner_shape2"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/iv_clock"
+            android:layout_height="16dp"
+            android:layout_width="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/main_clock">
+        </ImageView>
+        <TextView
+            android:id="@+id/tv_last_time"
+            android:textColor="@color/primary_black"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginEnd="14dp"
+            android:gravity="center"
+            android:text="23:45">
+        </TextView>
+    </RelativeLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lc_daily_chart"
+        android:layout_below="@+id/rl_last"
+        android:layout_width="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_height="184dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_hr_category"
+        android:layout_below="@+id/lc_daily_chart"
+        android:layout_width="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/light_blue_corner_shape2"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_lowest"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/light_blue_corner_shape2"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:id="@+id/rl_average"
+            android:layout_toEndOf="@+id/rl_lowest"
+            android:layout_width="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/average_corner_shape"
+            android:layout_weight="1" >
+            <TextView
+                android:id="@+id/tv_average_value"
+                android:textColor="@color/primary_black"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="31dp"
+                android:layout_marginEnd="14dp"
+                android:gravity="center"
+                android:text="23:45">
+            </TextView>
+            <TextView
+                android:id="@+id/tv_average_unit"
+                android:textColor="@color/primary_black"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="31dp"
+                android:layout_marginEnd="14dp"
+                android:gravity="center"
+                android:text="@string/bpm">
+            </TextView>
+            <TextView
+                android:textColor="@color/primary_black"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="31dp"
+                android:layout_marginEnd="14dp"
+                android:gravity="center"
+                android:text="@string/average_value">
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_highest"
+            android:layout_toEndOf="@+id/rl_average"
+            android:layout_width="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="match_parent"
+            android:background="@drawable/light_blue_corner_shape2"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</RelativeLayout>
