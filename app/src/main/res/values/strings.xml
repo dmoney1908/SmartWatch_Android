@@ -26,16 +26,29 @@
     <string name="help">Questions &amp; Help</string>
     <string name="feedback">Feedback</string>
     <string name="about">About</string>
-    <string name="hr_trend">Heart rate trend</string>
+    <string name="hr_trend">Heart Rate Trend</string>
+    <string name="sleep_record">Sleep Record</string>
+    <string name="bp">Bp</string>
+    <string name="mmhg">MmHg</string>
+    <string name="blood_trend">Blood pressure trend</string>
+
 
     <string name="days">Days</string>
     <string name="months">Months</string>
     <string name="weeks">Weeks</string>
-
+    <string name="hour">hour</string>
+    <string name="minute">minute</string>
 
     <string name="lowest_value">Lowest value</string>
     <string name="average_value">Average value</string>
     <string name="highest_value">Highest value</string>
+
+    <string name="deep_sleep">Deep Sleep</string>
+    <string name="light_sleep">Light Sleep</string>
+    <string name="wide_awake">Wide Awake</string>
+
+    <string name="blood_pressure_range">Blood pressure range</string>
+
 
     <string name="google_map_key">AIzaSyDjDSFh4fIjakS6TDu3tpkHeVWMeF72NDY</string>
     <string name="map_id">3f39d80104495bc0</string>
