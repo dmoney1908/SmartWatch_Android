@@ -1,21 +1,58 @@
 package com.linhua.smartwatch.activity
 
+import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseActivity
+import com.linhua.smartwatch.fragment.DeviceFragment
+import com.linhua.smartwatch.fragment.HomeFragment
+import com.linhua.smartwatch.fragment.PersonalFragment
+import com.linhua.smartwatch.fragment.SportFragment
+import com.linhua.smartwatch.utils.FragmentManage
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   {
+    companion object {
+        const val TAG_HOME = "home"
+        const val TAG_DEVICE = "devices"
+        const val TAG_SPORT = "sport"
+        const val TAG_MINE = "mine"
+    }
+    private lateinit var deviceFragment: DeviceFragment
+    private lateinit var personalFragment: PersonalFragment
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var sportFragment: SportFragment
+
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
 
     override fun onListener() {
         val bottomView = findViewById<BottomNavigationView>(R.id.bottom_view)
-//        bottom_bar.setOnTabSelectListener{
-//            val transAction=supportFragmentManager.beginTransaction()
-//            transAction.replace(R.id.content_container,
-//                FragmentManage.fragmentManage.getFragmentById(it)!!,it.toString())
-//            transAction.commit()
-//        }
+        bottomView.setOnItemSelectedListener(this)
+        bottomView.selectedItemId = R.id.navigation_home
+    }
+
+    private fun prepareFragments() {
+        homeFragment =
+            supportFragmentManager.findFragmentByTag(TAG_HOME) as HomeFragment?
+                ?: HomeFragment()
+        sportFragment =
+            supportFragmentManager.findFragmentByTag(TAG_SPORT) as SportFragment?
+                ?: SportFragment()
+        deviceFragment =
+            supportFragmentManager.findFragmentByTag(TAG_DEVICE) as DeviceFragment?
+                ?: DeviceFragment()
+        personalFragment =
+            supportFragmentManager.findFragmentByTag(TAG_MINE) as PersonalFragment?
+                ?: PersonalFragment()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val transAction = supportFragmentManager.beginTransaction()
+        transAction.replace(R.id.content_container,
+            FragmentManage.fragmentManage.getFragmentById(item.itemId)!!,item.itemId.toString())
+        transAction.commit()
+        return true
     }
 }

@@ -29,15 +29,15 @@
                 android:gravity="center_vertical|left"
                 android:text="@string/profile"/>
 
-            <ImageButton
-                android:id="@+id/ib_photo"
+            <ImageView
+                android:id="@+id/iv_photo"
                 android:layout_width="26dp"
                 android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="35dp"
                 android:contentDescription="photo"
-                android:scaleType="center"
+                android:scaleType="fitXY"
                 android:src="@drawable/mine_photo"
                 tools:ignore="TouchTargetSizeCheck" />
         </RelativeLayout>
@@ -84,15 +84,15 @@
                 android:gravity="center_vertical|left"
                 android:text="Watch">
             </TextView>
-            <ImageButton
-                android:id="@+id/ib_modify"
+            <ImageView
+                android:id="@+id/iv_modify"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="12dp"
                 android:contentDescription="modify"
-                android:scaleType="center"
+                android:scaleType="fitXY"
                 android:src="@drawable/mine_edit"
                 tools:ignore="TouchTargetSizeCheck" />
 

@@ -2,6 +2,7 @@ package com.linhua.smartwatch.fragment
 
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -52,7 +53,7 @@ class DeviceFragment: BaseFragment(){
             rvDevices.adapter = deviceAdapter
             rvDevices.layoutManager = LinearLayoutManager(this.context)
         }
-        hostView?.findViewById<ImageButton>(R.id.ib_add)?.setOnClickListener {
+        hostView?.findViewById<ImageView>(R.id.iv_add)?.setOnClickListener {
 
         }
     }

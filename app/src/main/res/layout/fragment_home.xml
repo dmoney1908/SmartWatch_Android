@@ -62,27 +62,27 @@
             android:text="@string/connected">
         </TextView>
 
-        <ImageButton
-            android:id="@+id/ib_add"
+        <ImageView
+            android:id="@+id/iv_add"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:contentDescription="add"
-            android:scaleType="center"
+            android:scaleType="fitXY"
             android:src="@drawable/main_add"
             tools:ignore="TouchTargetSizeCheck" />
 
-        <ImageButton
-            android:id="@+id/ib_scan"
+        <ImageView
+            android:id="@+id/iv_scan"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
-            android:layout_toStartOf="@+id/ib_add"
+            android:layout_toStartOf="@+id/iv_add"
             android:contentDescription="scan"
-            android:scaleType="center"
+            android:scaleType="fitXY"
             android:src="@drawable/main_scanner"
             tools:ignore="TouchTargetSizeCheck" />
     </RelativeLayout>
