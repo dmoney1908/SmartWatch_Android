@@ -26,6 +26,12 @@
     <string name="help">Questions &amp; Help</string>
     <string name="feedback">Feedback</string>
     <string name="about">About</string>
+    <string name="hr_trend">Heart rate trend</string>
+
+    <string name="days">Days</string>
+    <string name="months">Months</string>
+    <string name="weeks">Weeks</string>
+
 
     <string name="lowest_value">Lowest value</string>
     <string name="average_value">Average value</string>

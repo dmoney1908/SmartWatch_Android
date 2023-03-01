@@ -19,17 +19,15 @@
         android:theme="@style/Theme.SmartWatch"
         tools:targetApi="31">
         <activity
-            android:name=".HearRateActivity"
+            android:name=".sleep.SleepActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".HeartRateActivity"
-            android:exported="false"
-            android:label="@string/title_activity_heart_rate"
-            android:theme="@style/Theme.SmartWatch.NoActionBar">
+            android:name=".heartrate.HeartRateActivity"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

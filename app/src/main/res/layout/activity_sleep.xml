@@ -63,11 +63,11 @@
     </RelativeLayout>
 
     <com.linhua.smartwatch.view.ScrollDateView
+        android:id="@+id/rl_scroll"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/rl_top"
-        android:id="@+id/rl_scroll"
-        android:layout_width="match_parent">
-    </com.linhua.smartwatch.view.ScrollDateView>
+        tools:ignore="SpeakableTextPresentCheck"></com.linhua.smartwatch.view.ScrollDateView>
     <RelativeLayout
         android:id="@+id/rl_hr_time"
         android:layout_below="@+id/rl_scroll"

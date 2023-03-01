@@ -24,7 +24,9 @@
     <color name="purple_700">#7950F2</color>
     <color name="teal_200">#BE4BDB</color>
     <color name="blue_border">#E5DBFF</color>
-
+    <color name="pink_border">#FFE3E3</color>
+    <color name="light_orange">#FFF4E6</color>
+    <color name="orange_border">#FFE8CC</color>
 
 
 </resources>
