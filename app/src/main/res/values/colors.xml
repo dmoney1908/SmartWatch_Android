@@ -27,6 +27,14 @@
     <color name="pink_border">#FFE3E3</color>
     <color name="light_orange">#FFF4E6</color>
     <color name="orange_border">#FFE8CC</color>
-
+    <color name="transparent">#00000000</color>
+    <color name="black_translucent">#B0000000</color>
+    <color name="gray_common">#eeeeee</color>
+    <color name="small_font_color">#999999</color>
+    <color name="normal_font_color">#333333</color>
+    <color name="sleep_deep_color">#1472DB</color>
+    <color name="dialog_sport_end_text_color">#1194E4</color>
+    <color name="dialog_sport_end_line_color">#4b000000</color>
+    <color name="translate">#00000000</color>
 
 </resources>

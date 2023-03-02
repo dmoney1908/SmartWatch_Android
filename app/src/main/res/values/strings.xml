@@ -49,7 +49,9 @@
 
     <string name="blood_pressure_range">Blood pressure range</string>
 
-
+    <string name="cancel">Cancel</string>
+    <string name="sure">Done</string>
+    <string name="tips_title">Tips</string>
     <string name="google_map_key">AIzaSyDjDSFh4fIjakS6TDu3tpkHeVWMeF72NDY</string>
     <string name="map_id">3f39d80104495bc0</string>
 
