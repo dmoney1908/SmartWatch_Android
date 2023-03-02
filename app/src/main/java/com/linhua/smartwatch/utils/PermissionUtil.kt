@@ -37,7 +37,7 @@ class PermissionUtil {
         val deniedPermissions: MutableList<String> = ArrayList()
         for (i in grantResults.indices) {
             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                deniedPermissions.add(permissions[i])
+                permissions[i]?.let { deniedPermissions.add(it) }
             }
         }
         if (deniedPermissions.size > 0) {

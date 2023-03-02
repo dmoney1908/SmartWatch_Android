@@ -65,7 +65,7 @@
     <string name="permisson_location_open">Open</string>
     <string name="permisson_location_title">Location access is not turned on</string>
     <string name="permisson_location_tips">Outdoor sports require authorized location information permissions</string>
-
+    <string name="scan_device_info_put_code">Input Pin code</string>
 
 
 </resources>
