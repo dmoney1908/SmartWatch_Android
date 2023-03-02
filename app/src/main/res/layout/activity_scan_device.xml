@@ -3,8 +3,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.zhj.bluetooth.sdkdemo.util.RecyclerRefreshLayout
+
+    <RelativeLayout
+        android:id="@+id/layoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/base_title_back"
+            android:layout_height="20dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@mipmap/back_black" />
+
+        <TextView
+            android:id="@+id/base_title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scan Devices"
+            android:layout_centerInParent="true"
+            android:textColor="@color/normal_font_color"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <com.linhua.smartwatch.utils.RecyclerRefreshLayout
         android:id="@+id/mRefreshLayout"
+        android:layout_below="@+id/layoutTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
@@ -14,6 +41,6 @@
             android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
-    </com.zhj.bluetooth.sdkdemo.util.RecyclerRefreshLayout>
+    </com.linhua.smartwatch.utils.RecyclerRefreshLayout>
 
 </RelativeLayout>
