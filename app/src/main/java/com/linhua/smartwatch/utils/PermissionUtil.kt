@@ -12,7 +12,6 @@ import android.os.Process
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.linhua.smartwatch.activity.MyAppcation
 
@@ -32,7 +31,7 @@ class PermissionUtil {
     private var requsetResult: RequsetResult? = null
     fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<String>,
+        permissions: Array<String?>,
         grantResults: IntArray
     ) {
         val deniedPermissions: MutableList<String> = ArrayList()

@@ -55,5 +55,17 @@
     <string name="google_map_key">AIzaSyDjDSFh4fIjakS6TDu3tpkHeVWMeF72NDY</string>
     <string name="map_id">3f39d80104495bc0</string>
 
+    <string name="scan_device_info_put_complete_code">Please enter the complete pairing code</string>
+    <string name="scan_device_info_put_error">Wrong code input, please input again!</string>
+    <string name="scan_device_blu_not_open">Bluetooth not on</string>
+    <string name="scan_device_binding">Binding</string>
+    <string name="scan_device_open_set">Please turn on Bluetooth for device connection</string>
+    <string name="scan_device_set">Set</string>
+
+    <string name="permisson_location_open">Open</string>
+    <string name="permisson_location_title">Location access is not turned on</string>
+    <string name="permisson_location_tips">Outdoor sports require authorized location information permissions</string>
+
+
 
 </resources>

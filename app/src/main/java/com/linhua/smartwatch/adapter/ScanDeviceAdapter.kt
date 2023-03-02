@@ -16,10 +16,10 @@ import com.zhj.bluetooth.zhjbluetoothsdk.bean.BLEDevice
 /**
  * Created by Administrator on 2019/7/10.
  */
-class ScanDeviceAdapter(mContext: Context?, mList: List<BLEDevice?>?) :
+class ScanDeviceAdapter(mContext: Context?, mList: MutableList<BLEDevice?>?) :
     BaseAdapter<BLEDevice?, ScanDeviceAdapter.ViewHolder?>(
         mContext,
-        mList as MutableList<BLEDevice?>?
+        mList
     ) {
     fun setData(mList: MutableList<BLEDevice?>) {
         this.mList = mList
