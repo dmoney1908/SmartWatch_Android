@@ -10,6 +10,12 @@ import com.linhua.smartwatch.fragment.HomeFragment
 import com.linhua.smartwatch.fragment.PersonalFragment
 import com.linhua.smartwatch.fragment.SportFragment
 import com.linhua.smartwatch.utils.FragmentManage
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.WarningInfo
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleCallbackWrapper
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.BluetoothLe
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.DeviceCallback
+import com.zhj.bluetooth.zhjbluetoothsdk.util.Constants
+import com.zhj.bluetooth.zhjbluetoothsdk.util.LogUtil
 
 class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   {
     companion object {
@@ -31,6 +37,22 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
         val bottomView = findViewById<BottomNavigationView>(R.id.bottom_view)
         bottomView.setOnItemSelectedListener(this)
         bottomView.selectedItemId = R.id.navigation_home
+        var test = BluetoothLe.getDefault()
+        BluetoothLe.getDefault().init(this, object : BleCallbackWrapper() {
+
+            override fun complete(resultCode: Int, data: Any?) {
+                LogUtil.d("resultCode:$resultCode")
+                if (resultCode == Constants.BLE_RESULT_CODE.SUCCESS) {
+                } else {
+                    LogUtil.d("SDK不能使用")
+                }
+            }
+
+            override fun setSuccess() {
+                LogUtil.d("SDK不能使用")
+            }
+
+        })
     }
 
     private fun prepareFragments() {
