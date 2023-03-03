@@ -56,17 +56,17 @@
         android:textSize="10dp"
         android:layout_marginStart="112dp"
         android:gravity="center"
+        android:text="Connected"
         tools:text="Connected" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/ib_delete"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:contentDescription="delete"
-        android:scaleType="fitCenter"
         android:src="@drawable/devices_trash"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -78,9 +78,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/white"
+        android:background="null"
         android:gravity="right|center_vertical"
         android:scaleType="center"
-        android:text="@string/reconnect" />
+        android:text="@string/reconnect"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
 </RelativeLayout>

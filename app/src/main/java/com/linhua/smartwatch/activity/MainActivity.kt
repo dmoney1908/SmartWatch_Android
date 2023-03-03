@@ -37,7 +37,7 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
         val bottomView = findViewById<BottomNavigationView>(R.id.bottom_view)
         bottomView.setOnItemSelectedListener(this)
         bottomView.selectedItemId = R.id.navigation_home
-        var test = BluetoothLe.getDefault()
+        bottomView.itemIconTintList = null
         BluetoothLe.getDefault().init(this, object : BleCallbackWrapper() {
 
             override fun complete(resultCode: Int, data: Any?) {

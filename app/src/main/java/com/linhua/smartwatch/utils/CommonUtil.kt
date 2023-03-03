@@ -12,7 +12,7 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.util.TypedValue
 import android.widget.TextView
-import com.linhua.smartwatch.activity.MyAppcation
+import com.linhua.smartwatch.SmartWatchApplication
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,7 +30,7 @@ object CommonUtil {
 //        int timeStyle = (int) SPUtils.get(Constant.TIME_STYLE,0);
         val is24: Boolean
         //        if (timeStyle == 0) {//跟随系统
-        val cv: ContentResolver? = MyAppcation.instance?.contentResolver
+        val cv: ContentResolver? = SmartWatchApplication.instance?.contentResolver
         // 获取当前系统设置
         val time_12_24 = Settings.System.getString(
             cv,

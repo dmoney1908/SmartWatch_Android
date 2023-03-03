@@ -12,27 +12,21 @@ import com.linhua.smartwatch.base.BaseFragment
 import com.linhua.smartwatch.bean.DeviceItem
 import com.linhua.smartwatch.bean.DeviceModel
 import com.linhua.smartwatch.entity.MultipleEntity
-import com.linhua.smartwatch.utils.IntentUtil
-import com.linhua.smartwatch.utils.OnMultiChildClickListener
-import com.linhua.smartwatch.utils.OnMultiClickListener
+import com.linhua.smartwatch.utils.*
 import com.lxj.xpopup.XPopup
 
 class DeviceFragment: BaseFragment(){
     var hostView: View? = null
-    var deviceList = mutableListOf<DeviceModel>()
     var deviceItemList = mutableListOf<DeviceItem>()
     private val deviceAdapter = DeviceAdapter(mutableListOf()).apply {
-        setOnItemClickListener(object : OnMultiClickListener() {
-            override fun onSingleClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-            }
-        })
         setOnItemChildClickListener(object : OnMultiChildClickListener() {
             override fun onSingleClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (view.id) {
                     R.id.ib_delete -> {
                         XPopup.Builder(requireContext())
-                            .asConfirm("Are you sure to delete this watch？", "") {
-
+                            .asConfirm("", "Are you sure to delete this watch？") {
+                                DeviceManager.removeDevice(position)
+                                reloadData()
                             }.show()
                     }
                     R.id.ib_reconnect -> {
@@ -67,20 +61,27 @@ class DeviceFragment: BaseFragment(){
     override fun onListener() {
     }
 
-    fun updateData(deviceModel: DeviceModel) {
-        deviceList.add(deviceModel)
-        convertDeviceItem(deviceModel)
+    override fun onResume() {
+        super.onResume()
+        reloadData()
+    }
+
+    fun reloadData() {
+        convertDeviceItems()
         deviceAdapter.setNewInstance(deviceItemList)
         deviceAdapter.notifyDataSetChanged()
     }
 
-    private fun convertDeviceItem(bean: DeviceModel?) {
-        bean?.let {
-            deviceItemList.add(DeviceItem(MultipleEntity.TWO).apply {
-                name = bean.name
-                mac = bean.mac
-                status = bean.status
-            })
+    private fun convertDeviceItems() {
+        deviceItemList.clear()
+        for (bean in DeviceManager.getDeviceList()) {
+            bean.let {
+                deviceItemList.add(DeviceItem(MultipleEntity.TWO).apply {
+                    name = bean.mDeviceName
+                    mac = bean.mDeviceAddress
+                    status = bean.equals(DeviceManager.getCurrentDevice())
+                })
+            }
         }
     }
 

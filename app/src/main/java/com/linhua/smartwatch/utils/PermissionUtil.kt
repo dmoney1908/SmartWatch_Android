@@ -13,7 +13,7 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.linhua.smartwatch.activity.MyAppcation
+import com.linhua.smartwatch.SmartWatchApplication
 
 /**
  * Created by lyw.
@@ -68,7 +68,7 @@ class PermissionUtil {
             }
             val denyPermissions: MutableList<String> = ArrayList()
             for (value in permission) {
-                if (MyAppcation.instance?.let {
+                if (SmartWatchApplication.instance?.let {
                         ContextCompat.checkSelfPermission(
                             it,
                             value
@@ -90,9 +90,9 @@ class PermissionUtil {
         val isGrantedDrawOverlays: Boolean
             get() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val aom = MyAppcation.instance?.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+                    val aom = SmartWatchApplication.instance?.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
                         ?: return false
-                    val mode = MyAppcation.instance?.packageName?.let {
+                    val mode = SmartWatchApplication.instance?.packageName?.let {
                         aom.checkOpNoThrow(
                             "android:system_alert_window",
                             Process.myUid(),
@@ -101,7 +101,7 @@ class PermissionUtil {
                     }
                     return mode == AppOpsManager.MODE_ALLOWED || mode == AppOpsManager.MODE_IGNORED
                 }
-                return Settings.canDrawOverlays(MyAppcation.instance)
+                return Settings.canDrawOverlays(SmartWatchApplication.instance)
             }
 
         /**
@@ -116,7 +116,7 @@ class PermissionUtil {
         @TargetApi(Build.VERSION_CODES.M)
         private fun startWriteSettingsActivity(activity: Activity, requestCode: Int) {
             val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
-            intent.data = Uri.parse("package:" + MyAppcation.instance?.packageName)
+            intent.data = Uri.parse("package:" + SmartWatchApplication.instance?.packageName)
             if (!isIntentAvailable(intent)) {
                 launchAppDetailsSettings()
                 return
@@ -130,13 +130,13 @@ class PermissionUtil {
          */
         fun launchAppDetailsSettings() {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse("package:" + MyAppcation.instance?.packageName)
+            intent.data = Uri.parse("package:" + SmartWatchApplication.instance?.packageName)
             if (!isIntentAvailable(intent)) return
-            MyAppcation.instance?.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            SmartWatchApplication.instance?.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
 
         private fun isIntentAvailable(intent: Intent): Boolean {
-            val size = MyAppcation.instance?.packageManager?.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)?.size
+            val size = SmartWatchApplication.instance?.packageManager?.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)?.size
             return if (size != null) {
                 size > 0
             } else {

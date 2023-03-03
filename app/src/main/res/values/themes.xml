@@ -1,29 +1,36 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.SmartWatch" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-<!--        <item name="android:windowFullscreen">true</item>-->
-<!--        <item name="android:windowNoTitle">true</item>-->
-<!--        <item name="colorPrimary">@color/primary_blue</item>-->
-<!--        <item name="colorPrimaryVariant">@color/primary_blue</item>-->
-<!--        <item name="colorOnPrimary">@color/white</item>-->
-<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
-<!--        <item name="colorSecondary">@color/primary_blue</item>-->
-<!--        <item name="colorSecondaryVariant">@color/primary_blue</item>-->
-<!--        <item name="colorOnSecondary">@color/black</item>-->
-<!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
-<!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->
-<!--    </style>-->
-<!--    <style name="Theme.SmartWatch" parent="Theme.AppCompat.Light">-->
-<!--        <item name="colorPrimary">@color/white</item>-->
-<!--        <item name="colorPrimaryDark">@color/white</item>-->
-<!--        <item name="colorAccent">@color/white</item>-->
-<!--        <item name="android:background">@null</item>-->
-<!--        <item name="android:windowActionBarOverlay">@null</item>-->
-<!--        <item name="android:windowContentOverlay">@null</item>-->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <!--        <item name="android:windowAnimationStyle">@style/MMAnimation.Activity</item>-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+<!--    <style name="Theme.SmartWatch" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+<!--        &lt;!&ndash; Primary brand color. &ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:windowFullscreen">true</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:windowNoTitle">true</item>&ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/white</item>-->
+<!--        <item name="colorPrimaryVariant">@color/white</item>-->
+<!--        <item name="colorOnPrimary">@color/white</item>-->
+<!--&lt;!&ndash;        &lt;!&ndash; Secondary brand color. &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorSecondary">@color/primary_blue</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorSecondaryVariant">@color/primary_blue</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorOnSecondary">@color/black</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; Status bar color. &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>&ndash;&gt;-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;    <style name="Theme.SmartWatch" parent="Theme.AppCompat.Light">&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorPrimary">@color/white</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorPrimaryDark">@color/white</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorAccent">@color/white</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:background">@null</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:windowActionBarOverlay">@null</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:windowContentOverlay">@null</item>&ndash;&gt;-->
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
+<!--        &lt;!&ndash;        <item name="android:windowAnimationStyle">@style/MMAnimation.Activity</item>&ndash;&gt;-->
+<!--    </style>-->
 </resources>

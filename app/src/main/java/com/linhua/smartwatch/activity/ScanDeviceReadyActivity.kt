@@ -24,10 +24,7 @@ import com.linhua.smartwatch.R
 import com.linhua.smartwatch.adapter.ScanDeviceAdapter
 import com.linhua.smartwatch.base.BaseActivity
 import com.linhua.smartwatch.base.BaseAdapter
-import com.linhua.smartwatch.utils.CommonDialog
-import com.linhua.smartwatch.utils.CommonUtil
-import com.linhua.smartwatch.utils.DialogHelperNew
-import com.linhua.smartwatch.utils.RecyclerRefreshLayout
+import com.linhua.smartwatch.utils.*
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.BLEDevice
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
@@ -75,7 +72,6 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
             override fun onDeviceConnected() {}
             override fun onDeviceDisconnected() {
                 isConnecting = false
-                MyAppcation.instance?.isConnected = false
                 connectDevice = null
                 if (mAdapter != null) {
                     mAdapter!!.connecting(-1)
@@ -87,8 +83,9 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
 
             override fun onServicesDiscovered(bluetoothGatt: BluetoothGatt) {
                 isConnecting = false
-                MyAppcation.instance!!.isConnected = true
-                SPHelper.saveBLEDevice(this@ScanDeviceReadyActivity, connectDevice)
+                DeviceManager.setCurrentDevice(connectDevice)
+                DeviceManager.addDevice(connectDevice!!)
+//                SPHelper.saveBLEDevice(this@ScanDeviceReadyActivity, connectDevice)
                 finish()
                 //                Random random = new Random();
 //                i1 = random.nextInt(10);
@@ -110,7 +107,6 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
 
             override fun onDeviceConnectFail(e: ConnBleException) {
                 isConnecting = false
-                MyAppcation.instance!!.isConnected = false
                 connectDevice = null
                 if (mAdapter != null) {
                     mAdapter!!.connecting(-1)
@@ -210,7 +206,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
                     BleSdkWrapper.exitPairingcode(true, object : OnLeWriteCharacteristicListener() {
                         override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                             isConnecting = false
-                            MyAppcation.instance!!.isConnected = true
+                            DeviceManager.setCurrentDevice(connectDevice)
                             SPHelper.saveBLEDevice(this@ScanDeviceReadyActivity, connectDevice)
                             finish()
                         }
