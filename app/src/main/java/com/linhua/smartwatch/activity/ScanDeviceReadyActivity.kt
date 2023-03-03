@@ -86,6 +86,8 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
                 DeviceManager.setCurrentDevice(connectDevice)
                 DeviceManager.addDevice(connectDevice!!)
 //                SPHelper.saveBLEDevice(this@ScanDeviceReadyActivity, connectDevice)
+                val intent = Intent()
+                setResult(RESULT_OK, intent)
                 finish()
                 //                Random random = new Random();
 //                i1 = random.nextInt(10);

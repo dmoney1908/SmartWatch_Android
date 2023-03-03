@@ -1,6 +1,8 @@
 package com.linhua.smartwatch.activity
 
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.linhua.smartwatch.R
@@ -28,16 +30,18 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
     private lateinit var personalFragment: PersonalFragment
     private lateinit var homeFragment: HomeFragment
     private lateinit var sportFragment: SportFragment
+    var bottomView: BottomNavigationView? = null
+    private var currentFragment: Fragment? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
 
     override fun onListener() {
-        val bottomView = findViewById<BottomNavigationView>(R.id.bottom_view)
-        bottomView.setOnItemSelectedListener(this)
-        bottomView.selectedItemId = R.id.navigation_home
-        bottomView.itemIconTintList = null
+        bottomView = findViewById<BottomNavigationView>(R.id.bottom_view)
+        bottomView?.setOnItemSelectedListener(this)
+        bottomView?.selectedItemId = R.id.navigation_home
+        bottomView?.itemIconTintList = null
         BluetoothLe.getDefault().init(this, object : BleCallbackWrapper() {
 
             override fun complete(resultCode: Int, data: Any?) {
@@ -71,10 +75,32 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        val fragment = FragmentManage.fragmentManage.getFragmentById(item.itemId)
+        if (fragment == currentFragment) {
+            return true
+        }
+        currentFragment?.apply {
+            safeCommit(supportFragmentManager.beginTransaction().hide(this))
+        }
         val transAction = supportFragmentManager.beginTransaction()
-        transAction.replace(R.id.content_container,
-            FragmentManage.fragmentManage.getFragmentById(item.itemId)!!,item.itemId.toString())
-        transAction.commit()
+        if (fragment!!.isAdded) {
+            transAction.show(fragment)
+        } else {
+            transAction.add(R.id.content_container,
+                fragment!!,item.itemId.toString())
+        }
+        currentFragment = fragment
+        safeCommit(transAction)
         return true
+    }
+
+    private fun safeCommit(transaction: FragmentTransaction) {
+        try {
+            supportFragmentManager.executePendingTransactions()
+            transaction.commit()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
     }
 }
