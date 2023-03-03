@@ -1,6 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SmartWatch" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.SmartWatch" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <!-- Primary brand color. -->
 <!--        <item name="android:windowFullscreen">true</item>-->
 <!--        <item name="android:windowNoTitle">true</item>-->

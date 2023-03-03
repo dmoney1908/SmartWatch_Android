@@ -79,7 +79,7 @@ class DeviceFragment: BaseFragment(){
                 deviceItemList.add(DeviceItem(MultipleEntity.TWO).apply {
                     name = bean.mDeviceName
                     mac = bean.mDeviceAddress
-                    status = bean.equals(DeviceManager.getCurrentDevice())
+                    status = bean.equals(DeviceManager.getConnectedDevice())
                 })
             }
         }

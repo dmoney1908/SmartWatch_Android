@@ -27,6 +27,10 @@ object DeviceManager {
         }
     }
 
+    fun getConnectedDevice(): BLEDevice? {
+        return currentDevice
+    }
+
     fun setCurrentDevice(device: BLEDevice?) {
         currentDevice = device
     }
@@ -34,8 +38,6 @@ object DeviceManager {
     fun getDeviceList():List<BLEDevice> {
         return deviceList!!
     }
-
-
 
     fun addDevice(device: BLEDevice) {
         if (!isContainDevice(device)) {
