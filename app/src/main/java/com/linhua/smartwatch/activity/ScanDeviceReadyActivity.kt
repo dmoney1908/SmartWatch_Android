@@ -45,8 +45,8 @@ import java.util.*
 
 open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickListener,
     RecyclerRefreshLayout.SuperRefreshLayoutListener {
-    var mRecyclerView: RecyclerView? = findViewById<RecyclerView>(R.id.refresh_recyclerView)
-    var mRefreshLayout: RecyclerRefreshLayout? = findViewById<RecyclerRefreshLayout>(R.id.mRefreshLayout)
+    var mRecyclerView: RecyclerView? = null
+    var mRefreshLayout: RecyclerRefreshLayout? = null
     private var mAdapter: ScanDeviceAdapter? = null
     private var mBluetoothLe: BluetoothLe? = null
     protected val contentView: Int = 0
@@ -58,8 +58,12 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
     override fun getLayoutId() : Int {
         return R.layout.activity_scan_device
     }
+
     override fun initData() {
         super.initData()
+        mRecyclerView = findViewById<RecyclerView>(R.id.refresh_recyclerView)
+        mRefreshLayout = findViewById<RecyclerRefreshLayout>(R.id.mRefreshLayout)
+
 //        titleName.setText(getResources().getString(R.string.main_pairing))
         mBluetoothLe = BluetoothLe.getDefault()
         mRefreshLayout!!.setSuperRefreshLayoutListener(this)
