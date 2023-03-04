@@ -10,18 +10,15 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="44dp">
+        android:layout_height="60dp">
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
-            android:layout_height="19dp"
+            android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textStyle="bold"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="15dp"
             android:gravity="center"
             android:text="@string/sleep">
         </TextView>
@@ -29,8 +26,6 @@
             android:id="@+id/rl_month"
             android:layout_width="118dp"
             android:background="@drawable/light_blue_corner_shape"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_height="34dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true">
@@ -65,7 +60,7 @@
     <com.linhua.smartwatch.view.ScrollDateView
         android:id="@+id/rl_scroll"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="79dp"
         android:layout_below="@+id/rl_top"
         tools:ignore="SpeakableTextPresentCheck"></com.linhua.smartwatch.view.ScrollDateView>
     <RelativeLayout
@@ -80,8 +75,8 @@
         <TextView
             android:id="@+id/tv_hr"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:textSize="62dp"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
             android:textColor="@color/dark"
             android:textStyle="bold"
             android:layout_centerVertical="true"
@@ -91,8 +86,9 @@
         <TextView
             android:id="@+id/tv_bmp"
             android:layout_width="match_parent"
-            android:layout_height="19dp"
-            android:layout_marginTop="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_alignParentBottom="true"
             android:textSize="16dp"
             android:textColor="@color/primary_blue"
             android:textStyle="bold"
@@ -187,7 +183,6 @@
             android:id="@+id/rl_deepsleep"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
             android:background="@drawable/lowest_corner_shape"
             android:layout_weight="1"
             >
@@ -225,7 +220,6 @@
             android:layout_width="0dp"
             android:layout_marginStart="12dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
             android:background="@drawable/average_corner_shape"
             android:layout_weight="1" >
             <TextView
@@ -336,6 +330,7 @@
 
         <View
             android:layout_width="78dp"
+            android:id="@+id/v_date_type"
             android:layout_alignParentRight="true"
             android:background="@drawable/blue_corner_shape"
             android:layout_height="32dp">
@@ -347,13 +342,16 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="8dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/main_clock">
+            android:src="@drawable/main_date_type">
         </ImageView>
         <TextView
-            android:textColor="@color/dark"
             android:layout_width="50dp"
             android:layout_toStartOf="@+id/iv_arrow"
             android:layout_height="16.5dp"
+            android:autoSizeMaxTextSize="14dp"
+            android:textColor="@color/white"
+            android:autoSizeTextType="uniform"
+            android:id="@+id/iv_date_type"
             android:textSize="14dp"
             android:textStyle="bold"
             android:gravity="center"

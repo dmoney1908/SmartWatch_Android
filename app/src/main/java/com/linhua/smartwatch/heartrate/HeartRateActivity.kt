@@ -74,10 +74,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-        TODO("Not yet implemented")
     }
 
     override fun onNothingSelected() {
-        TODO("Not yet implemented")
     }
 }

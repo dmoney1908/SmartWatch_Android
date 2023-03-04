@@ -10,18 +10,15 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="44dp">
+        android:layout_height="60dp">
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
-            android:layout_height="19dp"
+            android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textStyle="bold"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="15dp"
             android:gravity="center"
             android:text="@string/bp">
         </TextView>
@@ -29,8 +26,6 @@
             android:id="@+id/rl_month"
             android:layout_width="118dp"
             android:background="@drawable/light_blue_corner_shape"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_height="34dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true">
@@ -51,12 +46,10 @@
                 android:id="@+id/iv_down"
                 android:layout_height="14dp"
                 android:layout_width="14dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/main_arrow_down"
-                android:layout_marginTop="0dp"
-                android:layout_marginLeft="0dp">
+                android:src="@drawable/main_arrow_down">
             </ImageView>
 
         </RelativeLayout>
@@ -247,6 +240,7 @@
 
         <View
             android:layout_width="78dp"
+            android:id="@+id/v_date_type"
             android:layout_alignParentRight="true"
             android:background="@drawable/blue_corner_shape"
             android:layout_height="32dp">
@@ -263,6 +257,7 @@
         <TextView
             android:textColor="@color/dark"
             android:layout_width="50dp"
+            android:id="@+id/iv_date_type"
             android:layout_toStartOf="@+id/iv_arrow"
             android:layout_height="16.5dp"
             android:textSize="14dp"
