@@ -288,6 +288,7 @@
                 android:text="@string/bpm"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_sleep"
             android:layout_alignStart="@id/strut"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="0dp"
@@ -417,6 +418,7 @@
                 android:text="@string/met."/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_blood_pressure"
             android:layout_alignStart="@id/strut"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="91dp"

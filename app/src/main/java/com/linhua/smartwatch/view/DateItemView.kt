@@ -10,16 +10,16 @@ import android.widget.TextView
 import com.linhua.smartwatch.R
 import java.util.*
 
-class DateItemView(context: Context) : LinearLayout(context), View.OnClickListener {
+class DateItemView(context: Context) : LinearLayout(context) {
     var date: Date? = null
     var week: Int? = null
     var day: Int? = null
-    var selectCallBack: (day : Int, date: Date) -> Unit = { _: Int, _: Date -> }
+
     private var weekText: TextView? = null
     private var dayText: TextView? = null
     private var fillMode: FillMode = FillMode.Gray
     private var container: LinearLayout? = null
-    private var weeks = listOf("S", "M","T", "W", "T", "F", "S")
+    private var weeks = listOf("M", "T", "W", "T", "F", "S", "S")
     enum class FillMode {
         Gray,
         Normal,
@@ -34,8 +34,11 @@ class DateItemView(context: Context) : LinearLayout(context), View.OnClickListen
     }
 
     fun updateUI(){
-        if (week != null && week!! < weeks.count()) {
-            weekText!!.text = weeks[week!!]
+        if (week != null) {
+            week = week!! - 1
+            if ( week!! < weeks.count() && week!! >= 0) {
+                weekText!!.text = weeks[week!!]
+            }
         }
         if (day != null) {
             dayText!!.text = day.toString()
@@ -51,6 +54,7 @@ class DateItemView(context: Context) : LinearLayout(context), View.OnClickListen
                 drawable.setColor(Color.WHITE)
 
                 weekText?.setTextColor(resources.getColor(R.color.primary_black))
+                weekText?.alpha = 1f
                 dayText?.setTextColor(resources.getColor(R.color.primary_black))
                 container!!.alpha = 0.3F
             }
@@ -58,6 +62,7 @@ class DateItemView(context: Context) : LinearLayout(context), View.OnClickListen
                 var drawable = container?.background as GradientDrawable
                 drawable.setColor(Color.WHITE)
                 weekText?.setTextColor(resources.getColor(R.color.primary_black))
+                weekText?.alpha = 1f
                 dayText?.setTextColor(resources.getColor(R.color.primary_black))
 
                 container!!.alpha = 1.0F
@@ -74,10 +79,10 @@ class DateItemView(context: Context) : LinearLayout(context), View.OnClickListen
 
     }
 
-    override fun onClick(p0: View?) {
-        if (p0 != null && p0.id == R.layout.item_date_view) {
-            selectCallBack(day!!, date!!)
-        }
-    }
+//    override fun onClick(p0: View?) {
+//        if (p0 != null && p0.id == R.layout.item_date_view) {
+//            selectCallBack(day!!, date!!)
+//        }
+//    }
 }
 

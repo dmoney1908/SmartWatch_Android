@@ -3,11 +3,15 @@ package com.linhua.smartwatch.fragment
 import android.content.Intent
 import android.view.View
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.activity.MainActivity
 import com.linhua.smartwatch.activity.ScanDeviceReadyActivity
 import com.linhua.smartwatch.base.BaseFragment
+import com.linhua.smartwatch.bp.BPActivity
+import com.linhua.smartwatch.heartrate.HeartRateActivity
+import com.linhua.smartwatch.sleep.SleepActivity
 import com.linhua.smartwatch.utils.IntentUtil
 
 class HomeFragment: BaseFragment(){
@@ -23,6 +27,38 @@ class HomeFragment: BaseFragment(){
                 )
             }
         }
+
+        hostView?.findViewById<RelativeLayout>(R.id.rl_heart_rate)?.setOnClickListener {
+            this.context?.let { it ->
+                IntentUtil.goToActivity(
+                    it,
+                    HeartRateActivity::class.java
+                )
+            }
+        }
+
+        hostView?.findViewById<RelativeLayout>(R.id.rl_sleep)?.setOnClickListener {
+            this.context?.let { it ->
+                IntentUtil.goToActivity(
+                    it,
+                    SleepActivity::class.java
+                )
+            }
+        }
+
+        hostView?.findViewById<RelativeLayout>(R.id.rl_met)?.setOnClickListener {
+
+        }
+
+        hostView?.findViewById<RelativeLayout>(R.id.rl_blood_pressure)?.setOnClickListener {
+            this.context?.let { it ->
+                IntentUtil.goToActivity(
+                    it,
+                    BPActivity::class.java
+                )
+            }
+        }
+
         return hostView
     }
 

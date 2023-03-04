@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="48dp"
-    android:layout_height="match_parent"
+    android:layout_height="79dp"
     android:id="@+id/ll_container"
     android:background="@drawable/date_shape"
     android:orientation="vertical">
@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/day"
-        android:textColor="@color/dark"
+        android:textColor="@color/white"
         android:textSize="14dp"
         android:textStyle="bold"
         android:layout_width="match_parent"

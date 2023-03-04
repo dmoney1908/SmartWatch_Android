@@ -27,10 +27,6 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
         const val TAG_SPORT = "sport"
         const val TAG_MINE = "mine"
     }
-    private lateinit var deviceFragment: DeviceFragment
-    private lateinit var personalFragment: PersonalFragment
-    private lateinit var homeFragment: HomeFragment
-    private lateinit var sportFragment: SportFragment
     var bottomView: BottomNavigationView? = null
     private var currentFragment: Fragment? = null
 
@@ -61,21 +57,6 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
             }
 
         })
-    }
-
-    private fun prepareFragments() {
-        homeFragment =
-            supportFragmentManager.findFragmentByTag(TAG_HOME) as HomeFragment?
-                ?: HomeFragment()
-        sportFragment =
-            supportFragmentManager.findFragmentByTag(TAG_SPORT) as SportFragment?
-                ?: SportFragment()
-        deviceFragment =
-            supportFragmentManager.findFragmentByTag(TAG_DEVICE) as DeviceFragment?
-                ?: DeviceFragment()
-        personalFragment =
-            supportFragmentManager.findFragmentByTag(TAG_MINE) as PersonalFragment?
-                ?: PersonalFragment()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

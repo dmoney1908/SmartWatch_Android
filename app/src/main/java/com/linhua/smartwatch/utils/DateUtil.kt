@@ -3,10 +3,21 @@ package com.linhua.smartwatch.utils
 import java.text.SimpleDateFormat
 import java.util.*
 
+enum class DateType {
+    Days,
+    Weeks,
+    Months
+}
+
 class DateUtil {
     companion object {
         fun getYMDHMSDate(date: Long): String? {
             val simpleDateFormat = SimpleDateFormat("yyyy-M-dd HH:mm:ss")
+            return simpleDateFormat.format(date)
+        }
+
+        fun getYMDate(date: Date): String? {
+            val simpleDateFormat = SimpleDateFormat("MMMM,yyyy")
             return simpleDateFormat.format(date)
         }
 
