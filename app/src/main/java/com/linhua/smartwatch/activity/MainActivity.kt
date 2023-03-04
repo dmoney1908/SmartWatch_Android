@@ -11,6 +11,7 @@ import com.linhua.smartwatch.fragment.DeviceFragment
 import com.linhua.smartwatch.fragment.HomeFragment
 import com.linhua.smartwatch.fragment.PersonalFragment
 import com.linhua.smartwatch.fragment.SportFragment
+import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.FragmentManage
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.WarningInfo
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleCallbackWrapper
@@ -47,13 +48,16 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
             override fun complete(resultCode: Int, data: Any?) {
                 LogUtil.d("resultCode:$resultCode")
                 if (resultCode == Constants.BLE_RESULT_CODE.SUCCESS) {
+                    DeviceManager.isSDKAvailable = true
                 } else {
+                    DeviceManager.isSDKAvailable = false
+                    showToast(resources.getString(R.string.sdk_not_available))
                     LogUtil.d("SDK不能使用")
                 }
             }
 
             override fun setSuccess() {
-                LogUtil.d("SDK不能使用")
+
             }
 
         })

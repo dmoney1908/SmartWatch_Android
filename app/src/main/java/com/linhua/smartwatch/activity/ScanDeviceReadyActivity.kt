@@ -67,6 +67,10 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
         mRefreshLayout!!.setColorSchemeColors(Color.RED, Color.GREEN, Color.CYAN)
         mRefreshLayout!!.setCanLoadMore(false)
         mRecyclerView!!.layoutManager = LinearLayoutManager(this)
+        if (DeviceManager.isSDKAvailable == false) {
+            showToast(resources.getString(R.string.sdk_not_available))
+            return
+        }
         mBluetoothLe!!.setOnConnectListener(TAG, object : OnLeConnectListener() {
             override fun onDeviceConnecting() {}
             override fun onDeviceConnected() {}

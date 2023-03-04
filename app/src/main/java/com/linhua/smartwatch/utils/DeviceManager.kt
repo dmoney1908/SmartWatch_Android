@@ -11,6 +11,7 @@ import java.io.*
 
 
 object DeviceManager {
+    var isSDKAvailable = false
     private var currentDevice: BLEDevice? = null
     private var deviceList: MutableList<BLEDevice>? = null
 
