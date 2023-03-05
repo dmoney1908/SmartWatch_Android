@@ -87,7 +87,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
 
             override fun onServicesDiscovered(bluetoothGatt: BluetoothGatt) {
                 isConnecting = false
-                DeviceManager.setCurrentDevice(connectDevice)
+                DeviceManager.setConnectedDevice(connectDevice)
                 DeviceManager.addDevice(connectDevice!!)
 //                SPHelper.saveBLEDevice(this@ScanDeviceReadyActivity, connectDevice)
                 val intent = Intent()
@@ -212,7 +212,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
                     BleSdkWrapper.exitPairingcode(true, object : OnLeWriteCharacteristicListener() {
                         override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                             isConnecting = false
-                            DeviceManager.setCurrentDevice(connectDevice)
+                            DeviceManager.setConnectedDevice(connectDevice)
                             SPHelper.saveBLEDevice(this@ScanDeviceReadyActivity, connectDevice)
                             finish()
                         }
@@ -418,7 +418,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
         }
     }
 
-    protected override fun onDestroy() {
+    override fun onDestroy() {
         super.onDestroy()
         mBluetoothLe!!.stopScan()
         //根据TAG注销监听，避免内存泄露

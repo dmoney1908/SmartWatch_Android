@@ -34,12 +34,12 @@ class DeviceAdapter(data: MutableList<DeviceItem>?) :
                     val c = context.resources.getColor(R.color.light_green, null)
                     drawable.setColor(ColorUtils.getColor(R.color.light_green))
                     holder.setTextColor(R.id.tv_status, ColorUtils.getColor(R.color.green))
-                    holder.getView<Button>(R.id.ib_reconnect).visibility = View.INVISIBLE
+                    holder.getView<TextView>(R.id.ib_reconnect).visibility = View.INVISIBLE
                 } else {
                     drawable.setColor(ColorUtils.getColor(R.color.light_red))
                     holder.setTextColor(R.id.tv_status, ColorUtils.getColor(R.color.red))
-                    holder.getView<Button>(R.id.ib_reconnect).visibility = View.VISIBLE
-
+                    holder.getView<TextView>(R.id.ib_reconnect).visibility = View.VISIBLE
+                    holder.getView<TextView>(R.id.ib_reconnect).text = context.resources.getString(R.string.reconnect)
                 }
             }
         }

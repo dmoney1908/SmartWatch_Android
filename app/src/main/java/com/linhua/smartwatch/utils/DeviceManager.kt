@@ -32,7 +32,7 @@ object DeviceManager {
         return currentDevice
     }
 
-    fun setCurrentDevice(device: BLEDevice?) {
+    fun setConnectedDevice(device: BLEDevice?) {
         currentDevice = device
     }
 

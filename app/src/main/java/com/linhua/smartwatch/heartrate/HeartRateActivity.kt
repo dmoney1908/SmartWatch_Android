@@ -13,12 +13,19 @@ import com.linhua.smartwatch.utils.DateType
 import com.linhua.smartwatch.utils.DateUtil
 import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRateItem
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import java.util.*
 
 
 class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     private var dateType = DateType.Days
     private var currentMonth = Date()
+    private var todayCalendar = Calendar.getInstance()
+    private var healthHeartRateItemsAll = mutableListOf<HealthHeartRateItem?>()
 
     override fun initData() {
         findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
@@ -59,6 +66,69 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
             dialogFragment.show(supportFragmentManager, null)
         }
+        syncDailyHeartHistory()
+    }
+
+    private fun syncDailyHeartHistory() {
+        val year: Int = todayCalendar.get(Calendar.YEAR)
+        val month: Int = todayCalendar.get(Calendar.MONTH) + 1
+        val day: Int = todayCalendar.get(Calendar.DATE)
+        BleSdkWrapper.getHistoryHeartRateData(
+            year,
+            month,
+            day,
+            object : OnLeWriteCharacteristicListener() {
+                override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                    if (handlerBleDataResult.isComplete) {
+                        val healthHeartRateItems =
+                            handlerBleDataResult.data as List<HealthHeartRateItem>
+                        healthHeartRateItemsAll.addAll(healthHeartRateItems)
+                        drawDailyChart()
+                    }
+                }
+
+                override fun onFailed(e: WriteBleException) {}
+            })
+    }
+
+    private fun syncTrendHeartHistory() {
+        val year: Int = todayCalendar.get(Calendar.YEAR)
+        val month: Int = todayCalendar.get(Calendar.MONTH) + 1
+        val day: Int = todayCalendar.get(Calendar.DATE)
+        BleSdkWrapper.getHistoryHeartRateData(
+            year,
+            month,
+            day,
+            object : OnLeWriteCharacteristicListener() {
+                override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                    if (handlerBleDataResult.isComplete) {
+                        if (handlerBleDataResult.hasNext) { //是否还有更多的历史数据
+                            val healthHeartRateItems =
+                                handlerBleDataResult.data as List<HealthHeartRateItem>
+                            healthHeartRateItemsAll.addAll(healthHeartRateItems)
+                            todayCalendar.add(Calendar.DATE, -1)
+                            syncTrendHeartHistory()
+                        } else {
+                            drawTrendChart()
+                        }
+                    }
+                }
+
+                override fun onFailed(e: WriteBleException) {}
+            })
+    }
+
+
+
+    private fun drawTrendChart() {
+
+    }
+
+    private fun drawDailyChart() {
+
+
+
+        syncTrendHeartHistory()
     }
 
 

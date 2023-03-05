@@ -70,7 +70,7 @@
         android:src="@drawable/devices_trash"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <Button
+    <TextView
         android:id="@+id/ib_reconnect"
         android:layout_width="100dp"
         android:layout_height="24dp"
