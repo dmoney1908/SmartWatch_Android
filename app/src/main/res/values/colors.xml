@@ -6,7 +6,8 @@
 
     <color name="green">#12B886</color>
     <color name="light_green">#E6FCF5</color>
-
+    <color name="light_gary">#ABAEC9</color>
+    <color name="light_gary2">#EBEEFF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary_blue">#4361EE</color>

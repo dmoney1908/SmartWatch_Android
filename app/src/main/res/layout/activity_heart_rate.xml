@@ -170,7 +170,8 @@
                 android:id="@+id/tv_lowest_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
@@ -186,10 +187,9 @@
                 android:layout_marginBottom="12dp"
                 android:layout_height="15dp"
                 android:textSize="12dp"
+                android:autoSizeTextType="uniform"
                 android:textStyle="normal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
                 android:gravity="center"
                 android:text="@string/lowest_value">
             </TextView>
@@ -207,7 +207,8 @@
                 android:id="@+id/tv_average_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="14dp"
@@ -222,10 +223,9 @@
                 android:layout_marginBottom="12dp"
                 android:layout_height="15dp"
                 android:textSize="12dp"
+                android:autoSizeTextType="uniform"
                 android:textStyle="normal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
                 android:gravity="center"
                 android:text="@string/average_value">
             </TextView>
@@ -245,7 +245,8 @@
                 android:id="@+id/tv_highest_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="14dp"
@@ -259,13 +260,12 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="12dp"
                 android:layout_height="15dp"
+                android:autoSizeTextType="uniform"
                 android:textSize="12dp"
                 android:textStyle="normal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
                 android:gravity="center"
-                android:text="@string/lowest_value">
+                android:text="@string/highest_value">
             </TextView>
         </RelativeLayout>
 
