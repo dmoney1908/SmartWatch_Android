@@ -147,10 +147,20 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_height="184dp" />
+    <LinearLayout
+        android:id="@+id/ll_hr_axis"
+        android:layout_below="@+id/lc_daily_chart"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="-20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal">
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_hr_category"
-        android:layout_below="@+id/lc_daily_chart"
+        android:layout_below="@+id/ll_hr_axis"
         android:layout_width="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -329,14 +339,16 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_height="164dp" />
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/ll_trend_axis"
         android:layout_below="@+id/lc_trend_chart"
         android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_height="20dp"
-        />
+        android:orientation="horizontal"/>
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
