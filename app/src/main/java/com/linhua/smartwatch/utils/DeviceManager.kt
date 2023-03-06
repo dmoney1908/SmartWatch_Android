@@ -21,6 +21,7 @@ object DeviceManager {
     }
 
     fun getCurrentDevice(): BLEDevice? {
+        if (deviceList!!.isEmpty())return null
         return if (currentDevice == null) {
             deviceList!!.first()
         } else {

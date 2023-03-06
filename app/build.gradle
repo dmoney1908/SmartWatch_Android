@@ -17,12 +17,39 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+
+    signingConfigs {
+        debug {
+            keyAlias 'iWatch'
+            keyPassword 'danc88888888'
+            storeFile file('../doc/iWatch')
+            storePassword 'danc88888888'
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            keyAlias 'iWatch'
+            keyPassword 'danc88888888'
+            storeFile file('../doc/iWatch')
+            storePassword 'danc88888888'
         }
     }
+
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
+        release {
+            debuggable false
+            //true 打开混淆
+            minifyEnabled false
+            //true 打开资源压缩
+//            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

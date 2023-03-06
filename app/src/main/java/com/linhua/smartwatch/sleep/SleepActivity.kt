@@ -116,6 +116,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         setupPieChart(findViewById<PieChart>(R.id.pc_daily_chart))
         setupTrendChart(findViewById<LineChart>(R.id.lc_trend_chart))
 
+        drawDailyAxis()
         healthSleepItems.clear()
         syncDailySleepHistory()
     }
@@ -334,26 +335,30 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
 
         drawLatest(deep + light + wide)
         setupPieData()
-        drawDailyAxis()
+    }
+
+    private fun drawStepChart() {
+
     }
 
     private fun drawDailyAxis() {
-//        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
-//        linearLayout.removeAllViews()
-//        for (i in 0..4) {
-//            val textView = TextView(linearLayout.context)
-//            val layoutParams = LinearLayout.LayoutParams(
-//                0,
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                1.0f
-//            )
-//            textView.layoutParams = layoutParams
-//            textView.text = String.format("%02d:00", i * 6)
-//            textView.textSize = 10f
-//            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
-//            textView.gravity = Gravity.CENTER
-//            linearLayout.addView(textView)
-//        }
+        val linearLayout = findViewById<LinearLayout>(R.id.rl_step_title)
+        linearLayout.removeAllViews()
+        val timeArray = arrayOf("23:00", "01:00", "04:00", "06:00", "08:00")
+        for (i in timeArray.indices) {
+            val textView = TextView(linearLayout.context)
+            val layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                1.0f
+            )
+            textView.layoutParams = layoutParams
+            textView.text = timeArray[i]
+            textView.textSize = 10f
+            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
+            textView.gravity = Gravity.CENTER
+            linearLayout.addView(textView)
+        }
     }
 
     private fun drawTrendAxis() {
@@ -491,8 +496,6 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         }
         yAxis.setDrawLimitLinesBehindData(false)
         xAxis.setDrawLimitLinesBehindData(false)
-
-        chart.setNoDataText(resources.getString(R.string.no_chart_data))
 
         // draw points over time
         chart!!.animateX(1500)
