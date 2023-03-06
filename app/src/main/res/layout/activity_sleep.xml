@@ -56,13 +56,21 @@
 
         </RelativeLayout>
     </RelativeLayout>
-
-    <com.linhua.smartwatch.view.ScrollDateView
-        android:id="@+id/rl_scroll"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="79dp"
-        android:layout_below="@+id/rl_top"
-        tools:ignore="SpeakableTextPresentCheck"></com.linhua.smartwatch.view.ScrollDateView>
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <com.linhua.smartwatch.view.ScrollDateView
+                android:id="@+id/rl_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="79dp"
+                tools:ignore="SpeakableTextPresentCheck" />
     <RelativeLayout
         android:id="@+id/rl_hr_time"
         android:layout_below="@+id/rl_scroll"
@@ -191,6 +199,7 @@
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
+                android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="14dp"
@@ -227,6 +236,7 @@
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
+                android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="14dp"
@@ -265,6 +275,7 @@
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
+                android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="14dp"
@@ -345,14 +356,15 @@
             android:src="@drawable/main_date_type">
         </ImageView>
         <TextView
+            android:id="@+id/iv_date_type"
+            android:textColor="@color/white"
             android:layout_width="50dp"
             android:layout_toStartOf="@+id/iv_arrow"
-            android:layout_height="16.5dp"
-            android:autoSizeMaxTextSize="14dp"
-            android:textColor="@color/white"
-            android:autoSizeTextType="uniform"
-            android:id="@+id/iv_date_type"
+            android:layout_height="wrap_content"
             android:textSize="14dp"
+            android:autoSizeMaxTextSize="14dp"
+            android:autoSizeTextType="uniform"
+            android:layout_centerVertical="true"
             android:textStyle="bold"
             android:gravity="center"
             android:src="@drawable/arrow_date_type"
@@ -368,13 +380,17 @@
         android:layout_marginEnd="20dp"
         android:layout_height="164dp" />
 
-    <RelativeLayout
-        android:layout_below="@+id/lc_trend_chart"
-        android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="20dp"
-        />
+            <LinearLayout
+                android:id="@+id/ll_trend_axis"
+                android:layout_below="@+id/lc_trend_chart"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"/>
 
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

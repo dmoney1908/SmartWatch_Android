@@ -289,8 +289,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), minText.length - 4, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), minText.length - 4, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), minText.length - 4, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), minText.length - 4, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         findViewById<TextView>(R.id.tv_lowest_value).text = minString
 
         val maxText = "$max Bpm"
@@ -298,8 +298,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         maxString.setSpan(StyleSpan(Typeface.BOLD), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         maxString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         maxString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        maxString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), maxText.length - 4, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        maxString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), maxText.length - 4, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        maxString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), maxText.length - 4, maxText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        maxString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), maxText.length - 4, maxText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         findViewById<TextView>(R.id.tv_highest_value).text = maxString
 
         val averageText = "$average Bpm"

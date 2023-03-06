@@ -55,9 +55,17 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
     <com.linhua.smartwatch.view.ScrollDateView
-        android:layout_height="48dp"
-        android:layout_below="@+id/rl_top"
+        android:layout_height="79dp"
         android:id="@+id/rl_scroll"
         android:layout_width="match_parent">
     </com.linhua.smartwatch.view.ScrollDateView>
@@ -73,31 +81,32 @@
         <TextView
             android:id="@+id/tv_hr"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:textSize="62dp"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
             android:textColor="@color/dark"
             android:textStyle="bold"
-            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="62">
+            android:text="--">
         </TextView>
         <TextView
-            android:id="@+id/tv_bmp"
+            android:id="@+id/tv_mmhg"
             android:layout_width="match_parent"
-            android:layout_height="19dp"
-            android:layout_marginTop="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_alignParentBottom="true"
             android:textSize="16dp"
             android:textColor="@color/primary_blue"
             android:textStyle="bold"
-            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="@string/bpm">
+            android:text="@string/mmhg">
         </TextView>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_last"
         android:layout_below="@+id/rl_hr_time"
-        android:layout_width="118dp"
+        android:layout_width="81dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/light_blue_corner_shape2"
         android:layout_height="35dp"
@@ -106,7 +115,7 @@
             android:id="@+id/iv_clock"
             android:layout_height="16dp"
             android:layout_width="16dp"
-            android:layout_alignParentRight="true"
+
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
             android:src="@drawable/main_clock">
@@ -115,28 +124,38 @@
             android:id="@+id/tv_last_time"
             android:textColor="@color/primary_black"
             android:layout_width="match_parent"
-            android:layout_height="16dp"
+            android:layout_height="match_parent"
             android:textSize="14dp"
             android:textStyle="bold"
             android:layout_centerVertical="true"
-            android:layout_marginStart="31dp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginStart="27dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center"
             android:text="23:45">
         </TextView>
     </RelativeLayout>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lc_daily_chart"
-        android:layout_below="@+id/rl_last"
-        android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="184dp" />
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lc_daily_chart"
+            android:layout_below="@+id/rl_last"
+            android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="184dp" />
+            <LinearLayout
+                android:id="@+id/ll_hr_axis"
+                android:layout_below="@+id/lc_daily_chart"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
+            </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_hr_category"
-        android:layout_below="@+id/lc_daily_chart"
+        android:layout_below="@+id/ll_hr_axis"
         android:layout_width="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -146,20 +165,20 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/rl_lowest"
+            android:id="@+id/rl_range"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
             android:background="@drawable/lowest_corner_shape"
             android:layout_weight="1"
             >
             <TextView
-                android:id="@+id/tv_lowest_value"
+                android:id="@+id/tv_range_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:textSize="14dp"
                 android:textStyle="bold"
+                android:layout_marginTop="12dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="14dp"
                 android:layout_marginEnd="14dp"
@@ -188,7 +207,6 @@
             android:layout_width="0dp"
             android:layout_marginStart="12dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
             android:background="@drawable/average_corner_shape"
             android:layout_weight="1" >
             <TextView
@@ -197,6 +215,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:textSize="14dp"
+                android:layout_marginTop="12dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="14dp"
                 android:layout_marginEnd="14dp"
@@ -252,15 +271,18 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="8dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/main_clock">
+            android:src="@drawable/main_date_type">
         </ImageView>
         <TextView
-            android:textColor="@color/dark"
-            android:layout_width="50dp"
             android:id="@+id/iv_date_type"
+            android:textColor="@color/white"
+            android:layout_width="50dp"
             android:layout_toStartOf="@+id/iv_arrow"
-            android:layout_height="16.5dp"
+            android:layout_height="wrap_content"
             android:textSize="14dp"
+            android:autoSizeMaxTextSize="14dp"
+            android:autoSizeTextType="uniform"
+            android:layout_centerVertical="true"
             android:textStyle="bold"
             android:gravity="center"
             android:src="@drawable/arrow_date_type"
@@ -276,13 +298,16 @@
         android:layout_marginEnd="20dp"
         android:layout_height="164dp" />
 
-    <RelativeLayout
-        android:layout_below="@+id/lc_trend_chart"
-        android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="20dp"
-        />
-
+        <LinearLayout
+            android:id="@+id/ll_trend_axis"
+            android:layout_below="@+id/lc_trend_chart"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"/>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

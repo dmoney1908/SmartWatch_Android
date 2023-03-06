@@ -42,7 +42,7 @@ class DeviceFragment: BaseFragment(){
                             }.show()
                     }
                     R.id.ib_reconnect -> {
-
+                        if (isConnecting)return
                         if (!DeviceManager.isSDKAvailable) {
                             showToast(activity, resources.getString(R.string.sdk_not_available))
                             return
