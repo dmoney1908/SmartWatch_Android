@@ -307,8 +307,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         averageString.setSpan(StyleSpan(Typeface.BOLD), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), averageText.length - 4, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), averageText.length - 4, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), averageText.length - 4, averageText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), averageText.length - 4, averageText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         findViewById<TextView>(R.id.tv_average_value).text = averageString
         drawLatest()
         setupDailyData()

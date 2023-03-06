@@ -175,7 +175,7 @@
                 android:id="@+id/tv_range_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp"
@@ -203,7 +203,6 @@
 
         <RelativeLayout
             android:id="@+id/rl_average"
-            android:layout_toEndOf="@+id/rl_lowest"
             android:layout_width="0dp"
             android:layout_marginStart="12dp"
             android:layout_height="match_parent"
@@ -213,7 +212,7 @@
                 android:id="@+id/tv_average_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:layout_marginTop="12dp"
                 android:layout_centerHorizontal="true"

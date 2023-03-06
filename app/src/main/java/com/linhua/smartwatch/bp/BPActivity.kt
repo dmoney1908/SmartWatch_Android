@@ -2,8 +2,6 @@ package com.linhua.smartwatch.bp
 
 import android.graphics.Color
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
@@ -249,26 +247,34 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
     private fun drawTrendChart() {
         if (trendHeartRateItems.isEmpty())return
-        var trendItems = mutableListOf<Int>()
+        var trendItems = mutableListOf<BPModel>()
         for (items in trendHeartRateItems) {
-            var average: Int = 0
-            var valid = 0
-            var sum = 0
+            var averageSS: Int = 0
+            var averageFZ: Int = 0
+            var validSS = 0
+            var sumSS = 0
+            var validFZ = 0
+            var sumFZ = 0
             if (items == null || items.isEmpty()) {
-                trendItems.add(0)
+                trendItems.add(BPModel(averageSS, averageFZ))
                 break
             }
             for(item in items!!) {
-                if (item.heartRaveValue > 10) {
-                    sum += item.heartRaveValue
-                    valid++
+                if (item.ss > 10) {
+                    sumSS += item.ss
+                    validSS++
+                }
+                if (item.fz > 10) {
+                    sumFZ += item.fz
+                    validFZ++
                 }
             }
-            if (valid > 0) {
-                average = sum / valid
-                trendItems.add(average)
+            if (validSS > 0 && validFZ > 0) {
+                averageSS = sumSS / validSS
+                averageFZ = sumFZ / validFZ
+                trendItems.add(BPModel(averageSS, averageFZ))
             } else {
-                trendItems.add(0)
+                trendItems.add(BPModel(0, 0))
             }
         }
         var total = when(dateType) {
@@ -276,12 +282,12 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             DateType.Weeks -> 28
             DateType.Months -> 90
         }
-        var trendValues = mutableListOf<Int>()
+        var trendValues = mutableListOf<BPModel>()
         var reversedTrends = trendItems.reversed()
         if (trendItems.count() < total) {
             val empty = total - trendItems.count()
             for (i in 0 until empty) {
-                trendValues.add(0)
+                trendValues.add(BPModel(0, 0))
             }
         }
         for (item in reversedTrends) {
@@ -301,7 +307,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         rangeString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, rangeText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         rangeString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), rangeText.length - 5, rangeText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         rangeString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), rangeText.length - 5, rangeText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        findViewById<TextView>(R.id.tv_lowest_value).text = rangeString
+        findViewById<TextView>(R.id.tv_range_value).text = rangeString
 
         val averageText = "${item.averageSS}/${item.averageFZ}  MmHg"
         var averageString: Spannable = SpannableString(averageText)
@@ -466,14 +472,15 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
     private fun setupDailyData() {
         val chart = findViewById<LineChart>(R.id.lc_daily_chart)
-        val values = ArrayList<Entry>()
+        val values1 = ArrayList<Entry>()
+        val values2 = ArrayList<Entry>()
         for (index in healthHeartRateItemsAll.indices) {
             val item = healthHeartRateItemsAll[index]
             val x = (index + 1.0) / healthHeartRateItemsAll.count()
-            val value = item!!.heartRaveValue
-            values.add(Entry(x.toFloat(), value.toFloat()))
+            values1.add(Entry(x.toFloat(), item!!.ss.toFloat()))
+            values2.add(Entry(x.toFloat(), item!!.fz.toFloat()))
         }
-        val set1 = LineDataSet(values,"")
+        val set1 = LineDataSet(values1,"")
         set1.setDrawIcons(false)
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)
@@ -485,7 +492,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
         // draw points as solid circles
         set1.setDrawCircleHole(false)
-        set1.color = ColorUtils.getColor(R.color.primary_blue)
+        set1.color = ColorUtils.getColor(R.color.red)
 
         // text size of values
         set1.valueTextSize = 9f
@@ -497,14 +504,45 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         // set color of filled area
         if (Utils.getSDKInt() >= 18) {
             // drawables only supported on api level 18 and above
-            val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_hr)
+            val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_ss)
             set1.fillDrawable = drawable
         } else {
             set1.fillColor = Color.WHITE
         }
+
+        val set2 = LineDataSet(values2,"")
+        set2.setDrawIcons(false)
+        set2.setDrawCircleHole(false)
+        set2.setDrawCircles(false)
+        set2.setDrawValues(false)
+//        set1.
+        set2.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+        // line thickness and point size
+        set2.lineWidth = 1f
+
+        // draw points as solid circles
+        set2.setDrawCircleHole(false)
+        set2.color = ColorUtils.getColor(R.color.pink)
+
+        // text size of values
+        set2.valueTextSize = 9f
+
+        // set the filled area
+        set2.setDrawFilled(true)
+        set2.fillFormatter =
+            IFillFormatter { dataSet, dataProvider -> chart!!.axisLeft.axisMinimum }
+        // set color of filled area
+        if (Utils.getSDKInt() >= 18) {
+            // drawables only supported on api level 18 and above
+            val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_fz)
+            set2.fillDrawable = drawable
+        } else {
+            set2.fillColor = Color.WHITE
+        }
+
         val dataSets = ArrayList<ILineDataSet>()
         dataSets.add(set1) // add the data sets
-
+        dataSets.add(set2)
         // create a data object with the data sets
         val data = LineData(dataSets)
 
@@ -513,15 +551,17 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         chart!!.animateX(1500)
     }
 
-    private fun setupTrendData(trendItems: List<Int>) {
+    private fun setupTrendData(trendItems: List<BPModel>) {
         val chart = findViewById<LineChart>(R.id.lc_trend_chart)
-        val values = ArrayList<Entry>()
+        val values1 = ArrayList<Entry>()
+        val values2 = ArrayList<Entry>()
         for (index in trendItems.indices) {
             val item = trendItems[index]
             val x = (index + 1.0) / trendItems.count()
-            values.add(Entry(x.toFloat(), item.toFloat()))
+            values1.add(Entry(x.toFloat(), item.averageSS.toFloat()))
+            values2.add(Entry(x.toFloat(), item.averageFZ.toFloat()))
         }
-        val set1 = LineDataSet(values,"")
+        val set1 = LineDataSet(values1,"")
         set1.setDrawIcons(false)
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)
@@ -533,7 +573,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
         // draw points as solid circles
         set1.setDrawCircleHole(false)
-        set1.color = ColorUtils.getColor(R.color.primary_blue)
+        set1.color = ColorUtils.getColor(R.color.red)
 
         // text size of values
         set1.valueTextSize = 9f
@@ -545,14 +585,45 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         // set color of filled area
         if (Utils.getSDKInt() >= 18) {
             // drawables only supported on api level 18 and above
-            val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_hr)
+            val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_ss)
             set1.fillDrawable = drawable
         } else {
             set1.fillColor = Color.WHITE
         }
+
+        val set2 = LineDataSet(values2,"")
+        set2.setDrawIcons(false)
+        set2.setDrawCircleHole(false)
+        set2.setDrawCircles(false)
+        set2.setDrawValues(false)
+//        set1.
+        set2.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+        // line thickness and point size
+        set2.lineWidth = 1f
+
+        // draw points as solid circles
+        set2.setDrawCircleHole(false)
+        set2.color = ColorUtils.getColor(R.color.pink)
+
+        // text size of values
+        set2.valueTextSize = 9f
+
+        // set the filled area
+        set2.setDrawFilled(true)
+        set2.fillFormatter =
+            IFillFormatter { dataSet, dataProvider -> chart!!.axisLeft.axisMinimum }
+        // set color of filled area
+        if (Utils.getSDKInt() >= 18) {
+            // drawables only supported on api level 18 and above
+            val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_fz)
+            set2.fillDrawable = drawable
+        } else {
+            set2.fillColor = Color.WHITE
+        }
+
         val dataSets = ArrayList<ILineDataSet>()
         dataSets.add(set1) // add the data sets
-
+        dataSets.add(set2)
         // create a data object with the data sets
         val data = LineData(dataSets)
 
