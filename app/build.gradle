@@ -55,6 +55,7 @@ dependencies {
     implementation(name: 'zhj_sdk', ext: 'aar')
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.blankj:utilcode:1.30.7'
+    implementation 'org.greenrobot:eventbus:3.3.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

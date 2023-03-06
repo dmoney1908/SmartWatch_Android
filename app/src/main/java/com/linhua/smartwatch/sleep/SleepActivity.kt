@@ -121,7 +121,6 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun syncDailySleepHistory() {
-
         dailyDateIndex++
         val year: Int = todayCalendar.get(Calendar.YEAR)
         val month: Int = todayCalendar.get(Calendar.MONTH) + 1
@@ -233,7 +232,6 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             }
         }
         return Triple(deep, light, wide)
-
     }
 
     private fun drawLatest(total:Int) {
@@ -242,7 +240,6 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_duration_hr).text = String.format("%02d", hour)
         findViewById<TextView>(R.id.tv_duration_min).text = String.format("%02d", minu)
     }
-
 
     private fun drawTrendChart() {
         if (trendSleepItems.isEmpty())return

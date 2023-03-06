@@ -4,10 +4,10 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.util.Base64
 import com.linhua.smartwatch.SmartWatchApplication
+import com.linhua.smartwatch.event.MessageEvent
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.BLEDevice
-import com.zhj.bluetooth.zhjbluetoothsdk.util.SharePreferenceUtils
+import org.greenrobot.eventbus.EventBus
 import java.io.*
-
 
 
 object DeviceManager {
@@ -34,6 +34,8 @@ object DeviceManager {
 
     fun setConnectedDevice(device: BLEDevice?) {
         currentDevice = device
+        val event = MessageEvent(MessageEvent.DeviceStatusChanged)
+        EventBus.getDefault().post(event)
     }
 
     fun getDeviceList():List<BLEDevice> {

@@ -11,12 +11,12 @@
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:textSize="30dp"
             android:textColor="@color/primary_black"
             android:textStyle="bold"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:gravity="center_vertical|left"
             android:text="@string/sport"/>
