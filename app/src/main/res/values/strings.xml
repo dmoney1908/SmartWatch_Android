@@ -65,7 +65,7 @@
     <string name="scan_device_set">Set</string>
     <string name="no_chart_data">No heart rate data available</string>
     <string name="no_blood_data">No blood pressure data available</string>
-
+    <string name="no_sleep_data">No sleep data available</string>
 
     <string name="permisson_location_open">Open</string>
     <string name="permisson_location_title">Location access is not turned on</string>

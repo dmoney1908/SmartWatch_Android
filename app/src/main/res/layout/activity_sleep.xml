@@ -72,55 +72,21 @@
                 android:layout_height="79dp"
                 tools:ignore="SpeakableTextPresentCheck" />
     <RelativeLayout
-        android:id="@+id/rl_hr_time"
-        android:layout_below="@+id/rl_scroll"
-        android:layout_width="118dp"
-        android:background="@drawable/light_blue_corner_shape"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="84dp"
-        android:layout_centerHorizontal="true">
-        <TextView
-            android:id="@+id/tv_hr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="50sp"
-            android:textColor="@color/dark"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="62">
-        </TextView>
-        <TextView
-            android:id="@+id/tv_bmp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_alignParentBottom="true"
-            android:textSize="16dp"
-            android:textColor="@color/primary_blue"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="@string/bpm">
-        </TextView>
-    </RelativeLayout>
-    <RelativeLayout
         android:id="@+id/rl_pie"
-        android:layout_below="@+id/rl_hr_time"
+        android:layout_below="@+id/rl_scroll"
         android:layout_width="205dp"
         android:layout_marginTop="24dp"
         android:layout_height="205dp"
         android:layout_centerHorizontal="true">
         <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
+            android:id="@+id/pc_daily_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <RelativeLayout
             android:id="@+id/rl_duration"
             android:layout_width="105dp"
             android:layout_height="60dp"
-            android:gravity="center">
+            android:layout_centerInParent="true">
             <ImageView
                 android:id="@+id/iv_clock"
                 android:layout_height="match_parent"
@@ -131,29 +97,33 @@
             <TextView
                 android:id="@+id/tv_duration_hr"
                 android:textColor="@color/dark"
-                android:layout_width="45dp"
+                android:layout_width="50dp"
                 android:layout_height="48dp"
                 android:textSize="40dp"
+                android:autoSizeMaxTextSize="40dp"
+                android:autoSizeTextType="uniform"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="05">
+                android:text="-">
             </TextView>
             <TextView
                 android:id="@+id/tv_duration_min"
                 android:textColor="@color/dark"
-                android:layout_width="45dp"
+                android:layout_width="50dp"
                 android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:textSize="40dp"
+                android:autoSizeMaxTextSize="40dp"
+                android:autoSizeTextType="uniform"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="45">
+                android:text="-">
             </TextView>
             <TextView
                 android:textColor="@color/primary_blue"
                 android:layout_below="@+id/tv_duration_hr"
                 android:layout_alignParentBottom="true"
-                android:layout_width="45dp"
+                android:layout_width="50dp"
                 android:layout_height="12dp"
                 android:textSize="10dp"
                 android:textStyle="normal"
@@ -165,7 +135,7 @@
                 android:layout_below="@+id/tv_duration_min"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_width="45dp"
+                android:layout_width="50dp"
                 android:layout_height="12dp"
                 android:textSize="10dp"
                 android:textStyle="normal"
@@ -178,7 +148,7 @@
 
     <LinearLayout
         android:id="@+id/ll_hr_category"
-        android:layout_below="@+id/rl_hr_time"
+        android:layout_below="@+id/rl_pie"
         android:layout_width="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -198,7 +168,7 @@
                 android:id="@+id/tv_deepsleep_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
@@ -216,15 +186,13 @@
                 android:textSize="12dp"
                 android:textStyle="normal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
                 android:gravity="center"
                 android:text="@string/deep_sleep">
             </TextView>
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_average"
+            android:id="@+id/rl_light_sleep"
             android:layout_toEndOf="@+id/rl_lowest"
             android:layout_width="0dp"
             android:layout_marginStart="12dp"
@@ -232,10 +200,10 @@
             android:background="@drawable/average_corner_shape"
             android:layout_weight="1" >
             <TextView
-                android:id="@+id/tv_average_value"
+                android:id="@+id/tv_light_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
@@ -253,16 +221,14 @@
                 android:textSize="12dp"
                 android:textStyle="normal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
                 android:gravity="center"
                 android:text="@string/light_sleep">
             </TextView>
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_highest"
-            android:layout_toEndOf="@+id/rl_average"
+            android:id="@+id/rl_awake"
+            android:layout_toEndOf="@+id/rl_light_sleep"
             android:layout_width="0dp"
             android:layout_marginStart="12dp"
             android:layout_alignParentRight="true"
@@ -271,10 +237,10 @@
             android:layout_weight="1"
             >
             <TextView
-                android:id="@+id/tv_highest_value"
+                android:id="@+id/tv_awake_value"
                 android:textColor="@color/primary_black"
                 android:layout_width="match_parent"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:textSize="14dp"
                 android:layout_centerHorizontal="true"
@@ -292,8 +258,6 @@
                 android:textSize="12dp"
                 android:textStyle="normal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
                 android:gravity="center"
                 android:text="@string/wide_awake">
             </TextView>

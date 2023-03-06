@@ -79,7 +79,7 @@
         android:layout_height="84dp"
         android:layout_centerHorizontal="true">
         <TextView
-            android:id="@+id/tv_hr"
+            android:id="@+id/tv_bp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="50sp"

@@ -237,8 +237,9 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     private fun drawLatest() {
         for(item in healthHeartRateItemsAll.reversed()) {
             if (item!!.fz > 10 && item!!.ss > 10) {
-                findViewById<TextView>(R.id.tv_last_time).text = String.format("%d/%d", item!!.ss, item!!.fz)
-                findViewById<TextView>(R.id.tv_hr).text = item!!.heartRaveValue.toString()
+                findViewById<TextView>(R.id.tv_last_time).text = String.format("%02d:%02d", item!!.hour, item!!.minuter)
+                findViewById<TextView>(R.id.tv_bp).text = String.format("%d/%d", item!!.ss, item!!.fz)
+
                 return
             }
         }
