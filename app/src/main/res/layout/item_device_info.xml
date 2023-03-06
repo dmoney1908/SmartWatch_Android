@@ -56,7 +56,7 @@
         android:textSize="10dp"
         android:layout_marginStart="112dp"
         android:gravity="center"
-        android:text="Connected"
+        android:text="@string/connected_status"
         tools:text="Connected" />
 
     <ImageView

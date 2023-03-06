@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     private var currentMonth = Date()
     private var needSyncTrend = true
     private var todayCalendar = Calendar.getInstance()
+    private var trendCalendar = Calendar.getInstance()
     private var healthHeartRateItemsAll = mutableListOf<HealthHeartRateItem?>()
     private var trendHeartRateItems = mutableListOf<List<HealthHeartRateItem>?>()
 
@@ -62,6 +64,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 dateType = DateType.valueOf(text)
                 findViewById<TextView>(R.id.iv_date_type).text = text
                 dateIndex = 0
+                trendCalendar = Calendar.getInstance()
                 trendHeartRateItems.clear()
                 syncTrendHeartHistory()
             }.show()
@@ -90,6 +93,17 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 calendar.set(Calendar.MONTH, monthOfYear)
                 findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(calendar.time)
                 currentMonth = calendar.time
+                findViewById<ScrollDateView>(R.id.rl_scroll).updateMonthUI(currentMonth)
+
+                val days = DateUtil.computeMonthDayCount(year, monthOfYear)
+                val thisCalendar = Calendar.getInstance()
+                thisCalendar!!.time = Date()
+                var selectDay = days / 2
+                if (thisCalendar!!.get(Calendar.YEAR) == year && thisCalendar!!.get(Calendar.MONTH) == monthOfYear) {
+                    selectDay = calendar!!.get(Calendar.DATE)
+                }
+                calendar!!.set(Calendar.DATE, selectDay)
+                selectDate(calendar.time)
             }
 
             dialogFragment.show(supportFragmentManager, null)
@@ -112,8 +126,10 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                     if (handlerBleDataResult.isComplete) {
                         val healthHeartRateItems =
-                            handlerBleDataResult.data as List<HealthHeartRateItem>
-                        healthHeartRateItemsAll.addAll(healthHeartRateItems)
+                            handlerBleDataResult.data as List<HealthHeartRateItem>?
+                        if (healthHeartRateItems != null) {
+                            healthHeartRateItemsAll.addAll(healthHeartRateItems!!)
+                        }
                         drawDailyChart()
                         if (needSyncTrend) {
                             syncTrendHeartHistory()
@@ -133,9 +149,9 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
     private fun syncTrendHeartHistory() {
         dateIndex++
-        val year: Int = todayCalendar.get(Calendar.YEAR)
-        val month: Int = todayCalendar.get(Calendar.MONTH) + 1
-        val day: Int = todayCalendar.get(Calendar.DATE)
+        val year: Int = trendCalendar.get(Calendar.YEAR)
+        val month: Int = trendCalendar.get(Calendar.MONTH) + 1
+        val day: Int = trendCalendar.get(Calendar.DATE)
         BleSdkWrapper.getHistoryHeartRateData(
             year,
             month,
@@ -166,7 +182,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                                 }
 
                             }
-                            todayCalendar.add(Calendar.DATE, -1)
+                            trendCalendar.add(Calendar.DATE, -1)
                             syncTrendHeartHistory()
                         } else {
                             drawTrendChart()
@@ -301,6 +317,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
     private fun drawDailyAxis() {
         val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
+        linearLayout.removeAllViews()
         for (i in 0..4) {
             val textView = TextView(linearLayout.context)
             val layoutParams = LinearLayout.LayoutParams(
@@ -350,6 +367,9 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             textView.layoutParams = layoutParams
             textView.text = DateUtil.getYMDDate(calendar.time)
             textView.textSize = 10f
+            textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
+            // 参数：int autoSizeMinTextSize, int autoSizeMaxTextSize, int autoSizeStepGranularity, int unit
+            textView.setAutoSizeTextTypeUniformWithConfiguration(5, 10, 1, TypedValue.COMPLEX_UNIT_SP)
             textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
             textView.gravity = Gravity.CENTER
             linearLayout.addView(textView)
@@ -489,7 +509,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
         // set data
         chart.data = data
-        chart.notifyDataSetChanged()
+        chart!!.animateX(1500)
     }
 
     private fun setupTrendData(trendItems: List<Int>) {
