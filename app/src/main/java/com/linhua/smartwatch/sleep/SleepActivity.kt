@@ -54,8 +54,8 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     private var healthSleepItems = mutableListOf<List<HealthSleepItem>?>()
     private var trendSleepItems = mutableListOf<List<HealthSleepItem>?>()
 
-    private var daiySleepValues = mutableListOf<SleepModel>()
-    private var trendSleepValues = mutableListOf<SleepModel>()
+//    private var daiySleepValues = mutableListOf<SleepModel>()
+//    private var trendSleepValues = mutableListOf<SleepModel>()
 
     override fun initData() {
         findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
@@ -332,13 +332,104 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_deepsleep_value).text = makeAttributeString(deep)
         findViewById<TextView>(R.id.tv_light_value).text = makeAttributeString(light)
         findViewById<TextView>(R.id.tv_awake_value).text = makeAttributeString(wide)
-
+        drawStepChart()
         drawLatest(deep + light + wide)
         setupPieData()
     }
 
     private fun drawStepChart() {
+        if (healthSleepItems.isEmpty()) {
+            return
+        }
 
+        var lastModel: SleepStepModel? = null
+        var lastType: Int = 0
+        var stepSleepValues = mutableListOf<SleepStepModel>()
+        if (healthSleepItems.count() >= 2) {
+            val yesterday = healthSleepItems[1]
+            //11点到最后
+            for (item in yesterday!!) {
+                if (item.hour < 22) {
+                    continue
+                }
+                when (item.sleepStatus) {
+                    2,3,4 ->{
+                        if (lastType != item.sleepStatus) {
+                            lastModel = SleepStepModel()
+                            lastModel.duration = 10
+                            lastModel.type = item.sleepStatus
+                            lastModel.beginTime = (item.hour - 22) * 60 + item.minuter
+                            stepSleepValues.add(lastModel)
+                        } else {
+                            if (lastModel != null) {
+                                lastModel.duration += 10
+                            }
+                        }
+                        lastType = item.sleepStatus
+                    }
+                    else -> {
+                        lastType = 0
+                        lastModel = null
+                    }
+                }
+            }
+        }
+        val today = healthSleepItems.first()
+        //0点到9:00
+        for (item in today!!) {
+            if (item.hour >= 9) {
+                continue
+            }
+            when (item.sleepStatus) {
+                2,3,4 ->{
+                    if (lastType != item.sleepStatus) {
+                        lastModel = SleepStepModel()
+                        lastModel.duration = 10
+                        lastModel.type = item.sleepStatus
+                        lastModel.beginTime = item.hour * 60 + item.minuter
+                        stepSleepValues.add(lastModel)
+                    } else {
+                        if (lastModel != null) {
+                            lastModel.duration += 10
+                        }
+                    }
+                    lastType = item.sleepStatus
+                }
+                else -> {
+                    lastType = 0
+                    lastModel = null
+                }
+            }
+        }
+        if (stepSleepValues.isEmpty())return
+        val totalMinute = 660F
+        val relativeLayout = findViewById<RelativeLayout>(R.id.rl_step_chart)
+        for (item in stepSleepValues) {
+            val view = View(relativeLayout.context)
+            val width: Int = (item.duration / totalMinute * relativeLayout.measuredWidth).toInt()
+            val height: Int = (15F / 200 * relativeLayout.measuredHeight).toInt()
+            val layoutParams = RelativeLayout.LayoutParams(
+                width,
+                height
+            )
+            layoutParams.marginStart = (item.beginTime / totalMinute * relativeLayout.measuredWidth).toInt()
+            view.layoutParams = layoutParams
+            when(item.type) {
+                2 -> {
+                    layoutParams.topMargin = (88F / 200 * relativeLayout.measuredHeight).toInt()
+                        view.setBackgroundColor(ColorUtils.getColor(R.color.pink))
+                }
+                3 -> {
+                    layoutParams.topMargin = (26F / 200 * relativeLayout.measuredHeight).toInt()
+                    view.setBackgroundColor(ColorUtils.getColor(R.color.purple_200))
+                }
+                4 -> {
+                    layoutParams.topMargin = (166F / 200 * relativeLayout.measuredHeight).toInt()
+                    view.setBackgroundColor(ColorUtils.getColor(R.color.orange))
+                }
+            }
+            relativeLayout.addView(view)
+        }
     }
 
     private fun drawDailyAxis() {

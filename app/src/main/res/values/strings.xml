@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">iWatch</string>
+    <string name="app_name">Tribe</string>
     <string name="connected">connected</string>
     <string name="connected_status">Connected</string>
     <string name="disconnected_status">Disconnected</string>
