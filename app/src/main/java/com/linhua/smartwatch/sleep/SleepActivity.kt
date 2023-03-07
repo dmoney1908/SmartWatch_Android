@@ -1,7 +1,9 @@
 package com.linhua.smartwatch.sleep
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -33,6 +35,7 @@ import com.linhua.smartwatch.chart.MyMarkerView
 import com.linhua.smartwatch.monthpicker.MonthYearPickerDialogFragment
 import com.linhua.smartwatch.utils.DateType
 import com.linhua.smartwatch.utils.DateUtil
+import com.linhua.smartwatch.utils.ScreenUtil
 import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthSleepItem
@@ -404,32 +407,101 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         if (stepSleepValues.isEmpty())return
         val totalMinute = 660F
         val relativeLayout = findViewById<RelativeLayout>(R.id.rl_step_chart)
+        val px = ScreenUtil.dp2px(1F, this)
         for (item in stepSleepValues) {
             val view = View(relativeLayout.context)
-            val width: Int = (item.duration / totalMinute * relativeLayout.measuredWidth).toInt()
-            val height: Int = (15F / 200 * relativeLayout.measuredHeight).toInt()
+            view.setBackgroundResource(R.drawable.step_corner_shape)
+            val width: Int = (item.duration / totalMinute * relativeLayout.width + 2 * px).toInt()
+            val height: Int = (15F / 200 * relativeLayout.width).toInt()
             val layoutParams = RelativeLayout.LayoutParams(
                 width,
                 height
             )
-            layoutParams.marginStart = (item.beginTime / totalMinute * relativeLayout.measuredWidth).toInt()
+            item.x = (item.beginTime / totalMinute * relativeLayout.width - px).toInt()
+            layoutParams.marginStart = item.x
             view.layoutParams = layoutParams
+            var drawable = view.background as GradientDrawable
             when(item.type) {
                 2 -> {
-                    layoutParams.topMargin = (88F / 200 * relativeLayout.measuredHeight).toInt()
-                        view.setBackgroundColor(ColorUtils.getColor(R.color.pink))
+                    item.y = (88F / 200 * relativeLayout.height).toInt()
+                    layoutParams.topMargin = item.y
+                    drawable.setColor(ColorUtils.getColor(R.color.pink))
                 }
                 3 -> {
-                    layoutParams.topMargin = (26F / 200 * relativeLayout.measuredHeight).toInt()
-                    view.setBackgroundColor(ColorUtils.getColor(R.color.purple_200))
+                    item.y = (26F / 200 * relativeLayout.height).toInt()
+                    layoutParams.topMargin = item.y
+                    drawable.setColor(ColorUtils.getColor(R.color.purple_200))
                 }
                 4 -> {
-                    layoutParams.topMargin = (166F / 200 * relativeLayout.measuredHeight).toInt()
-                    view.setBackgroundColor(ColorUtils.getColor(R.color.orange))
+                    item.y = (166F / 200 * relativeLayout.height).toInt()
+                    layoutParams.topMargin = item.y
+                    drawable.setColor(ColorUtils.getColor(R.color.orange))
                 }
             }
+            item.height = height
+            item.width = width
             relativeLayout.addView(view)
         }
+        for (index in stepSleepValues.indices) {
+            if(index == 0) {
+                continue
+            }
+            var leftNode = stepSleepValues[index - 1]
+            var curNode = stepSleepValues[index]
+            if (leftNode.right < curNode.left) {
+                continue
+            }
+            val sepView = View(relativeLayout.context)
+            val width: Int = 2 * px
+            if (leftNode.bottom < curNode.top) {
+                val height: Int = curNode.top - leftNode.bottom + 4 * px
+                val layoutParams = RelativeLayout.LayoutParams(
+                    width,
+                    height
+                )
+                layoutParams.marginStart = leftNode.right - 2 * px
+                layoutParams.topMargin = leftNode.bottom - 2 * px
+                sepView.layoutParams = layoutParams
+
+                val gd = GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    intArrayOf(getSleepColor(leftNode.type), getSleepColor(curNode.type))
+                )
+                gd.cornerRadius = 0f
+                sepView.background = gd
+            } else {
+                val height: Int = leftNode.top - curNode.bottom + 4 * px
+                val layoutParams = RelativeLayout.LayoutParams(
+                    width,
+                    height
+                )
+                layoutParams.marginStart = curNode.left
+                layoutParams.topMargin = curNode.bottom - 2 * px
+                sepView.layoutParams = layoutParams
+                val gd = GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    intArrayOf(getSleepColor(curNode.type), getSleepColor(leftNode.type))
+                )
+                gd.cornerRadius = 0f
+                sepView.background = gd
+            }
+            relativeLayout.addView(sepView)
+        }
+    }
+
+    private fun getSleepColor(type: Int):Int {
+        when(type) {
+            2 -> {
+                return ColorUtils.getColor(R.color.pink)
+            }
+            3 -> {
+                return ColorUtils.getColor(R.color.purple_200)
+            }
+            4 -> {
+                return ColorUtils.getColor(R.color.orange)
+            }
+        }
+        return  return ColorUtils.getColor(R.color.pink)
     }
 
     private fun drawDailyAxis() {
