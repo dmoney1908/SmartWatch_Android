@@ -14,7 +14,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="4dp"
+        android:layout_height="70dp"
+        app:itemBackground="@drawable/navi_select_bottom"
+        android:background="@drawable/fade_bottom"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
 </LinearLayout>
