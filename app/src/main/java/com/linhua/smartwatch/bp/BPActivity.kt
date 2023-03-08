@@ -11,6 +11,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -53,9 +54,9 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
     override fun initData() {
         findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
-
-
-
+        findViewById<ImageView>(R.id.base_title_back).setOnClickListener {
+            onBackPressed()
+        }
         findViewById<View>(R.id.v_date_type).setOnClickListener {
             XPopup.Builder(this).atView(findViewById<View>(R.id.v_date_type)).asAttachList(
                 arrayOf("Days", "Weeks", "Months"),

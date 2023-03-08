@@ -9,15 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="22dp"
             android:id="@+id/base_title_back"
-            android:layout_height="20dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="50dp"
+            android:layout_height="22dp"
             android:layout_centerVertical="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@mipmap/back_black" />
+            android:src="@drawable/icon_navigation_back" />
 
         <TextView
             android:id="@+id/base_title_name"

@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.content.Intent
 import android.graphics.Color
+import android.media.Image
 import android.net.Uri
 import android.provider.Settings
 import android.text.Editable
@@ -17,6 +18,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -59,8 +61,9 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
         super.initData()
         mRecyclerView = findViewById<RecyclerView>(R.id.refresh_recyclerView)
         mRefreshLayout = findViewById<RecyclerRefreshLayout>(R.id.mRefreshLayout)
-
-//        titleName.setText(getResources().getString(R.string.main_pairing))
+        findViewById<ImageView>(R.id.base_title_back).setOnClickListener {
+            onBackPressed()
+        }
         mBluetoothLe = BluetoothLe.getDefault()
         mRefreshLayout!!.setSuperRefreshLayoutListener(this)
         mRefreshLayout!!.setColorSchemeColors(Color.RED, Color.GREEN, Color.CYAN)

@@ -13,6 +13,12 @@
         android:layout_marginRight="20dp"
         android:layout_height="60dp"
         android:layout_marginTop="0dp">
+        <ImageView
+            android:layout_width="22dp"
+            android:id="@+id/base_title_back"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_navigation_back" />
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"

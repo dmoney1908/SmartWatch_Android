@@ -11,6 +11,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -68,6 +69,9 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendHeartRateItems.clear()
                 syncTrendHeartHistory()
             }.show()
+        }
+        findViewById<ImageView>(R.id.base_title_back).setOnClickListener {
+            onBackPressed()
         }
         findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = {  date : Date ->
             selectDate(date)
