@@ -98,12 +98,12 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
                 val days = DateUtil.computeMonthDayCount(year, monthOfYear)
                 val thisCalendar = Calendar.getInstance()
-                thisCalendar!!.time = Date()
+                thisCalendar.time = Date()
                 var selectDay = days / 2
-                if (thisCalendar!!.get(Calendar.YEAR) == year && thisCalendar!!.get(Calendar.MONTH) == monthOfYear) {
-                    selectDay = calendar!!.get(Calendar.DATE)
+                if (thisCalendar.get(Calendar.YEAR) == year && thisCalendar.get(Calendar.MONTH) == monthOfYear) {
+                    selectDay = calendar.get(Calendar.DATE)
                 }
-                calendar!!.set(Calendar.DATE, selectDay)
+                calendar.set(Calendar.DATE, selectDay)
                 selectDate(calendar.time)
             }
 
@@ -129,7 +129,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                         val healthHeartRateItems =
                             handlerBleDataResult.data as List<HealthHeartRateItem>?
                         if (healthHeartRateItems != null) {
-                            healthHeartRateItemsAll.addAll(healthHeartRateItems!!)
+                            healthHeartRateItemsAll.addAll(healthHeartRateItems)
                         }
                         drawDailyChart()
                         if (needSyncTrend) {
@@ -199,8 +199,8 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     private fun computeMath() :BPMathModel?{
         var minFZ = 300
         var maxSS = 0
-        var averageSS: Int = 0
-        var averageFZ: Int = 0
+        var averageSS = 0
+        var averageFZ = 0
         var sumSS = 0
         var validSS = 0
         var sumFZ = 0
@@ -236,9 +236,9 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
     private fun drawLatest() {
         for(item in healthHeartRateItemsAll.reversed()) {
-            if (item!!.fz > 10 && item!!.ss > 10) {
-                findViewById<TextView>(R.id.tv_last_time).text = String.format("%02d:%02d", item!!.hour, item!!.minuter)
-                findViewById<TextView>(R.id.tv_bp).text = String.format("%d/%d", item!!.ss, item!!.fz)
+            if (item!!.fz > 10 && item.ss > 10) {
+                findViewById<TextView>(R.id.tv_last_time).text = String.format("%02d:%02d", item.hour, item.minuter)
+                findViewById<TextView>(R.id.tv_bp).text = String.format("%d/%d", item.ss, item.fz)
 
                 return
             }
@@ -248,10 +248,10 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
 
     private fun drawTrendChart() {
         if (trendHeartRateItems.isEmpty())return
-        var trendItems = mutableListOf<BPModel>()
+        val trendItems = mutableListOf<BPModel>()
         for (items in trendHeartRateItems) {
-            var averageSS: Int = 0
-            var averageFZ: Int = 0
+            var averageSS = 0
+            var averageFZ = 0
             var validSS = 0
             var sumSS = 0
             var validFZ = 0
@@ -260,7 +260,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(BPModel(averageSS, averageFZ))
                 break
             }
-            for(item in items!!) {
+            for(item in items) {
                 if (item.ss > 10) {
                     sumSS += item.ss
                     validSS++
@@ -278,13 +278,13 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(BPModel(0, 0))
             }
         }
-        var total = when(dateType) {
+        val total = when(dateType) {
             DateType.Days-> 7
             DateType.Weeks -> 28
             DateType.Months -> 90
         }
-        var trendValues = mutableListOf<BPModel>()
-        var reversedTrends = trendItems.reversed()
+        val trendValues = mutableListOf<BPModel>()
+        val reversedTrends = trendItems.reversed()
         if (trendItems.count() < total) {
             val empty = total - trendItems.count()
             for (i in 0 until empty) {
@@ -302,7 +302,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         if (healthHeartRateItemsAll.isEmpty()) return
         val item = computeMath() ?: return
         val rangeText = "${item.maxSS}/${item.minFZ}  MmHg"
-        var rangeString: Spannable = SpannableString(rangeText)
+        val rangeString: Spannable = SpannableString(rangeText)
         rangeString.setSpan(StyleSpan(Typeface.BOLD), 0, rangeText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         rangeString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, rangeText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         rangeString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, rangeText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -311,7 +311,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_range_value).text = rangeString
 
         val averageText = "${item.averageSS}/${item.averageFZ}  MmHg"
-        var averageString: Spannable = SpannableString(averageText)
+        val averageString: Spannable = SpannableString(averageText)
         averageString.setSpan(StyleSpan(Typeface.BOLD), 0, averageText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, averageText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, averageText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -434,7 +434,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         var xAxis: XAxis
         run {
             // // X-Axis Style // //
-            xAxis = chart!!.xAxis
+            xAxis = chart.xAxis
             xAxis.setDrawLabels(false)
             xAxis.setDrawAxisLine(false)
             xAxis.setDrawGridLines(false)
@@ -450,10 +450,10 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         var yAxis: YAxis
         run {
             // // Y-Axis Style // //
-            yAxis = chart!!.axisLeft
+            yAxis = chart.axisLeft
 
             // disable dual axis (only use LEFT axis)
-            chart!!.axisRight.isEnabled = false
+            chart.axisRight.isEnabled = false
             chart.axisRight.setDrawLabels(false)
             chart.axisRight.setDrawAxisLine(false)
             yAxis.setDrawLabels(true)
@@ -467,7 +467,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         chart.setNoDataText(resources.getString(R.string.no_blood_data))
 
         // draw points over time
-        chart!!.animateX(1500)
+        chart.animateX(1500)
         chart.legend.isEnabled = false
     }
 
@@ -479,7 +479,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             val item = healthHeartRateItemsAll[index]
             val x = (index + 1.0) / healthHeartRateItemsAll.count()
             values1.add(Entry(x.toFloat(), item!!.ss.toFloat()))
-            values2.add(Entry(x.toFloat(), item!!.fz.toFloat()))
+            values2.add(Entry(x.toFloat(), item.fz.toFloat()))
         }
         val set1 = LineDataSet(values1,"")
         set1.setDrawIcons(false)
@@ -567,7 +567,6 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)
         set1.setDrawValues(false)
-//        set1.
         set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         // line thickness and point size
         set1.lineWidth = 1f
@@ -597,7 +596,6 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         set2.setDrawCircleHole(false)
         set2.setDrawCircles(false)
         set2.setDrawValues(false)
-//        set1.
         set2.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         // line thickness and point size
         set2.lineWidth = 1f

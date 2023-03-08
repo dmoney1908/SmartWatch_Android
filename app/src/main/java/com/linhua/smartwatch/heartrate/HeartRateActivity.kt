@@ -97,12 +97,12 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
                 val days = DateUtil.computeMonthDayCount(year, monthOfYear)
                 val thisCalendar = Calendar.getInstance()
-                thisCalendar!!.time = Date()
+                thisCalendar.time = Date()
                 var selectDay = days / 2
-                if (thisCalendar!!.get(Calendar.YEAR) == year && thisCalendar!!.get(Calendar.MONTH) == monthOfYear) {
-                    selectDay = calendar!!.get(Calendar.DATE)
+                if (thisCalendar.get(Calendar.YEAR) == year && thisCalendar.get(Calendar.MONTH) == monthOfYear) {
+                    selectDay = calendar.get(Calendar.DATE)
                 }
-                calendar!!.set(Calendar.DATE, selectDay)
+                calendar.set(Calendar.DATE, selectDay)
                 selectDate(calendar.time)
             }
 
@@ -128,7 +128,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                         val healthHeartRateItems =
                             handlerBleDataResult.data as List<HealthHeartRateItem>?
                         if (healthHeartRateItems != null) {
-                            healthHeartRateItemsAll.addAll(healthHeartRateItems!!)
+                            healthHeartRateItemsAll.addAll(healthHeartRateItems)
                         }
                         drawDailyChart()
                         if (needSyncTrend) {
@@ -180,7 +180,6 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                                         return drawTrendChart()
                                     }
                                 }
-
                             }
                             trendCalendar.add(Calendar.DATE, -1)
                             syncTrendHeartHistory()
@@ -229,7 +228,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         for(item in healthHeartRateItemsAll.reversed()) {
             if (item!!.heartRaveValue > 10) {
                 findViewById<TextView>(R.id.tv_last_time).text = String.format("%02d:%02d", item!!.hour, item!!.minuter)
-                findViewById<TextView>(R.id.tv_hr).text = item!!.heartRaveValue.toString()
+                findViewById<TextView>(R.id.tv_hr).text = item.heartRaveValue.toString()
                 return
             }
         }
@@ -238,7 +237,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
     private fun drawTrendChart() {
         if (trendHeartRateItems.isEmpty())return
-        var trendItems = mutableListOf<Int>()
+        val trendItems = mutableListOf<Int>()
         for (items in trendHeartRateItems) {
             var average: Int = 0
             var valid = 0
@@ -247,7 +246,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(0)
                 break
             }
-            for(item in items!!) {
+            for(item in items) {
                 if (item.heartRaveValue > 10) {
                     sum += item.heartRaveValue
                     valid++
@@ -260,13 +259,13 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(0)
             }
         }
-        var total = when(dateType) {
+        val total = when(dateType) {
             DateType.Days-> 7
             DateType.Weeks -> 28
             DateType.Months -> 90
         }
-        var trendValues = mutableListOf<Int>()
-        var reversedTrends = trendItems.reversed()
+        val trendValues = mutableListOf<Int>()
+        val reversedTrends = trendItems.reversed()
         if (trendItems.count() < total) {
             val empty = total - trendItems.count()
             for (i in 0 until empty) {
@@ -285,7 +284,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         val item = computeMath() ?: return
         val (min, max, average) = item
         val minText = "$min Bpm"
-        var minString: Spannable = SpannableString(minText)
+        val minString: Spannable = SpannableString(minText)
         minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -294,7 +293,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_lowest_value).text = minString
 
         val maxText = "$max Bpm"
-        var maxString: Spannable = SpannableString(maxText)
+        val maxString: Spannable = SpannableString(maxText)
         maxString.setSpan(StyleSpan(Typeface.BOLD), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         maxString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         maxString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -303,7 +302,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_highest_value).text = maxString
 
         val averageText = "$average Bpm"
-        var averageString: Spannable = SpannableString(averageText)
+        val averageString: Spannable = SpannableString(averageText)
         averageString.setSpan(StyleSpan(Typeface.BOLD), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -426,7 +425,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         var xAxis: XAxis
         run {
             // // X-Axis Style // //
-            xAxis = chart!!.xAxis
+            xAxis = chart.xAxis
             xAxis.setDrawLabels(false)
             xAxis.setDrawAxisLine(false)
             xAxis.setDrawGridLines(false)
@@ -442,10 +441,10 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         var yAxis: YAxis
         run {
             // // Y-Axis Style // //
-            yAxis = chart!!.axisLeft
+            yAxis = chart.axisLeft
 
             // disable dual axis (only use LEFT axis)
-            chart!!.axisRight.isEnabled = false
+            chart.axisRight.isEnabled = false
             chart.axisRight.setDrawLabels(false)
             chart.axisRight.setDrawAxisLine(false)
             yAxis.setDrawLabels(true)
@@ -459,7 +458,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         chart.setNoDataText(resources.getString(R.string.no_chart_data))
 
         // draw points over time
-        chart!!.animateX(1500)
+        chart.animateX(1500)
         chart.legend.isEnabled = false
     }
 
@@ -477,7 +476,6 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)
         set1.setDrawValues(false)
-//        set1.
         set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         // line thickness and point size
         set1.lineWidth = 1f

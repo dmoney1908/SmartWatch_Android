@@ -104,12 +104,12 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
 
                 val days = DateUtil.computeMonthDayCount(year, monthOfYear)
                 val thisCalendar = Calendar.getInstance()
-                thisCalendar!!.time = Date()
+                thisCalendar.time = Date()
                 var selectDay = days / 2
-                if (thisCalendar!!.get(Calendar.YEAR) == year && thisCalendar!!.get(Calendar.MONTH) == monthOfYear) {
+                if (thisCalendar.get(Calendar.YEAR) == year && thisCalendar!!.get(Calendar.MONTH) == monthOfYear) {
                     selectDay = calendar!!.get(Calendar.DATE)
                 }
-                calendar!!.set(Calendar.DATE, selectDay)
+                calendar.set(Calendar.DATE, selectDay)
                 selectDate(calendar.time)
             }
 
@@ -139,7 +139,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                         if (handlerBleDataResult.hasNext) {
                             val sleepItems = handlerBleDataResult.sleepItems
                             if (sleepItems != null) {
-                                healthSleepItems.add(sleepItems!!)
+                                healthSleepItems.add(sleepItems)
                             }
                             if (dailyDateIndex >= 2) {
                                 drawDailyChart()
@@ -225,13 +225,13 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         val sleepItems = healthSleepItems.first()
 
         for(item in sleepItems!!) {
-            if (item!!.sleepStatus == 2) {
+            if (item.sleepStatus == 2) {
                 light += 10
             }
-            else if (item!!.sleepStatus == 3) {
+            else if (item.sleepStatus == 3) {
                 deep += 10
             }
-            else if (item!!.sleepStatus == 4) {
+            else if (item.sleepStatus == 4) {
                 wide += 10
             }
         }
@@ -239,37 +239,35 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawLatest(total:Int) {
-        var hour = total / 60
-        var minu = total % 60
+        val hour = total / 60
+        val minu = total % 60
         findViewById<TextView>(R.id.tv_duration_hr).text = String.format("%02d", hour)
         findViewById<TextView>(R.id.tv_duration_min).text = String.format("%02d", minu)
     }
 
     private fun drawTrendChart() {
         if (trendSleepItems.isEmpty())return
-        var trendItems = mutableListOf<Int>()
+        val trendItems = mutableListOf<Int>()
         for (items in trendSleepItems) {
-            var average: Int = 0
-            var valid = 0
             var sum = 0
             if (items == null || items.isEmpty()) {
                 trendItems.add(0)
                 break
             }
-            for(item in items!!) {
+            for(item in items) {
                 if (item.sleepStatus == 2 || item.sleepStatus == 3 || item.sleepStatus == 4) {
                     sum += 10
                 }
             }
             trendItems.add(sum)
         }
-        var total = when(dateType) {
+        val total = when(dateType) {
             DateType.Days-> 7
             DateType.Weeks -> 28
             DateType.Months -> 90
         }
-        var trendValues = mutableListOf<Int>()
-        var reversedTrends = trendItems.reversed()
+        val trendValues = mutableListOf<Int>()
+        val reversedTrends = trendItems.reversed()
         if (trendItems.count() < total) {
             val empty = total - trendItems.count()
             for (i in 0 until empty) {
@@ -284,11 +282,11 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun makeAttributeString(minute: Int):Spannable {
-        var hour = minute / 60
-        var minu = minute % 60
+        val hour = minute / 60
+        val minu = minute % 60
         if (hour == 0) {
             val minText = "${minu}min"
-            var minString: Spannable = SpannableString(minText)
+            val minString: Spannable = SpannableString(minText)
             minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -297,7 +295,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             return minString
         } else if(minu == 0) {
             val minText = "${hour}hr"
-            var minString: Spannable = SpannableString(minText)
+            val minString: Spannable = SpannableString(minText)
             minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -306,7 +304,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             return minString
         } else {
             val minText = "${minu}min"
-            var minString: Spannable = SpannableString(minText)
+            val minString: Spannable = SpannableString(minText)
             minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -314,7 +312,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), minText.length - 3, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 
             val hourText = "${hour}hr "
-            var hourString: Spannable = SpannableString(hourText)
+            val hourString: Spannable = SpannableString(hourText)
             hourString.setSpan(StyleSpan(Typeface.BOLD), 0, hourText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             hourString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, hourText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             hourString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, hourText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -347,7 +345,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
 
         var lastModel: SleepStepModel? = null
         var lastType: Int = 0
-        var stepSleepValues = mutableListOf<SleepStepModel>()
+        val stepSleepValues = mutableListOf<SleepStepModel>()
         if (healthSleepItems.count() >= 2) {
             val yesterday = healthSleepItems[1]
             //11点到最后
@@ -412,7 +410,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             val view = View(relativeLayout.context)
             view.setBackgroundResource(R.drawable.step_corner_shape)
             val width: Int = (item.duration / totalMinute * relativeLayout.width + 2 * px).toInt()
-            val height: Int = (15F / 200 * relativeLayout.width).toInt()
+            val height: Int = (15F / 200 * relativeLayout.height).toInt()
             val layoutParams = RelativeLayout.LayoutParams(
                 width,
                 height
@@ -420,7 +418,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             item.x = (item.beginTime / totalMinute * relativeLayout.width - px).toInt()
             layoutParams.marginStart = item.x
             view.layoutParams = layoutParams
-            var drawable = view.background as GradientDrawable
+            val drawable = view.background as GradientDrawable
             when(item.type) {
                 2 -> {
                     item.y = (88F / 200 * relativeLayout.height).toInt()
@@ -446,8 +444,8 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             if(index == 0) {
                 continue
             }
-            var leftNode = stepSleepValues[index - 1]
-            var curNode = stepSleepValues[index]
+            val leftNode = stepSleepValues[index - 1]
+            val curNode = stepSleepValues[index]
             if (leftNode.right < curNode.left) {
                 continue
             }
@@ -490,18 +488,20 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun getSleepColor(type: Int):Int {
-        when(type) {
+        return when (type) {
             2 -> {
-                return ColorUtils.getColor(R.color.pink)
+                ColorUtils.getColor(R.color.pink)
             }
             3 -> {
-                return ColorUtils.getColor(R.color.purple_200)
+                ColorUtils.getColor(R.color.purple_200)
             }
             4 -> {
-                return ColorUtils.getColor(R.color.orange)
+                ColorUtils.getColor(R.color.orange)
+            }
+            else -> {
+                ColorUtils.getColor(R.color.pink)
             }
         }
-        return  return ColorUtils.getColor(R.color.pink)
     }
 
     private fun drawDailyAxis() {
@@ -630,7 +630,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         var xAxis: XAxis
         run {
             // // X-Axis Style // //
-            xAxis = chart!!.xAxis
+            xAxis = chart.xAxis
             xAxis.setDrawLabels(false)
             xAxis.setDrawAxisLine(false)
             xAxis.setDrawGridLines(false)
@@ -646,10 +646,10 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         var yAxis: YAxis
         run {
             // // Y-Axis Style // //
-            yAxis = chart!!.axisLeft
+            yAxis = chart.axisLeft
 
             // disable dual axis (only use LEFT axis)
-            chart!!.axisRight.isEnabled = false
+            chart.axisRight.isEnabled = false
             chart.axisRight.setDrawLabels(false)
             chart.axisRight.setDrawAxisLine(false)
             yAxis.setDrawLabels(true)
@@ -661,7 +661,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         xAxis.setDrawLimitLinesBehindData(false)
 
         // draw points over time
-        chart!!.animateX(1500)
+        chart.animateX(1500)
         chart.legend.isEnabled = false
     }
 

@@ -46,7 +46,6 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
     var mRefreshLayout: RecyclerRefreshLayout? = null
     private var mAdapter: ScanDeviceAdapter? = null
     private var mBluetoothLe: BluetoothLe? = null
-    protected val contentView: Int = 0
     private val i1 = 0
     private val i2 = 0
     private val i3 = 0
@@ -138,7 +137,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
                     val intent = Intent()
                     intent.action = Settings.ACTION_LOCATION_SOURCE_SETTINGS
                     startActivityForResult(intent, 1000)
-                }) { view -> this@ScanDeviceReadyActivity.finish() }
+                }) { this@ScanDeviceReadyActivity.finish() }
         } else {
             scanDevice
         }
@@ -239,7 +238,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
         return dialog
     }
 
-    protected override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1000) {
             if (!CommonUtil.isOPen(this)) {
@@ -305,7 +304,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
     }
 
     private val scanDevice: Unit
-        private get() {
+        get() {
             mRefreshLayout!!.post {
                 mRefreshLayout!!.isRefreshing = true
                 showList.clear()
@@ -391,7 +390,7 @@ open class ScanDeviceReadyActivity : BaseActivity(), BaseAdapter.OnItemClickList
     }
 
     private val isOpenBle: Unit
-        private get() {
+        get() {
             if (!BluetoothLe.getDefault().isBluetoothOpen) {
                 mRefreshLayout!!.onComplete()
                 val commonDialog: CommonDialog = CommonDialog.Builder(this)

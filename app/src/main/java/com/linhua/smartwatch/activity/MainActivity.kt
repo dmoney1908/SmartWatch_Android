@@ -73,7 +73,7 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
             transAction.show(fragment)
         } else {
             transAction.add(R.id.content_container,
-                fragment!!,item.itemId.toString())
+                fragment,item.itemId.toString())
         }
         currentFragment = fragment
         safeCommit(transAction)
