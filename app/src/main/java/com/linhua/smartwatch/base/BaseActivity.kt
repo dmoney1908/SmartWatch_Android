@@ -8,10 +8,14 @@ import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 public abstract class BaseActivity:AppCompatActivity(), PermissionUtil.RequsetResult {
     protected val TAG: String = this.javaClass.simpleName
     override fun onCreate(savedInstanceState: Bundle?) {
+        prepareData()
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         initData()
         onListener()
+    }
+
+    protected  open fun prepareData() {
     }
 
     protected  open fun onListener() {

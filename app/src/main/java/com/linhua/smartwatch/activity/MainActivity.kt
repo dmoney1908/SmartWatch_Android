@@ -1,5 +1,6 @@
 package com.linhua.smartwatch.activity
 
+import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -29,6 +30,10 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
     }
     var bottomView: BottomNavigationView? = null
     private var currentFragment: Fragment? = null
+
+    override fun prepareData() {
+        setTheme(R.style.Theme_SmartWatch)
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
