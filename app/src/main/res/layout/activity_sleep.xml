@@ -34,7 +34,7 @@
                 android:gravity="center"
                 android:text="@string/sleep"
                 android:textSize="16dp"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/rl_month"
@@ -55,7 +55,7 @@
                     android:gravity="center_vertical|right"
                     android:text="Augest,2023"
                     android:textSize="13dp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/iv_down"
@@ -66,7 +66,7 @@
                     android:layout_marginLeft="0dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/main_arrow_down"></ImageView>
+                    android:src="@drawable/main_arrow_down" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -111,7 +111,7 @@
                             android:layout_width="3dp"
                             android:layout_height="match_parent"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/main_time_sperator"></ImageView>
+                            android:src="@drawable/main_time_sperator" />
 
                         <TextView
                             android:id="@+id/tv_duration_hr"
@@ -123,7 +123,7 @@
                             android:text="-"
                             android:textColor="@color/dark"
                             android:textSize="40dp"
-                            android:textStyle="bold"></TextView>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_duration_min"
@@ -136,7 +136,7 @@
                             android:text="-"
                             android:textColor="@color/dark"
                             android:textSize="40dp"
-                            android:textStyle="bold"></TextView>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="50dp"
@@ -147,7 +147,7 @@
                             android:text="@string/hour"
                             android:textColor="@color/primary_blue"
                             android:textSize="10dp"
-                            android:textStyle="normal"></TextView>
+                            android:textStyle="normal" />
 
                         <TextView
                             android:layout_width="50dp"
@@ -159,7 +159,7 @@
                             android:text="@string/minute"
                             android:textColor="@color/primary_blue"
                             android:textSize="10dp"
-                            android:textStyle="normal"></TextView>
+                            android:textStyle="normal" />
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -193,7 +193,7 @@
                             android:gravity="center"
                             android:text="--"
                             android:textColor="@color/primary_black"
-                            android:textSize="14dp"></TextView>
+                            android:textSize="14dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -205,7 +205,7 @@
                             android:text="@string/deep_sleep"
                             android:textColor="@color/orange"
                             android:textSize="12dp"
-                            android:textStyle="normal"></TextView>
+                            android:textStyle="normal" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -228,7 +228,7 @@
                             android:gravity="center"
                             android:text="--"
                             android:textColor="@color/primary_black"
-                            android:textSize="14dp"></TextView>
+                            android:textSize="14dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -240,7 +240,7 @@
                             android:text="@string/light_sleep"
                             android:textColor="@color/pink"
                             android:textSize="12dp"
-                            android:textStyle="normal"></TextView>
+                            android:textStyle="normal" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -264,7 +264,7 @@
                             android:gravity="center"
                             android:text="--"
                             android:textColor="@color/primary_black"
-                            android:textSize="14dp"></TextView>
+                            android:textSize="14dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -276,7 +276,7 @@
                             android:text="@string/wide_awake"
                             android:textColor="@color/red"
                             android:textSize="12dp"
-                            android:textStyle="normal"></TextView>
+                            android:textStyle="normal" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -294,7 +294,7 @@
                         android:id="@+id/rl_step_title"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal" />
 
                     <RelativeLayout
                         android:id="@+id/rl_step_chart_host"
@@ -316,7 +316,7 @@
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
-                                    android:background="@color/light_gary2"></RelativeLayout>
+                                    android:background="@color/light_gary2" />
                             </RelativeLayout>
 
                             <RelativeLayout
@@ -328,7 +328,7 @@
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
-                                    android:background="@color/light_gary2"></RelativeLayout>
+                                    android:background="@color/light_gary2" />
                             </RelativeLayout>
 
                             <RelativeLayout
@@ -340,7 +340,7 @@
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
-                                    android:background="@color/light_gary2"></RelativeLayout>
+                                    android:background="@color/light_gary2" />
                             </RelativeLayout>
 
                             <RelativeLayout
@@ -352,24 +352,24 @@
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
-                                    android:background="@color/light_gary2"></RelativeLayout>
+                                    android:background="@color/light_gary2" />
                             </RelativeLayout>
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"></RelativeLayout>
+                                android:layout_weight="1" />
                         </LinearLayout>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/light_gary2"></RelativeLayout>
+                            android:background="@color/light_gary2" />
 
                         <RelativeLayout
                             android:id="@+id/rl_step_chart"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"></RelativeLayout>
+                            android:layout_height="match_parent" />
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -390,14 +390,14 @@
                         android:text="@string/sleep_record"
                         android:textColor="@color/dark"
                         android:textSize="18dp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold" />
 
                     <View
                         android:id="@+id/v_date_type"
                         android:layout_width="78dp"
                         android:layout_height="32dp"
                         android:layout_alignParentEnd="true"
-                        android:background="@drawable/blue_corner_shape"></View>
+                        android:background="@drawable/blue_corner_shape" />
 
                     <ImageView
                         android:id="@+id/iv_arrow"
@@ -406,7 +406,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="8dp"
-                        android:src="@drawable/main_date_type"></ImageView>
+                        android:src="@drawable/main_date_type" />
 
                     <TextView
                         android:id="@+id/iv_date_type"
@@ -421,7 +421,7 @@
                         android:text="@string/days"
                         android:textColor="@color/white"
                         android:textSize="14dp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
