@@ -41,6 +41,15 @@
     <string name="hour">hour</string>
     <string name="minute">minute</string>
 
+    <string name="header_pulling">Pulling</string>
+    <string name="header_refreshing">Refreshing</string>
+    <string name="header_loading">Loading</string>
+    <string name="header_release">Released</string>
+    <string name="header_finish">Updated finished</string>
+    <string name="header_failed">Failed</string>
+    <string name="header_secondary">Secondary</string>
+    <string name="header_update">\'Last update\' M-d HH:mm</string>
+
     <string name="lowest_value">Lowest value</string>
     <string name="average_value">Average value</string>
     <string name="highest_value">Highest value</string>

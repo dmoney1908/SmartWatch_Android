@@ -14,6 +14,7 @@ import com.linhua.smartwatch.fragment.PersonalFragment
 import com.linhua.smartwatch.fragment.SportFragment
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.FragmentManage
+import com.scwang.smart.refresh.header.ClassicsHeader
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.WarningInfo
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleCallbackWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.BluetoothLe
@@ -32,6 +33,14 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
     private var currentFragment: Fragment? = null
 
     override fun prepareData() {
+        ClassicsHeader.REFRESH_HEADER_PULLING = getString(R.string.header_pulling)
+        ClassicsHeader.REFRESH_HEADER_REFRESHING = getString(R.string.header_refreshing)
+        ClassicsHeader.REFRESH_HEADER_LOADING = getString(R.string.header_loading)
+        ClassicsHeader.REFRESH_HEADER_RELEASE = getString(R.string.header_release)
+        ClassicsHeader.REFRESH_HEADER_FINISH = getString(R.string.header_finish)
+        ClassicsHeader.REFRESH_HEADER_FAILED = getString(R.string.header_failed)
+        ClassicsHeader.REFRESH_HEADER_SECONDARY = getString(R.string.header_secondary)
+        ClassicsHeader.REFRESH_HEADER_UPDATE = getString(R.string.header_update)
         setTheme(R.style.Theme_SmartWatch)
     }
 

@@ -18,6 +18,9 @@ import com.linhua.smartwatch.heartrate.HeartRateActivity
 import com.linhua.smartwatch.sleep.SleepActivity
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.IntentUtil
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.Goal
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRate
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthSport
@@ -33,6 +36,7 @@ import org.greenrobot.eventbus.ThreadMode
 class HomeFragment: BaseFragment(){
     private val RESULT_CODE_ADD = 1000
     var hostView: View? = null
+    private var refreshLayout: RefreshLayout? = null
     override fun initView(): View? {
         hostView = View.inflate(activity, R.layout.fragment_home,null) as View?
         hostView?.findViewById<ImageView>(R.id.iv_add)?.setOnClickListener {
@@ -42,6 +46,15 @@ class HomeFragment: BaseFragment(){
                     ScanDeviceReadyActivity::class.java,
                     RESULT_CODE_ADD
                 )
+            }
+        }
+
+        refreshLayout = hostView?.findViewById(R.id.refreshLayout) as RefreshLayout
+        refreshLayout!!.setRefreshHeader(ClassicsHeader(this.activity))
+
+        refreshLayout!!.apply {
+            setOnRefreshListener {
+                reloadView()
             }
         }
 
@@ -116,9 +129,13 @@ class HomeFragment: BaseFragment(){
         loadStatus()
         if (!DeviceManager.isSDKAvailable) {
             showToast(activity, resources.getString(R.string.sdk_not_available))
+            refreshLayout!!.finishRefresh(false)
             return
         }
-        if (DeviceManager.getConnectedDevice() == null)return
+        if (DeviceManager.getConnectedDevice() == null){
+            refreshLayout!!.finishRefresh(true)
+            return
+        }
         getTarget()
     }
 
@@ -168,12 +185,15 @@ class HomeFragment: BaseFragment(){
     private fun getCurrentRate() {
         BleSdkWrapper.getHeartRate(object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                refreshLayout!!.finishRefresh(true)
                 val heartRate = handlerBleDataResult.data as HealthHeartRate
                 hostView!!.findViewById<TextView>(R.id.tv_heart_rate_num).setText(heartRate.silentHeart.toString())
                 hostView!!.findViewById<TextView>(R.id.tv_pressure_value).setText(heartRate.ss.toString())
             }
 
-            override fun onFailed(e: WriteBleException) {}
+            override fun onFailed(e: WriteBleException) {
+                refreshLayout!!.finishRefresh(true)
+            }
         })
     }
 
