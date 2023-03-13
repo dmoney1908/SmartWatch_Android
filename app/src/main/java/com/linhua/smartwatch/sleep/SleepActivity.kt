@@ -61,8 +61,6 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     private var healthSleepItems = mutableListOf<List<HealthSleepItem>?>()
     private var trendSleepItems = mutableListOf<List<HealthSleepItem>?>()
     private var refreshLayout: RefreshLayout? = null
-//    private var daiySleepValues = mutableListOf<SleepModel>()
-//    private var trendSleepValues = mutableListOf<SleepModel>()
 
     override fun initData() {
         findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
@@ -94,7 +92,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                 selectDate(currentMonth)
             }
         }
-        findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = {  date : Date ->
+        findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = { date: Date ->
             selectDate(date)
         }
         findViewById<RelativeLayout>(R.id.rl_month).setOnClickListener {
@@ -106,12 +104,17 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             val monthSelected = calendar[Calendar.MONTH]
             MonthYearPickerDialogFragment.getInstance(monthSelected, yearSelected)
             calendar.clear()
-            calendar.set(2022,1,1)
+            calendar.set(2022, 1, 1)
             val minDate = calendar.timeInMillis // Get milliseconds of the modified date
             calendar.clear()
-            calendar.set(todayYear,todayMonth,1)
+            calendar.set(todayYear, todayMonth, 1)
             val maxDate = calendar.timeInMillis
-            val dialogFragment = MonthYearPickerDialogFragment.getInstance(monthSelected, yearSelected, minDate, maxDate)
+            val dialogFragment = MonthYearPickerDialogFragment.getInstance(
+                monthSelected,
+                yearSelected,
+                minDate,
+                maxDate
+            )
             dialogFragment.setOnDateSetListener { year, monthOfYear ->
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.YEAR, year)
@@ -206,8 +209,8 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                             val sleepItems =
                                 handlerBleDataResult.sleepItems
                             trendSleepItems.add(sleepItems)
-                            when(dateType) {
-                                DateType.Days-> {
+                            when (dateType) {
+                                DateType.Days -> {
                                     if (dateIndex >= 7) {
                                         return drawTrendChart()
                                     }
@@ -238,7 +241,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
 
-    private fun computeMath() :Triple<Int, Int, Int>?{
+    private fun computeMath(): Triple<Int, Int, Int>? {
         var deep = 0
         var light = 0
         var wide: Int = 0
@@ -247,21 +250,19 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         }
         val sleepItems = healthSleepItems.first()
 
-        for(item in sleepItems!!) {
+        for (item in sleepItems!!) {
             if (item.sleepStatus == 2) {
                 light += 10
-            }
-            else if (item.sleepStatus == 3) {
+            } else if (item.sleepStatus == 3) {
                 deep += 10
-            }
-            else if (item.sleepStatus == 4) {
+            } else if (item.sleepStatus == 4) {
                 wide += 10
             }
         }
         return Triple(deep, light, wide)
     }
 
-    private fun drawLatest(total:Int) {
+    private fun drawLatest(total: Int) {
         val hour = total / 60
         val minu = total % 60
         findViewById<TextView>(R.id.tv_duration_hr).text = String.format("%02d", hour)
@@ -269,7 +270,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawTrendChart() {
-        if (trendSleepItems.isEmpty())return
+        if (trendSleepItems.isEmpty()) return
         val trendItems = mutableListOf<Int>()
         for (items in trendSleepItems) {
             var sum = 0
@@ -277,15 +278,15 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(0)
                 break
             }
-            for(item in items) {
+            for (item in items) {
                 if (item.sleepStatus == 2 || item.sleepStatus == 3 || item.sleepStatus == 4) {
                     sum += 10
                 }
             }
             trendItems.add(sum)
         }
-        val total = when(dateType) {
-            DateType.Days-> 7
+        val total = when (dateType) {
+            DateType.Days -> 7
             DateType.Weeks -> 28
             DateType.Months -> 90
         }
@@ -304,43 +305,143 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         drawTrendAxis()
     }
 
-    private fun makeAttributeString(minute: Int):Spannable {
+    private fun makeAttributeString(minute: Int): Spannable {
         val hour = minute / 60
         val minu = minute % 60
         if (hour == 0) {
             val minText = "${minu}min"
             val minString: Spannable = SpannableString(minText)
-            minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), minText.length - 3, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), minText.length - 3, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            minString.setSpan(
+                StyleSpan(Typeface.BOLD),
+                0,
+                minText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+                0,
+                minText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+                0,
+                minText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+                minText.length - 3,
+                minText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+                minText.length - 3,
+                minText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
             return minString
-        } else if(minu == 0) {
+        } else if (minu == 0) {
             val minText = "${hour}hr"
             val minString: Spannable = SpannableString(minText)
-            minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), minText.length - 2, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), minText.length - 2, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            minString.setSpan(
+                StyleSpan(Typeface.BOLD),
+                0,
+                minText.length - 2,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+                0,
+                minText.length - 2,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+                0,
+                minText.length - 2,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+                minText.length - 2,
+                minText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+                minText.length - 2,
+                minText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
             return minString
         } else {
             val minText = "${minu}min"
             val minString: Spannable = SpannableString(minText)
-            minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), minText.length - 3, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), minText.length - 3, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            minString.setSpan(
+                StyleSpan(Typeface.BOLD),
+                0,
+                minText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+                0,
+                minText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+                0,
+                minText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+                minText.length - 3,
+                minText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            minString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+                minText.length - 3,
+                minText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
 
             val hourText = "${hour}hr "
             val hourString: Spannable = SpannableString(hourText)
-            hourString.setSpan(StyleSpan(Typeface.BOLD), 0, hourText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            hourString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, hourText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            hourString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, hourText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            hourString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), hourText.length - 3, hourText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            hourString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), hourText.length - 3, hourText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            hourString.setSpan(
+                StyleSpan(Typeface.BOLD),
+                0,
+                hourText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            hourString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+                0,
+                hourText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            hourString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+                0,
+                hourText.length - 3,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            hourString.setSpan(
+                AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+                hourText.length - 3,
+                hourText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            hourString.setSpan(
+                ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+                hourText.length - 3,
+                hourText.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
 
             val summary = SpannableStringBuilder()
             summary.append(hourString)
@@ -377,7 +478,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                     continue
                 }
                 when (item.sleepStatus) {
-                    2,3,4 ->{
+                    2, 3, 4 -> {
                         if (lastType != item.sleepStatus) {
                             lastModel = SleepStepModel()
                             lastModel.duration = 10
@@ -405,7 +506,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                 continue
             }
             when (item.sleepStatus) {
-                2,3,4 ->{
+                2, 3, 4 -> {
                     if (lastType != item.sleepStatus) {
                         lastModel = SleepStepModel()
                         lastModel.duration = 10
@@ -425,7 +526,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                 }
             }
         }
-        if (stepSleepValues.isEmpty())return
+        if (stepSleepValues.isEmpty()) return
         val totalMinute = 660F
         val relativeLayout = findViewById<RelativeLayout>(R.id.rl_step_chart)
         val px = ScreenUtil.dp2px(1F, this)
@@ -442,7 +543,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             layoutParams.marginStart = item.x
             view.layoutParams = layoutParams
             val drawable = view.background as GradientDrawable
-            when(item.type) {
+            when (item.type) {
                 2 -> {
                     item.y = (88F / 200 * relativeLayout.height).toInt()
                     layoutParams.topMargin = item.y
@@ -464,7 +565,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             relativeLayout.addView(view)
         }
         for (index in stepSleepValues.indices) {
-            if(index == 0) {
+            if (index == 0) {
                 continue
             }
             val leftNode = stepSleepValues[index - 1]
@@ -510,7 +611,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         }
     }
 
-    private fun getSleepColor(type: Int):Int {
+    private fun getSleepColor(type: Int): Int {
         return when (type) {
             2 -> {
                 ColorUtils.getColor(R.color.pink)
@@ -552,8 +653,8 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         linearLayout.removeAllViews()
         var mulity = 1
         var total = 7
-        when(dateType) {
-            DateType.Days-> {
+        when (dateType) {
+            DateType.Days -> {
                 total = 7
                 mulity = 1
             }
@@ -582,7 +683,12 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             textView.textSize = 10f
             textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
             // 参数：int autoSizeMinTextSize, int autoSizeMaxTextSize, int autoSizeStepGranularity, int unit
-            textView.setAutoSizeTextTypeUniformWithConfiguration(5, 10, 1, TypedValue.COMPLEX_UNIT_SP)
+            textView.setAutoSizeTextTypeUniformWithConfiguration(
+                5,
+                10,
+                1,
+                TypedValue.COMPLEX_UNIT_SP
+            )
             textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
             textView.gravity = Gravity.CENTER
             linearLayout.addView(textView)
@@ -722,7 +828,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             val x = (index + 1.0) / trendItems.count()
             values.add(Entry(x.toFloat(), item.toFloat()))
         }
-        val set1 = LineDataSet(values,"")
+        val set1 = LineDataSet(values, "")
         set1.setDrawIcons(false)
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)

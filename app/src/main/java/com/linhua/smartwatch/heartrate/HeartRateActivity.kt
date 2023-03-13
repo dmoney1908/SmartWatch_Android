@@ -1,6 +1,5 @@
 package com.linhua.smartwatch.heartrate
 
-import android.bluetooth.BluetoothClass.Device
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.Spannable
@@ -62,8 +61,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
         findViewById<View>(R.id.v_date_type).setOnClickListener {
             XPopup.Builder(this).atView(findViewById<View>(R.id.v_date_type)).asAttachList(
-                arrayOf("Days", "Weeks", "Months"),
-                null
+                arrayOf("Days", "Weeks", "Months"), null
             ) { _, text ->
                 if (dateType == DateType.valueOf(text)) return@asAttachList
                 dateType = DateType.valueOf(text)
@@ -88,7 +86,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<ImageView>(R.id.base_title_back).setOnClickListener {
             onBackPressed()
         }
-        findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = {  date : Date ->
+        findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = { date: Date ->
             selectDate(date)
         }
         findViewById<RelativeLayout>(R.id.rl_month).setOnClickListener {
@@ -100,12 +98,14 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             val monthSelected = calendar[Calendar.MONTH]
             MonthYearPickerDialogFragment.getInstance(monthSelected, yearSelected)
             calendar.clear()
-            calendar.set(2022,1,1)
+            calendar.set(2022, 1, 1)
             val minDate = calendar.timeInMillis // Get milliseconds of the modified date
             calendar.clear()
-            calendar.set(todayYear,todayMonth,1)
+            calendar.set(todayYear, todayMonth, 1)
             val maxDate = calendar.timeInMillis
-            val dialogFragment = MonthYearPickerDialogFragment.getInstance(monthSelected, yearSelected, minDate, maxDate)
+            val dialogFragment = MonthYearPickerDialogFragment.getInstance(
+                monthSelected, yearSelected, minDate, maxDate
+            )
             dialogFragment.setOnDateSetListener { year, monthOfYear ->
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.YEAR, year)
@@ -140,8 +140,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         val year: Int = todayCalendar.get(Calendar.YEAR)
         val month: Int = todayCalendar.get(Calendar.MONTH) + 1
         val day: Int = todayCalendar.get(Calendar.DATE)
-        BleSdkWrapper.getHistoryHeartRateData(
-            year,
+        BleSdkWrapper.getHistoryHeartRateData(year,
             month,
             day,
             object : OnLeWriteCharacteristicListener() {
@@ -176,8 +175,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         val year: Int = trendCalendar.get(Calendar.YEAR)
         val month: Int = trendCalendar.get(Calendar.MONTH) + 1
         val day: Int = trendCalendar.get(Calendar.DATE)
-        BleSdkWrapper.getHistoryHeartRateData(
-            year,
+        BleSdkWrapper.getHistoryHeartRateData(year,
             month,
             day,
             object : OnLeWriteCharacteristicListener() {
@@ -187,8 +185,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                             val healthHeartRateItems =
                                 handlerBleDataResult.data as List<HealthHeartRateItem>
                             trendHeartRateItems.add(healthHeartRateItems)
-                            when(dateType) {
-                                DateType.Days-> {
+                            when (dateType) {
+                                DateType.Days -> {
                                     if (dateIndex >= 7) {
                                         return drawTrendChart()
                                     }
@@ -217,7 +215,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             })
     }
 
-    private fun computeMath() :Triple<Int, Int, Int>?{
+    private fun computeMath(): Triple<Int, Int, Int>? {
         var min = 300
         var max = 0
         var average: Int = 0
@@ -226,7 +224,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         if (healthHeartRateItemsAll.isEmpty()) {
             return Triple(0, max, average)
         }
-        for(item in healthHeartRateItemsAll) {
+        for (item in healthHeartRateItemsAll) {
             if (item!!.heartRaveValue > max) {
                 max = item.heartRaveValue
             }
@@ -248,9 +246,10 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawLatest() {
-        for(item in healthHeartRateItemsAll.reversed()) {
+        for (item in healthHeartRateItemsAll.reversed()) {
             if (item!!.heartRaveValue > 10) {
-                findViewById<TextView>(R.id.tv_last_time).text = String.format("%02d:%02d", item!!.hour, item!!.minuter)
+                findViewById<TextView>(R.id.tv_last_time).text =
+                    String.format("%02d:%02d", item!!.hour, item!!.minuter)
                 findViewById<TextView>(R.id.tv_hr).text = item.heartRaveValue.toString()
                 return
             }
@@ -259,7 +258,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
 
     private fun drawTrendChart() {
-        if (trendHeartRateItems.isEmpty())return
+        if (trendHeartRateItems.isEmpty()) return
         val trendItems = mutableListOf<Int>()
         for (items in trendHeartRateItems) {
             var average: Int = 0
@@ -269,7 +268,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(0)
                 break
             }
-            for(item in items) {
+            for (item in items) {
                 if (item.heartRaveValue > 10) {
                     sum += item.heartRaveValue
                     valid++
@@ -282,8 +281,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(0)
             }
         }
-        val total = when(dateType) {
-            DateType.Days-> 7
+        val total = when (dateType) {
+            DateType.Days -> 7
             DateType.Weeks -> 28
             DateType.Months -> 90
         }
@@ -308,29 +307,95 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         val (min, max, average) = item
         val minText = "$min Bpm"
         val minString: Spannable = SpannableString(minText)
-        minString.setSpan(StyleSpan(Typeface.BOLD), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        minString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), minText.length - 4, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        minString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), minText.length - 4, minText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        minString.setSpan(
+            StyleSpan(Typeface.BOLD), 0, minText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            minText.length - 4,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            minText.length - 4,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            minText.length - 4,
+            minText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            minText.length - 4,
+            minText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
         findViewById<TextView>(R.id.tv_lowest_value).text = minString
 
         val maxText = "$max Bpm"
         val maxString: Spannable = SpannableString(maxText)
-        maxString.setSpan(StyleSpan(Typeface.BOLD), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        maxString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        maxString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        maxString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), maxText.length - 4, maxText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        maxString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), maxText.length - 4, maxText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        maxString.setSpan(
+            StyleSpan(Typeface.BOLD), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            maxText.length - 4,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            maxText.length - 4,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            maxText.length - 4,
+            maxText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            maxText.length - 4,
+            maxText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
         findViewById<TextView>(R.id.tv_highest_value).text = maxString
 
         val averageText = "$average Bpm"
         val averageString: Spannable = SpannableString(averageText)
-        averageString.setSpan(StyleSpan(Typeface.BOLD), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), averageText.length - 4, averageText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), averageText.length - 4, averageText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        averageString.setSpan(
+            StyleSpan(Typeface.BOLD), 0, averageText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            averageText.length - 4,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            averageText.length - 4,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            averageText.length - 4,
+            averageText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            averageText.length - 4,
+            averageText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
         findViewById<TextView>(R.id.tv_average_value).text = averageString
         drawLatest()
         setupDailyData()
@@ -343,9 +408,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         for (i in 0..4) {
             val textView = TextView(linearLayout.context)
             val layoutParams = LinearLayout.LayoutParams(
-                0,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                1.0f
+                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
             )
             textView.layoutParams = layoutParams
             textView.text = String.format("%02d:00", i * 6)
@@ -361,8 +424,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         linearLayout.removeAllViews()
         var mulity = 1
         var total = 7
-        when(dateType) {
-            DateType.Days-> {
+        when (dateType) {
+            DateType.Days -> {
                 total = 7
                 mulity = 1
             }
@@ -380,9 +443,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             val current = total - i - 1
             val textView = TextView(linearLayout.context)
             val layoutParams = LinearLayout.LayoutParams(
-                0,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                1.0f
+                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
             )
             val calendar = Calendar.getInstance()
             calendar.add(Calendar.DATE, -1 * current * mulity)
@@ -391,7 +452,9 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             textView.textSize = 10f
             textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
             // 参数：int autoSizeMinTextSize, int autoSizeMaxTextSize, int autoSizeStepGranularity, int unit
-            textView.setAutoSizeTextTypeUniformWithConfiguration(5, 10, 1, TypedValue.COMPLEX_UNIT_SP)
+            textView.setAutoSizeTextTypeUniformWithConfiguration(
+                5, 10, 1, TypedValue.COMPLEX_UNIT_SP
+            )
             textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
             textView.gravity = Gravity.CENTER
             linearLayout.addView(textView)
@@ -494,7 +557,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             val value = item!!.heartRaveValue
             values.add(Entry(x.toFloat(), value.toFloat()))
         }
-        val set1 = LineDataSet(values,"")
+        val set1 = LineDataSet(values, "")
         set1.setDrawIcons(false)
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)
@@ -503,7 +566,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         // line thickness and point size
         set1.lineWidth = 1f
 
-            // draw points as solid circles
+        // draw points as solid circles
         set1.setDrawCircleHole(false)
         set1.color = ColorUtils.getColor(R.color.primary_blue)
 
@@ -514,7 +577,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         set1.setDrawFilled(true)
         set1.fillFormatter =
             IFillFormatter { dataSet, dataProvider -> chart!!.axisLeft.axisMinimum }
-            // set color of filled area
+        // set color of filled area
         if (Utils.getSDKInt() >= 18) {
             // drawables only supported on api level 18 and above
             val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_hr)
@@ -541,7 +604,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             val x = (index + 1.0) / trendItems.count()
             values.add(Entry(x.toFloat(), item.toFloat()))
         }
-        val set1 = LineDataSet(values,"")
+        val set1 = LineDataSet(values, "")
         set1.setDrawIcons(false)
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)

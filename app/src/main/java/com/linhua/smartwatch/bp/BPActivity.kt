@@ -75,7 +75,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                 syncTrendHeartHistory()
             }.show()
         }
-        findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = {  date : Date ->
+        findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = { date: Date ->
             selectDate(date)
         }
         refreshLayout = findViewById(R.id.refreshLayout) as RefreshLayout
@@ -98,12 +98,17 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             val monthSelected = calendar[Calendar.MONTH]
             MonthYearPickerDialogFragment.getInstance(monthSelected, yearSelected)
             calendar.clear()
-            calendar.set(2022,1,1)
+            calendar.set(2022, 1, 1)
             val minDate = calendar.timeInMillis // Get milliseconds of the modified date
             calendar.clear()
-            calendar.set(todayYear,todayMonth,1)
+            calendar.set(todayYear, todayMonth, 1)
             val maxDate = calendar.timeInMillis
-            val dialogFragment = MonthYearPickerDialogFragment.getInstance(monthSelected, yearSelected, minDate, maxDate)
+            val dialogFragment = MonthYearPickerDialogFragment.getInstance(
+                monthSelected,
+                yearSelected,
+                minDate,
+                maxDate
+            )
             dialogFragment.setOnDateSetListener { year, monthOfYear ->
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.YEAR, year)
@@ -185,8 +190,8 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                             val healthHeartRateItems =
                                 handlerBleDataResult.data as List<HealthHeartRateItem>
                             trendHeartRateItems.add(healthHeartRateItems)
-                            when(dateType) {
-                                DateType.Days-> {
+                            when (dateType) {
+                                DateType.Days -> {
                                     if (dateIndex >= 7) {
                                         return drawTrendChart()
                                     }
@@ -217,7 +222,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
 
-    private fun computeMath() :BPMathModel?{
+    private fun computeMath(): BPMathModel? {
         var minFZ = 300
         var maxSS = 0
         var averageSS = 0
@@ -229,7 +234,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         if (healthHeartRateItemsAll.isEmpty()) {
             return null
         }
-        for(item in healthHeartRateItemsAll) {
+        for (item in healthHeartRateItemsAll) {
             if (item!!.ss > maxSS) {
                 maxSS = item.ss
             }
@@ -255,9 +260,10 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawLatest() {
-        for(item in healthHeartRateItemsAll.reversed()) {
+        for (item in healthHeartRateItemsAll.reversed()) {
             if (item!!.fz > 10 && item.ss > 10) {
-                findViewById<TextView>(R.id.tv_last_time).text = String.format("%02d:%02d", item.hour, item.minuter)
+                findViewById<TextView>(R.id.tv_last_time).text =
+                    String.format("%02d:%02d", item.hour, item.minuter)
                 findViewById<TextView>(R.id.tv_bp).text = String.format("%d/%d", item.ss, item.fz)
                 return
             }
@@ -265,7 +271,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawTrendChart() {
-        if (trendHeartRateItems.isEmpty())return
+        if (trendHeartRateItems.isEmpty()) return
         val trendItems = mutableListOf<BPModel>()
         for (items in trendHeartRateItems) {
             var averageSS = 0
@@ -278,7 +284,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(BPModel(averageSS, averageFZ))
                 break
             }
-            for(item in items) {
+            for (item in items) {
                 if (item.ss > 10) {
                     sumSS += item.ss
                     validSS++
@@ -296,8 +302,8 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendItems.add(BPModel(0, 0))
             }
         }
-        val total = when(dateType) {
-            DateType.Days-> 7
+        val total = when (dateType) {
+            DateType.Days -> 7
             DateType.Weeks -> 28
             DateType.Months -> 90
         }
@@ -321,20 +327,70 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         val item = computeMath() ?: return
         val rangeText = "${item.maxSS}/${item.minFZ}  MmHg"
         val rangeString: Spannable = SpannableString(rangeText)
-        rangeString.setSpan(StyleSpan(Typeface.BOLD), 0, rangeText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        rangeString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, rangeText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        rangeString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, rangeText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        rangeString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), rangeText.length - 5, rangeText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        rangeString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), rangeText.length - 5, rangeText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        rangeString.setSpan(
+            StyleSpan(Typeface.BOLD),
+            0,
+            rangeText.length - 5,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        rangeString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            rangeText.length - 5,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        rangeString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            rangeText.length - 5,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        rangeString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            rangeText.length - 5,
+            rangeText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        rangeString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            rangeText.length - 5,
+            rangeText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
         findViewById<TextView>(R.id.tv_range_value).text = rangeString
 
         val averageText = "${item.averageSS}/${item.averageFZ}  MmHg"
         val averageString: Spannable = SpannableString(averageText)
-        averageString.setSpan(StyleSpan(Typeface.BOLD), 0, averageText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.dark)), 0, averageText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)), 0, averageText.length - 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)), averageText.length - 5, averageText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        averageString.setSpan(ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)), averageText.length - 5, averageText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        averageString.setSpan(
+            StyleSpan(Typeface.BOLD),
+            0,
+            averageText.length - 5,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            averageText.length - 5,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            averageText.length - 5,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            averageText.length - 5,
+            averageText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            averageText.length - 5,
+            averageText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
         findViewById<TextView>(R.id.tv_average_value).text = averageString
         drawLatest()
         setupDailyData()
@@ -365,8 +421,8 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         linearLayout.removeAllViews()
         var mulity = 1
         var total = 7
-        when(dateType) {
-            DateType.Days-> {
+        when (dateType) {
+            DateType.Days -> {
                 total = 7
                 mulity = 1
             }
@@ -395,13 +451,17 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             textView.textSize = 10f
             textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
             // 参数：int autoSizeMinTextSize, int autoSizeMaxTextSize, int autoSizeStepGranularity, int unit
-            textView.setAutoSizeTextTypeUniformWithConfiguration(5, 10, 1, TypedValue.COMPLEX_UNIT_SP)
+            textView.setAutoSizeTextTypeUniformWithConfiguration(
+                5,
+                10,
+                1,
+                TypedValue.COMPLEX_UNIT_SP
+            )
             textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
             textView.gravity = Gravity.CENTER
             linearLayout.addView(textView)
         }
     }
-
 
     private fun selectDate(date: Date) {
         todayCalendar.time = date
@@ -499,7 +559,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             values1.add(Entry(x.toFloat(), item!!.ss.toFloat()))
             values2.add(Entry(x.toFloat(), item.fz.toFloat()))
         }
-        val set1 = LineDataSet(values1,"")
+        val set1 = LineDataSet(values1, "")
         set1.setDrawIcons(false)
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)
@@ -529,7 +589,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             set1.fillColor = Color.WHITE
         }
 
-        val set2 = LineDataSet(values2,"")
+        val set2 = LineDataSet(values2, "")
         set2.setDrawIcons(false)
         set2.setDrawCircleHole(false)
         set2.setDrawCircles(false)
@@ -580,7 +640,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             values1.add(Entry(x.toFloat(), item.averageSS.toFloat()))
             values2.add(Entry(x.toFloat(), item.averageFZ.toFloat()))
         }
-        val set1 = LineDataSet(values1,"")
+        val set1 = LineDataSet(values1, "")
         set1.setDrawIcons(false)
         set1.setDrawCircleHole(false)
         set1.setDrawCircles(false)
@@ -609,7 +669,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             set1.fillColor = Color.WHITE
         }
 
-        val set2 = LineDataSet(values2,"")
+        val set2 = LineDataSet(values2, "")
         set2.setDrawIcons(false)
         set2.setDrawCircleHole(false)
         set2.setDrawCircles(false)
