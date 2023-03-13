@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.utils.DateUtil
 import com.linhua.smartwatch.utils.ScreenUtil
-import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 import java.util.*
 
 
@@ -86,13 +85,12 @@ class ScrollDateView(context: Context, attrs: AttributeSet?) : HorizontalScrollV
                 dateItem.setFillMode(DateItemView.FillMode.Gray)
                 dateItem.alpha = 0.3F
             }
-
         }
         var itemWidth = ScreenUtil.dp2px(48f, context)
         var width = ScreenUtil.getScreenWidth(this.context)
         var offset = selectedIndex * itemWidth - width / 2 + itemWidth / 2
         if (offset < 0) offset = 0
-        this.smoothScrollTo(offset, 0)
+        post(Runnable { smoothScrollTo(offset, 0) })
     }
 
     private fun selectDayAction(selectDay: Int, date: Date) {

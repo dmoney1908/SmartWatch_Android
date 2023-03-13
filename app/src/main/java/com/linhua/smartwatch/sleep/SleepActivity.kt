@@ -36,9 +36,12 @@ import com.linhua.smartwatch.chart.MyMarkerView
 import com.linhua.smartwatch.monthpicker.MonthYearPickerDialogFragment
 import com.linhua.smartwatch.utils.DateType
 import com.linhua.smartwatch.utils.DateUtil
+import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.ScreenUtil
 import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthSleepItem
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
@@ -57,7 +60,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     private var trendCalendar = Calendar.getInstance()
     private var healthSleepItems = mutableListOf<List<HealthSleepItem>?>()
     private var trendSleepItems = mutableListOf<List<HealthSleepItem>?>()
-
+    private var refreshLayout: RefreshLayout? = null
 //    private var daiySleepValues = mutableListOf<SleepModel>()
 //    private var trendSleepValues = mutableListOf<SleepModel>()
 
@@ -79,6 +82,17 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         }
         findViewById<ImageView>(R.id.base_title_back).setOnClickListener {
             onBackPressed()
+        }
+        refreshLayout = findViewById(R.id.refreshLayout) as RefreshLayout
+        refreshLayout!!.setRefreshHeader(ClassicsHeader(this))
+
+        refreshLayout!!.apply {
+            setOnRefreshListener {
+                currentMonth = Date()
+                findViewById<ScrollDateView>(R.id.rl_scroll).updateMonthUI(currentMonth)
+                findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(currentMonth)
+                selectDate(currentMonth)
+            }
         }
         findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = {  date : Date ->
             selectDate(date)
@@ -129,6 +143,9 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun syncDailySleepHistory() {
+        if (!DeviceManager.isSDKAvailable || DeviceManager.getConnectedDevice() == null) {
+            refreshLayout!!.finishRefresh(false)
+        }
         dailyDateIndex++
         val year: Int = todayCalendar.get(Calendar.YEAR)
         val month: Int = todayCalendar.get(Calendar.MONTH) + 1
@@ -150,6 +167,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                                 if (needSyncTrend) {
                                     syncTrendSleepHistory()
                                 }
+                                refreshLayout!!.finishRefresh(true)
                                 return
                             }
                             todayCalendar.add(Calendar.DATE, -1)
@@ -167,6 +185,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                     if (needSyncTrend) {
                         syncTrendSleepHistory()
                     }
+                    refreshLayout!!.finishRefresh(false)
                 }
             })
     }

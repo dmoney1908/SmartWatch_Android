@@ -34,8 +34,11 @@ import com.linhua.smartwatch.chart.MyMarkerView
 import com.linhua.smartwatch.monthpicker.MonthYearPickerDialogFragment
 import com.linhua.smartwatch.utils.DateType
 import com.linhua.smartwatch.utils.DateUtil
+import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRateItem
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
@@ -51,6 +54,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     private var trendCalendar = Calendar.getInstance()
     private var healthHeartRateItemsAll = mutableListOf<HealthHeartRateItem?>()
     private var trendHeartRateItems = mutableListOf<List<HealthHeartRateItem>?>()
+    private var refreshLayout: RefreshLayout? = null
 
     override fun initData() {
         findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
@@ -73,6 +77,17 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         }
         findViewById<ScrollDateView>(R.id.rl_scroll).selectCallBack = {  date : Date ->
             selectDate(date)
+        }
+        refreshLayout = findViewById(R.id.refreshLayout) as RefreshLayout
+        refreshLayout!!.setRefreshHeader(ClassicsHeader(this))
+
+        refreshLayout!!.apply {
+            setOnRefreshListener {
+                currentMonth = Date()
+                findViewById<ScrollDateView>(R.id.rl_scroll).updateMonthUI(currentMonth)
+                findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(currentMonth)
+                selectDate(currentMonth)
+            }
         }
         findViewById<RelativeLayout>(R.id.rl_month).setOnClickListener {
             val calendar = Calendar.getInstance()
@@ -116,6 +131,9 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun syncDailyHeartHistory() {
+        if (!DeviceManager.isSDKAvailable || DeviceManager.getConnectedDevice() == null) {
+            refreshLayout!!.finishRefresh(false)
+        }
         healthHeartRateItemsAll.clear()
         val year: Int = todayCalendar.get(Calendar.YEAR)
         val month: Int = todayCalendar.get(Calendar.MONTH) + 1
@@ -136,6 +154,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                         if (needSyncTrend) {
                             syncTrendHeartHistory()
                         }
+                        refreshLayout!!.finishRefresh(true)
                     }
                 }
 
@@ -143,6 +162,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                     if (needSyncTrend) {
                         syncTrendHeartHistory()
                     }
+                    refreshLayout!!.finishRefresh(false)
                 }
             })
     }
@@ -232,7 +252,6 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         } else {
             null
         }
-
     }
 
     private fun drawLatest() {
@@ -240,12 +259,10 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
             if (item!!.fz > 10 && item.ss > 10) {
                 findViewById<TextView>(R.id.tv_last_time).text = String.format("%02d:%02d", item.hour, item.minuter)
                 findViewById<TextView>(R.id.tv_bp).text = String.format("%d/%d", item.ss, item.fz)
-
                 return
             }
         }
     }
-
 
     private fun drawTrendChart() {
         if (trendHeartRateItems.isEmpty())return

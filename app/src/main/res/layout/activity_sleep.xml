@@ -1,434 +1,450 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".heartrate.HeartRateActivity">
+    android:layout_height="match_parent">
+
     <RelativeLayout
-        android:id="@+id/rl_top"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="60dp">
-        <ImageView
-            android:layout_width="22dp"
-            android:id="@+id/base_title_back"
-            android:layout_height="22dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_navigation_back" />
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="@string/sleep">
-        </TextView>
-        <RelativeLayout
-            android:id="@+id/rl_month"
-            android:layout_width="118dp"
-            android:background="@drawable/light_blue_corner_shape"
-            android:layout_height="34dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:textSize="13dp"
-                android:textStyle="bold"
-                android:layout_centerVertical="true"
-
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="30dp"
-                android:gravity="center_vertical|right"
-                android:text="Augest,2023">
-            </TextView>
-            <ImageView
-                android:id="@+id/iv_down"
-                android:layout_height="14dp"
-                android:layout_width="14dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/main_arrow_down"
-                android:layout_marginTop="0dp"
-                android:layout_marginLeft="0dp">
-            </ImageView>
-
-        </RelativeLayout>
-    </RelativeLayout>
-    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+        tools:context=".heartrate.HeartRateActivity">
 
-            <com.linhua.smartwatch.view.ScrollDateView
-                android:id="@+id/rl_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="79dp"
-                tools:ignore="SpeakableTextPresentCheck" />
-    <RelativeLayout
-        android:id="@+id/rl_pie"
-        android:layout_below="@+id/rl_scroll"
-        android:layout_width="205dp"
-        android:layout_marginTop="24dp"
-        android:layout_height="205dp"
-        android:layout_centerHorizontal="true">
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pc_daily_chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
         <RelativeLayout
-            android:id="@+id/rl_duration"
-            android:layout_width="105dp"
+            android:id="@+id/rl_top"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_centerInParent="true">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
             <ImageView
-                android:id="@+id/iv_clock"
-                android:layout_height="match_parent"
-                android:layout_width="3dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/main_time_sperator">
-            </ImageView>
-            <TextView
-                android:id="@+id/tv_duration_hr"
-                android:textColor="@color/dark"
-                android:layout_width="50dp"
-                android:layout_height="48dp"
-                android:textSize="40dp"
-                android:autoSizeMaxTextSize="40dp"
-                android:autoSizeTextType="uniform"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:text="-">
-            </TextView>
-            <TextView
-                android:id="@+id/tv_duration_min"
-                android:textColor="@color/dark"
-                android:layout_width="50dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:textSize="40dp"
-                android:autoSizeMaxTextSize="40dp"
-                android:autoSizeTextType="uniform"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:text="-">
-            </TextView>
-            <TextView
-                android:textColor="@color/primary_blue"
-                android:layout_below="@+id/tv_duration_hr"
-                android:layout_alignParentBottom="true"
-                android:layout_width="50dp"
-                android:layout_height="12dp"
-                android:textSize="10dp"
-                android:textStyle="normal"
-                android:gravity="center"
-                android:text="@string/hour">
-            </TextView>
-            <TextView
-                android:textColor="@color/primary_blue"
-                android:layout_below="@+id/tv_duration_min"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width="50dp"
-                android:layout_height="12dp"
-                android:textSize="10dp"
-                android:textStyle="normal"
-                android:gravity="center"
-                android:text="@string/minute">
-            </TextView>
+                android:id="@+id/base_title_back"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_navigation_back" />
 
-        </RelativeLayout>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/sleep"
+                android:textSize="16dp"
+                android:textStyle="bold"></TextView>
 
-    <LinearLayout
-        android:id="@+id/ll_hr_category"
-        android:layout_below="@+id/rl_pie"
-        android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_height="70dp"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/rl_deepsleep"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/lowest_corner_shape"
-            android:layout_weight="1"
-            >
-            <TextView
-                android:id="@+id/tv_deepsleep_value"
-                android:textColor="@color/primary_black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textSize="14dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
-                android:gravity="center"
-                android:text="--">
-            </TextView>
-            <TextView
-                android:textColor="@color/orange"
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="12dp"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:textStyle="normal"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="@string/deep_sleep">
-            </TextView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_light_sleep"
-            android:layout_toEndOf="@+id/rl_lowest"
-            android:layout_width="0dp"
-            android:layout_marginStart="12dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/average_corner_shape"
-            android:layout_weight="1" >
-            <TextView
-                android:id="@+id/tv_light_value"
-                android:textColor="@color/primary_black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textSize="14dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
-                android:gravity="center"
-                android:text="--">
-            </TextView>
-            <TextView
-                android:textColor="@color/pink"
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="12dp"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:textStyle="normal"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="@string/light_sleep">
-            </TextView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_awake"
-            android:layout_toEndOf="@+id/rl_light_sleep"
-            android:layout_width="0dp"
-            android:layout_marginStart="12dp"
-            android:layout_alignParentRight="true"
-            android:layout_height="match_parent"
-            android:background="@drawable/highest_corner_shape"
-            android:layout_weight="1"
-            >
-            <TextView
-                android:id="@+id/tv_awake_value"
-                android:textColor="@color/primary_black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textSize="14dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
-                android:gravity="center"
-                android:text="--">
-            </TextView>
-            <TextView
-                android:textColor="@color/red"
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="12dp"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:textStyle="normal"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="@string/wide_awake">
-            </TextView>
-        </RelativeLayout>
-    </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/rl_step_host"
-        android:layout_below="@+id/ll_hr_category"
-        android:background="@drawable/gray_corner_shape"
-        android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="240dp"
-        android:layout_marginTop="20dp">
-        <LinearLayout
-            android:id="@+id/rl_step_title"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="40dp">
-        </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/rl_step_chart_host"
-            android:layout_width="match_parent"
-            android:layout_marginTop="40dp"
-            android:layout_height="200dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="match_parent"
-                >
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                    <RelativeLayout
-                        android:layout_width="1dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@color/light_gary2"
-                        android:layout_height="match_parent">
-                    </RelativeLayout>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                    <RelativeLayout
-                        android:layout_width="1dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@color/light_gary2"
-                        android:layout_height="match_parent">
-                    </RelativeLayout>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                    <RelativeLayout
-                        android:layout_width="1dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@color/light_gary2"
-                        android:layout_height="match_parent">
-                    </RelativeLayout>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                    <RelativeLayout
-                        android:layout_width="1dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@color/light_gary2"
-                        android:layout_height="match_parent">
-                    </RelativeLayout>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                </RelativeLayout>
-            </LinearLayout>
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:background="@color/light_gary2"
-                android:layout_height="1dp">
+                android:id="@+id/rl_month"
+                android:layout_width="118dp"
+                android:layout_height="34dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/light_blue_corner_shape">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="19dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="30dp"
+
+                    android:gravity="center_vertical|right"
+                    android:text="Augest,2023"
+                    android:textSize="13dp"
+                    android:textStyle="bold"></TextView>
+
+                <ImageView
+                    android:id="@+id/iv_down"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/main_arrow_down"></ImageView>
+
             </RelativeLayout>
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical">
+
             <RelativeLayout
-                android:id="@+id/rl_step_chart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <com.linhua.smartwatch.view.ScrollDateView
+                    android:id="@+id/rl_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="79dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_pie"
+                    android:layout_width="205dp"
+                    android:layout_height="205dp"
+                    android:layout_below="@+id/rl_scroll"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="24dp">
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pc_daily_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_duration"
+                        android:layout_width="105dp"
+                        android:layout_height="60dp"
+                        android:layout_centerInParent="true">
+
+                        <ImageView
+                            android:id="@+id/iv_clock"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/main_time_sperator"></ImageView>
+
+                        <TextView
+                            android:id="@+id/tv_duration_hr"
+                            android:layout_width="50dp"
+                            android:layout_height="48dp"
+                            android:autoSizeMaxTextSize="40dp"
+                            android:autoSizeTextType="uniform"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/dark"
+                            android:textSize="40dp"
+                            android:textStyle="bold"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_duration_min"
+                            android:layout_width="50dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentEnd="true"
+                            android:autoSizeMaxTextSize="40dp"
+                            android:autoSizeTextType="uniform"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/dark"
+                            android:textSize="40dp"
+                            android:textStyle="bold"></TextView>
+
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="12dp"
+                            android:layout_below="@+id/tv_duration_hr"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center"
+                            android:text="@string/hour"
+                            android:textColor="@color/primary_blue"
+                            android:textSize="10dp"
+                            android:textStyle="normal"></TextView>
+
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="12dp"
+                            android:layout_below="@+id/tv_duration_min"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center"
+                            android:text="@string/minute"
+                            android:textColor="@color/primary_blue"
+                            android:textSize="10dp"
+                            android:textStyle="normal"></TextView>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_hr_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/rl_pie"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_deepsleep"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/lowest_corner_shape">
+
+                        <TextView
+                            android:id="@+id/tv_deepsleep_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginStart="14dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="14dp"
+                            android:gravity="center"
+                            android:text="--"
+                            android:textColor="@color/primary_black"
+                            android:textSize="14dp"></TextView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="12dp"
+                            android:gravity="center"
+                            android:text="@string/deep_sleep"
+                            android:textColor="@color/orange"
+                            android:textSize="12dp"
+                            android:textStyle="normal"></TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_light_sleep"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@+id/rl_lowest"
+                        android:layout_weight="1"
+                        android:background="@drawable/average_corner_shape">
+
+                        <TextView
+                            android:id="@+id/tv_light_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginStart="14dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="14dp"
+                            android:gravity="center"
+                            android:text="--"
+                            android:textColor="@color/primary_black"
+                            android:textSize="14dp"></TextView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="12dp"
+                            android:gravity="center"
+                            android:text="@string/light_sleep"
+                            android:textColor="@color/pink"
+                            android:textSize="12dp"
+                            android:textStyle="normal"></TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_awake"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@+id/rl_light_sleep"
+                        android:layout_weight="1"
+                        android:background="@drawable/highest_corner_shape">
+
+                        <TextView
+                            android:id="@+id/tv_awake_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginStart="14dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="14dp"
+                            android:gravity="center"
+                            android:text="--"
+                            android:textColor="@color/primary_black"
+                            android:textSize="14dp"></TextView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="12dp"
+                            android:gravity="center"
+                            android:text="@string/wide_awake"
+                            android:textColor="@color/red"
+                            android:textSize="12dp"
+                            android:textStyle="normal"></TextView>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_step_host"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_below="@+id/ll_hr_category"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/gray_corner_shape">
+
+                    <LinearLayout
+                        android:id="@+id/rl_step_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_step_chart_host"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="40dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <RelativeLayout
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@color/light_gary2"></RelativeLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <RelativeLayout
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@color/light_gary2"></RelativeLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <RelativeLayout
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@color/light_gary2"></RelativeLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <RelativeLayout
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@color/light_gary2"></RelativeLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"></RelativeLayout>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/light_gary2"></RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_step_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"></RelativeLayout>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_trend"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_below="@+id/rl_step_host"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/sleep_record"
+                        android:textColor="@color/dark"
+                        android:textSize="18dp"
+                        android:textStyle="bold"></TextView>
+
+                    <View
+                        android:id="@+id/v_date_type"
+                        android:layout_width="78dp"
+                        android:layout_height="32dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/blue_corner_shape"></View>
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/main_date_type"></ImageView>
+
+                    <TextView
+                        android:id="@+id/iv_date_type"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/iv_arrow"
+                        android:autoSizeMaxTextSize="14dp"
+                        android:autoSizeTextType="uniform"
+                        android:gravity="center"
+                        android:src="@drawable/arrow_date_type"
+                        android:text="@string/days"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        android:textStyle="bold"></TextView>
+
+                </RelativeLayout>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lc_trend_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="164dp"
+                    android:layout_below="@+id/rl_trend"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_trend_axis"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lc_trend_chart"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal" />
+
             </RelativeLayout>
-
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_trend"
-        android:layout_below="@+id/rl_step_host"
-        android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="20dp"
-        >
-        <TextView
-            android:textColor="@color/dark"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:gravity="center_vertical|left"
-            android:text="@string/sleep_record">
-        </TextView>
-
-        <View
-            android:layout_width="78dp"
-            android:id="@+id/v_date_type"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/blue_corner_shape"
-            android:layout_height="32dp">
-        </View>
-        <ImageView
-            android:id="@+id/iv_arrow"
-            android:layout_height="16dp"
-            android:layout_width="16dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/main_date_type">
-        </ImageView>
-        <TextView
-            android:id="@+id/iv_date_type"
-            android:textColor="@color/white"
-            android:layout_width="50dp"
-            android:layout_toStartOf="@+id/iv_arrow"
-            android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:autoSizeMaxTextSize="14dp"
-            android:autoSizeTextType="uniform"
-            android:layout_centerVertical="true"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:src="@drawable/arrow_date_type"
-            android:text="@string/days">
-        </TextView>
+        </ScrollView>
 
     </RelativeLayout>
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lc_trend_chart"
-        android:layout_below="@+id/rl_trend"
-        android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="164dp" />
-
-            <LinearLayout
-                android:id="@+id/ll_trend_axis"
-                android:layout_below="@+id/lc_trend_chart"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="-10dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:orientation="horizontal"/>
-
-        </RelativeLayout>
-    </ScrollView>
-
-</RelativeLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

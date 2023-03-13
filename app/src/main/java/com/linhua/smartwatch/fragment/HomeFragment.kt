@@ -20,7 +20,6 @@ import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.IntentUtil
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.Goal
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRate
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthSport

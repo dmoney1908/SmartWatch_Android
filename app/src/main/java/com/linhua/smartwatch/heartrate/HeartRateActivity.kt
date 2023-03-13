@@ -1,5 +1,6 @@
 package com.linhua.smartwatch.heartrate
 
+import android.bluetooth.BluetoothClass.Device
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.Spannable
@@ -16,7 +17,6 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat.AutoSizeTextType
 import com.blankj.utilcode.util.ColorUtils
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -35,8 +35,11 @@ import com.linhua.smartwatch.chart.MyMarkerView
 import com.linhua.smartwatch.monthpicker.MonthYearPickerDialogFragment
 import com.linhua.smartwatch.utils.DateType
 import com.linhua.smartwatch.utils.DateUtil
+import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRateItem
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
@@ -53,6 +56,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     private var trendCalendar = Calendar.getInstance()
     private var healthHeartRateItemsAll = mutableListOf<HealthHeartRateItem?>()
     private var trendHeartRateItems = mutableListOf<List<HealthHeartRateItem>?>()
+    private var refreshLayout: RefreshLayout? = null
 
     override fun initData() {
         findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
@@ -69,6 +73,17 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 trendHeartRateItems.clear()
                 syncTrendHeartHistory()
             }.show()
+        }
+        refreshLayout = findViewById(R.id.refreshLayout) as RefreshLayout
+        refreshLayout!!.setRefreshHeader(ClassicsHeader(this))
+
+        refreshLayout!!.apply {
+            setOnRefreshListener {
+                currentMonth = Date()
+                findViewById<ScrollDateView>(R.id.rl_scroll).updateMonthUI(currentMonth)
+                findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(currentMonth)
+                selectDate(currentMonth)
+            }
         }
         findViewById<ImageView>(R.id.base_title_back).setOnClickListener {
             onBackPressed()
@@ -118,6 +133,9 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun syncDailyHeartHistory() {
+        if (!DeviceManager.isSDKAvailable || DeviceManager.getConnectedDevice() == null) {
+            refreshLayout!!.finishRefresh(false)
+        }
         healthHeartRateItemsAll.clear()
         val year: Int = todayCalendar.get(Calendar.YEAR)
         val month: Int = todayCalendar.get(Calendar.MONTH) + 1
@@ -138,6 +156,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                         if (needSyncTrend) {
                             syncTrendHeartHistory()
                         }
+                        refreshLayout!!.finishRefresh(true)
                     }
                 }
 
@@ -145,6 +164,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                     if (needSyncTrend) {
                         syncTrendHeartHistory()
                     }
+                    refreshLayout!!.finishRefresh(false)
                 }
             })
     }
@@ -197,7 +217,6 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
             })
     }
 
-
     private fun computeMath() :Triple<Int, Int, Int>?{
         var min = 300
         var max = 0
@@ -219,11 +238,11 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
                 valid++
             }
         }
-        if (valid > 0) {
+        return if (valid > 0) {
             average = sum / valid
-            return Triple(min, max, average)
+            Triple(min, max, average)
         } else {
-            return null
+            null
         }
 
     }
