@@ -1,6 +1,7 @@
 package com.linhua.smartwatch.adapter
 
 import android.annotation.SuppressLint
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.linhua.smartwatch.R
@@ -24,6 +25,7 @@ class UserDetailAdapter(data: MutableList<UserItem>?) :
             }
             MultipleEntity.TWO -> {
                 holder.setText(R.id.tv_name, item.name)
+                holder.getView<ImageView>(R.id.iv_avatar).clipToOutline = true
             }
         }
     }

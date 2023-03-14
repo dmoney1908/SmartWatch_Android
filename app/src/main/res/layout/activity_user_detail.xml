@@ -28,7 +28,8 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:text="@string/personal_info"
-        android:textSize="16dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
         android:textStyle="bold"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
