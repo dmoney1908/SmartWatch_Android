@@ -8,21 +8,23 @@
     <TextView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:id="@+id/name"
+        android:id="@+id/tv_name"
         android:gravity="center_vertical|left"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
-        android:text="@string/mmhg"
+        android:text=""
         android:textSize="16sp"
         android:textColor="@color/dark"/>
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/detail"
+        android:id="@+id/tv_avatar"
+        android:scaleType="fitXY"
         android:gravity="center_vertical|right"
         android:background="@drawable/avatar_corner_shape"
-        android:layout_toLeftOf="@+id/arrow"
-        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/arrow"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
         android:src="@drawable/avatar_user"
         android:layout_centerVertical="true"
         />
@@ -33,7 +35,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
         android:gravity="center_vertical"
         android:src="@drawable/arrow_right"/>
 

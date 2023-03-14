@@ -1,12 +1,14 @@
 package com.linhua.smartwatch.fragment
 
-import android.media.Image
+import android.content.Intent
 import android.view.View
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseFragment
 import com.linhua.smartwatch.helper.UserData
+import com.linhua.smartwatch.mine.UserDetailActivity
 import com.linhua.smartwatch.utils.DeviceManager
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.UserBean
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
@@ -19,8 +21,14 @@ class PersonalFragment: BaseFragment(){
 
     override fun initView(): View? {
         hostView = View.inflate(activity, R.layout.fragment_mine,null)
-        showUserInfo()
-        getUserInfo()
+        hostView!!.findViewById<RelativeLayout>(R.id.rl_info).setOnClickListener {
+            val intent = Intent(this.context, UserDetailActivity::class.java)
+            startActivity(intent)
+        }
+        hostView!!.findViewById<RelativeLayout>(R.id.rl_person_info).setOnClickListener {
+            val intent = Intent(this.context, UserDetailActivity::class.java)
+            startActivity(intent)
+        }
         return hostView
     }
 
@@ -29,6 +37,11 @@ class PersonalFragment: BaseFragment(){
     }
     override fun onListener() {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getUserInfo()
     }
 
     private fun getUserInfo() {

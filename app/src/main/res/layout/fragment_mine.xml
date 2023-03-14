@@ -14,7 +14,6 @@
             android:id="@+id/rl_header"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/light_corner_shape"
             >
             <TextView
                 android:id="@+id/tv_profile"
@@ -31,11 +30,11 @@
 
             <ImageView
                 android:id="@+id/iv_photo"
-                android:layout_width="26dp"
-                android:layout_height="28dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="35dp"
+                android:layout_marginEnd="20dp"
                 android:contentDescription="photo"
                 android:scaleType="fitXY"
                 android:src="@drawable/mine_photo"
@@ -48,6 +47,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_height="131dp"
+            android:background="@drawable/light_corner_shape"
             android:layout_marginTop="16dp">
             <ImageView
                 android:id="@+id/iv_avatar"
@@ -60,12 +60,12 @@
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:textSize="18dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginStart="12dp"
                 android:layout_toEndOf="@+id/iv_avatar"
-                android:layout_marginTop="22.5dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/dark"
                 android:gravity="center_vertical|left"
                 android:text="@string/app_name">
@@ -74,7 +74,7 @@
                 android:id="@+id/tv_signature"
                 android:layout_width="match_parent"
                 android:layout_height="16.5dp"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textColor="@color/light_gray"
                 android:textStyle="normal"
                 android:layout_marginStart="12dp"
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="14dp"
                 android:layout_marginStart="12dp"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textColor="@color/light_gray"
                 android:layout_marginTop="84dp"
                 android:gravity="center_vertical|left"
@@ -113,9 +113,9 @@
             <TextView
                 android:id="@+id/tv_email_addr"
                 android:layout_width="match_parent"
-                android:layout_height="17dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textColor="@color/dark"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="20dp"

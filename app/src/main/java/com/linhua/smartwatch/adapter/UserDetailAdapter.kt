@@ -12,8 +12,6 @@ class UserDetailAdapter(data: MutableList<UserItem>?) :
     init {
         addItemType(MultipleEntity.ONE, R.layout.item_userdetail_text)
         addItemType(MultipleEntity.TWO, R.layout.item_userdetail_avatar)
-        addChildClickViewIds(R.id.ib_delete)
-        addChildClickViewIds(R.id.ib_reconnect)
     }
 
     @SuppressLint("ResourceType")

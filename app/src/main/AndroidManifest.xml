@@ -34,7 +34,7 @@
         android:theme="@style/Theme.SmartWatch"
         tools:targetApi="31">
         <activity
-            android:name=".UserDetrailActivity"
+            android:name=".mine.UserDetailActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
