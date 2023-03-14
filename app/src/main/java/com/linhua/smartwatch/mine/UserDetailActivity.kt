@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -14,7 +15,9 @@ import com.linhua.smartwatch.bean.UserItem
 import com.linhua.smartwatch.databinding.ActivityUserDetailBinding
 import com.linhua.smartwatch.entity.MultipleEntity
 import com.linhua.smartwatch.helper.UserData
+import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.OnMultiClickListener
+import com.lxj.xpopup.XPopup
 
 
 class UserDetailActivity : AppCompatActivity() {
@@ -64,8 +67,8 @@ class UserDetailActivity : AppCompatActivity() {
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Sex"
             var sex = 0
-            sex = if (UserData.deviceUserInfo != null) {
-                UserData.deviceUserInfo!!.gender
+            sex = if (!UserData.isDeviceEmpty) {
+                UserData.deviceUserInfo.gender
             } else {
                 UserData.sex
             }
@@ -73,9 +76,9 @@ class UserDetailActivity : AppCompatActivity() {
         })
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Birthday"
-            detail = if (UserData.deviceUserInfo != null) ({
-                if (UserData.deviceUserInfo!!.year == 0 && UserData.deviceUserInfo!!.month == 0 && UserData.deviceUserInfo!!.day == 0){
-                    String.format("%d/%02d/%02d", UserData.deviceUserInfo!!.year, UserData.deviceUserInfo!!.month, UserData.deviceUserInfo!!.day)
+            detail = if (!UserData.isDeviceEmpty) ({
+                if (UserData.deviceUserInfo.year == 0 && UserData.deviceUserInfo.month == 0 && UserData.deviceUserInfo.day == 0){
+                    String.format("%d/%02d/%02d", UserData.deviceUserInfo.year, UserData.deviceUserInfo.month, UserData.deviceUserInfo.day)
                 } else {
                     ""
                 }
@@ -86,8 +89,8 @@ class UserDetailActivity : AppCompatActivity() {
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Height"
             var height = 0
-            height = if (UserData.deviceUserInfo != null) {
-                UserData.deviceUserInfo!!.height
+            height = if (!UserData.isDeviceEmpty) {
+                UserData.deviceUserInfo.height
             } else {
                 UserData.height
             }
@@ -99,8 +102,8 @@ class UserDetailActivity : AppCompatActivity() {
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Weight"
             var weight = 0
-            weight = if (UserData.deviceUserInfo != null) {
-                UserData.deviceUserInfo!!.weight
+            weight = if (!UserData.isDeviceEmpty) {
+                UserData.deviceUserInfo.weight
             } else {
                 UserData.weight
             }

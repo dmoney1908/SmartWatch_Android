@@ -1,6 +1,5 @@
 package com.linhua.smartwatch.helper
 
-import android.R
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -8,6 +7,12 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import com.linhua.smartwatch.SmartWatchApplication
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.UserBean
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
+import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
+import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -41,6 +46,20 @@ object UserData {
         }
         getAvatar()
     }
+
+    fun saveUserInfo() {
+        BleSdkWrapper.setUserInfo(deviceUserInfo, object : OnLeWriteCharacteristicListener() {
+            override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                ToastUtil.showToast(SmartWatchApplication.instance, "Save successfully")
+                isDeviceEmpty = false
+            }
+
+            override fun onFailed(e: WriteBleException) {
+                ToastUtil.showToast(SmartWatchApplication.instance, "Fail to save")
+            }
+        })
+    }
+
 
     //从SharedPreferences获取图片
     private fun getAvatar() {
@@ -77,8 +96,8 @@ object UserData {
         editor.commit()
     }
 
-    var deviceUserInfo: UserBean? = null
-
+    var deviceUserInfo: UserBean = UserBean()
+    var isDeviceEmpty = true
     var userName: String = "Tribe"
     var userAvatar: Bitmap? = null
     var signature: String = "Love Sports, Love life~"
