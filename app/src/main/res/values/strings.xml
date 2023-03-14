@@ -81,6 +81,6 @@
     <string name="permisson_location_tips">Outdoor sports require authorized location information permissions</string>
     <string name="scan_device_info_put_code">Input Pin code</string>
     <string name="sdk_not_available">Bluetooth is not available, please check your phone.</string>
-
-
+    <string name="love_life_signature">Love Sports, Love life~</string>
+    <string name="not_setting">Not setting</string>
 </resources>
