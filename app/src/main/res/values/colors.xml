@@ -41,5 +41,8 @@
     <color name="dialog_sport_end_text_color">#1194E4</color>
     <color name="dialog_sport_end_line_color">#4b000000</color>
     <color name="translate">#00000000</color>
+    <color name="light_gray2">#868E96</color>
+    <color name="light_gray3">#F9F9FC</color>
+
 
 </resources>

@@ -30,7 +30,10 @@ class UserDetailActivity : AppCompatActivity() {
             override fun onSingleClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (position) {
                     0 -> {
+                        XPopup.Builder(this@UserDetailActivity)
+                            .asConfirm("", "Are you sure to delete this watch？") {
 
+                            }.show()
                     }
                 }
             }
@@ -57,12 +60,12 @@ class UserDetailActivity : AppCompatActivity() {
     private fun setupData() {
         userDetailList.add(UserItem(MultipleEntity.TWO).apply {
             name = "Avatar"
-            avatar = UserData.userAvatar
+//            avatar = UserData.userInfo.avatar
         })
 
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Nickname"
-            detail = UserData.userName
+            detail = UserData.userInfo.name
         })
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Sex"
@@ -70,7 +73,7 @@ class UserDetailActivity : AppCompatActivity() {
             sex = if (!UserData.isDeviceEmpty) {
                 UserData.deviceUserInfo.gender
             } else {
-                UserData.sex
+                UserData.userInfo.sex
             }
             detail = sex.toString()
         })
@@ -83,7 +86,7 @@ class UserDetailActivity : AppCompatActivity() {
                     ""
                 }
             }).toString() else {
-                UserData.birthday
+                UserData.userInfo.birthday
             }
         })
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
@@ -92,7 +95,7 @@ class UserDetailActivity : AppCompatActivity() {
             height = if (!UserData.isDeviceEmpty) {
                 UserData.deviceUserInfo.height
             } else {
-                UserData.height
+                UserData.userInfo.height
             }
             if (height == 0) {
                 height = 170
@@ -105,7 +108,7 @@ class UserDetailActivity : AppCompatActivity() {
             weight = if (!UserData.isDeviceEmpty) {
                 UserData.deviceUserInfo.weight
             } else {
-                UserData.weight
+                UserData.userInfo.weight
             }
             if (weight == 0) {
                 weight = 600
@@ -115,11 +118,11 @@ class UserDetailActivity : AppCompatActivity() {
         })
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Email"
-            detail = UserData.userEmail
+            detail = UserData.userInfo.email
         })
         userDetailList.add(UserItem(MultipleEntity.ONE).apply {
             name = "Personal signature"
-            detail = UserData.signature
+            detail = UserData.userInfo.signature
         })
 
         userDetailAdapter.setNewInstance(userDetailList)

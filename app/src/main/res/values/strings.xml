@@ -83,4 +83,26 @@
     <string name="sdk_not_available">Bluetooth is not available, please check your phone.</string>
     <string name="love_life_signature">Love Sports, Love life~</string>
     <string name="not_setting">Not setting</string>
+    <string name="welcome_back">Welcome Back !</string>
+    <string name="login_continue">Login to continue</string>
+    <string name="password">Password</string>
+    <string name="login">Log in</string>
+    <string name="sign">Sign up</string>
+
+    <string name="forgot_pwd">Forgot password?</string>
+    <string name="or">or</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="no_account">Don’t have an account?</string>
+    <string name="signup">Sign Up</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="sign_continue">Sign Up to continue</string>
+
+    <string name="has_account">Already have an account?</string>
+    <string name="signin">Login</string>
 </resources>

@@ -41,7 +41,6 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
         ClassicsHeader.REFRESH_HEADER_FAILED = getString(R.string.header_failed)
         ClassicsHeader.REFRESH_HEADER_SECONDARY = getString(R.string.header_secondary)
         ClassicsHeader.REFRESH_HEADER_UPDATE = getString(R.string.header_update)
-        setTheme(R.style.Theme_SmartWatch)
     }
 
     override fun getLayoutId(): Int {

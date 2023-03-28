@@ -62,15 +62,15 @@ class PersonalFragment: BaseFragment(){
     }
 
     private fun showUserInfo() {
-        hostView!!.findViewById<TextView>(R.id.tv_name).text = UserData.userName
-        if (UserData.userEmail.isNotEmpty()) {
-            hostView!!.findViewById<TextView>(R.id.tv_email_addr).text = UserData.userEmail
+        hostView!!.findViewById<TextView>(R.id.tv_name).text = UserData.userInfo.name
+        if (UserData.userInfo.email.isNotEmpty()) {
+            hostView!!.findViewById<TextView>(R.id.tv_email_addr).text = UserData.userInfo.email
         }
-        if (UserData.signature.isNotEmpty()) {
-            hostView!!.findViewById<TextView>(R.id.tv_signature).text = UserData.signature
+        if (UserData.userInfo.signature.isNotEmpty()) {
+            hostView!!.findViewById<TextView>(R.id.tv_signature).text = UserData.userInfo.signature
         }
-        if (UserData.userAvatar != null) {
-            hostView!!.findViewById<ImageView>(R.id.iv_avatar).setImageBitmap(UserData.userAvatar)
+        if (UserData.userInfo.avatar != null) {
+//            hostView!!.findViewById<ImageView>(R.id.iv_avatar).setImageBitmap(UserData.userAvatar)
         }
     }
 }
