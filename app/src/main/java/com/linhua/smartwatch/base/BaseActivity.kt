@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.linhua.smartwatch.utils.PermissionUtil
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 
-public abstract class BaseActivity:AppCompatActivity(), PermissionUtil.RequsetResult {
-    protected val TAG: String = this.javaClass.simpleName
+public abstract class BaseActivity:CommonActivity(), PermissionUtil.RequsetResult {
     override fun onCreate(savedInstanceState: Bundle?) {
         prepareData()
         super.onCreate(savedInstanceState)
@@ -24,15 +23,6 @@ public abstract class BaseActivity:AppCompatActivity(), PermissionUtil.RequsetRe
     protected open fun initData() {
         permissionUtil = PermissionUtil()
         permissionUtil!!.setRequsetResult(this)
-    }
-
-    protected open fun showToast(content: String?) {
-        runOnUiThread {
-            ToastUtil.showToast(
-                this,
-                content
-            )
-        }
     }
 
     private var permissionUtil: PermissionUtil? = null

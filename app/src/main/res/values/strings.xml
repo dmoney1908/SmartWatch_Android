@@ -1,4 +1,12 @@
 <resources>
+    <string name="google_client_id">536400374040-r9ha1ilsjcftvrsbfcbbho912ln57pus.apps.googleusercontent.com</string>
+
+    <string name="google_as_id">536400374040-lohe3sljm0jho4un0ttqvhk92n2cdtuv.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">627623712738337</string>
+    <string name="fb_login_protocol_scheme">fb627623712738337</string>
+    <string name="facebook_client_token">a9a543464f2b0dc31b853ae79bd4d464</string>
+
+
     <string name="app_name">Tribe</string>
     <string name="connected">connected</string>
     <string name="connected_status">Connected</string>
@@ -105,4 +113,8 @@
 
     <string name="has_account">Already have an account?</string>
     <string name="signin">Login</string>
+
+    <string name="email_invalid">Please input valid email.</string>
+    <string name="pwd_invalid">Please input valid password.</string>
+    <string name="name_invalid">Please input valid name.</string>
 </resources>

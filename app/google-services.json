@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "793254568042",
+    "project_id": "tribe-4f770",
+    "storage_bucket": "tribe-4f770.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793254568042:android:1a94d2e3f53525561bea13",
+        "android_client_info": {
+          "package_name": "com.linhua.smartwatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793254568042-opka8gcetq6bn2rthe4itfl4g8pkkhs5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJPyrfLt6tbnQzlvhognRQOyHQk9GV6KU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793254568042-n782lr3alpr90qhvo4ki69rlcoeb5ujh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "793254568042-uta5l93thjifb4ca94vual0kv5b3shml.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.linhua.iwatch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import com.google.firebase.auth.FirebaseAuth
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.sign.SigninActivity
@@ -15,7 +16,8 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         Handler(Looper.getMainLooper()).postDelayed({
-            if (UserData.isLogined) {
+            FirebaseAuth.getInstance().signOut()
+            if (FirebaseAuth.getInstance().currentUser != null) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {
