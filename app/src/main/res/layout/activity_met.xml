@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".met.MetActivity">
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:id="@+id/base_title_back"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_navigation_back" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/HR"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_month"
+                android:layout_width="120dp"
+                android:layout_height="34dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/light_blue_corner_shape">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="19dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="30dp"
+                    android:autoSizeMaxTextSize="13dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical|right"
+                    android:text="March,2023"
+                    android:textSize="13dp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/iv_down"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/main_arrow_down"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.linhua.smartwatch.view.ScrollDateView
+                    android:id="@+id/rl_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="79dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_met_week"
+                    android:layout_width="190dp"
+                    android:layout_height="178dp"
+                    android:layout_below="@+id/rl_scroll"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="24dp">
+                    <ImageView
+                        android:id="@+id/iv_met_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/met_bg"/>
+
+                    <TextView
+                        android:id="@+id/tv_cumu"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="47dp"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="@string/cumulative_met"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        android:alpha="0.6"
+                        android:textStyle="normal"/>
+
+                    <TextView
+                        android:id="@+id/tv_met_title"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_cumu"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center"
+                        android:text="@string/met."
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        android:textStyle="normal"/>
+                    <TextView
+                        android:id="@+id/tv_met_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_below="@+id/tv_met_title"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:text="-"
+                        android:textColor="@color/white"
+                        android:textSize="26dp"
+                        android:textStyle="bold"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_trend"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_below="@+id/rl_met_week"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/met."
+                        android:textColor="@color/dark"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
+
+                    <View
+                        android:id="@+id/v_date_type"
+                        android:layout_width="78dp"
+                        android:layout_height="32dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/blue_corner_shape"/>
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/main_date_type"/>
+
+                    <TextView
+                        android:id="@+id/iv_date_type"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/iv_arrow"
+                        android:autoSizeMaxTextSize="14dp"
+                        android:autoSizeTextType="uniform"
+                        android:gravity="center"
+                        android:src="@drawable/arrow_date_type"
+                        android:text="@string/days"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        android:textStyle="bold"/>
+
+                </RelativeLayout>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bc_trend_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="164dp"
+                    android:layout_below="@+id/rl_trend"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_trend_axis"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/bc_trend_chart"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal" />
+                <LinearLayout
+                    android:id="@+id/ll_met"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_trend_axis"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_met"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/what_met"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_met_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginBottom="11dp"
+                        android:gravity="left"
+                        android:text="@string/met_desc"
+                        android:textColor="@color/gray"
+                        android:textSize="14sp"
+                        android:textStyle="normal"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

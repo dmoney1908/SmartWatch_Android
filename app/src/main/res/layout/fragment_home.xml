@@ -13,7 +13,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/rl_top"
@@ -226,7 +226,7 @@
             <RelativeLayout
                 android:id="@+id/rl_behavior"
                 android:layout_width="match_parent"
-                android:layout_height="275dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="441dp"
                 android:layout_marginEnd="20dp">
@@ -514,7 +514,222 @@
                         android:textSize="14dp"
                         android:textStyle="bold" />
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_blood_oxygen"
+                    android:layout_width="0dp"
+                    android:layout_height="216dp"
+                    android:layout_alignEnd="@id/strut"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_below="@+id/rl_met"
+                    android:layout_marginTop="15dp"
+                    tools:ignore="NotSibling">
+
+                    <ImageView
+                        android:id="@+id/iv_oxygen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_oxygen_bg" />
+
+                    <ImageView
+                        android:id="@+id/iv_oxygen_icon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="12dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_oxygen" />
+
+                    <TextView
+                        android:id="@+id/tv_oxgen_name"
+                        android:layout_width="120dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/oxygen"
+                        android:textColor="@color/red1"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_oxygen_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="15.5dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical|left"
+                        android:hint="19"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_oxygen_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_toRightOf="@+id/tv_oxygen_num"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/average"
+                        android:textColor="@color/light_gray"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_tempr"
+                    android:layout_width="0dp"
+                    android:layout_height="123dp"
+                    android:layout_alignStart="@id/strut"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_alignTop="@+id/rl_blood_oxygen"
+                    android:layout_marginEnd="0dp"
+                    android:layout_toEndOf="@+id/rl_blood_oxygen"
+                    tools:ignore="NotSibling">
+
+                    <ImageView
+                        android:id="@+id/iv_tempr"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_tempr_bg">
+
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/iv_tempr_icon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="12dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_thermometer" />
+
+                    <TextView
+                        android:id="@+id/tv_tempr_name"
+                        android:layout_width="120dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/temperature"
+                        android:textColor="@color/light_blue3"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_tempr_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="15.5dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical|left"
+                        android:hint="-"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_tempr_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_toRightOf="@+id/tv_tempr_value"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/tempr_f"
+                        android:textColor="@color/light_gray"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rl_weight"
+                    android:layout_width="0dp"
+                    android:layout_height="78dp"
+                    android:layout_alignStart="@id/strut"
+                    android:layout_marginStart="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/rl_tempr"
+                    tools:ignore="NotSibling">
+
+                    <ImageView
+                        android:id="@+id/iv_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_weight_bg">
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/iv_weight_icon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="12dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_weight" />
+
+                    <TextView
+                        android:id="@+id/tv_weight_name"
+                        android:layout_width="120dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/weight"
+                        android:textColor="@color/yellow"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_weight_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="15.5dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical|left"
+                        android:hint="-"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_weight_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_toRightOf="@+id/tv_weight_value"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/pounds"
+                        android:textColor="@color/light_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
             </RelativeLayout>
+            <LinearLayout android:layout_below="@+id/rl_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                />
 
         </RelativeLayout>
 

@@ -16,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         Handler(Looper.getMainLooper()).postDelayed({
-            FirebaseAuth.getInstance().signOut()
+//            FirebaseAuth.getInstance().signOut()
             if (FirebaseAuth.getInstance().currentUser != null) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
