@@ -130,7 +130,7 @@
                     <TextView
                         android:id="@+id/tv_met_value"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_below="@+id/tv_met_title"
                         android:layout_centerHorizontal="true"

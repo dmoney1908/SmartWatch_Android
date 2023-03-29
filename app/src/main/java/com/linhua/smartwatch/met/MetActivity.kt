@@ -77,6 +77,7 @@ class MetActivity : CommonActivity(), OnChartValueSelectedListener {
                 findViewById<ScrollDateView>(R.id.rl_scroll).updateMonthUI(currentMonth)
                 findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(currentMonth)
                 selectDate(currentMonth)
+                refreshLayout!!.finishRefresh(true)
             }
         }
         binding.baseTitleBack.setOnClickListener {
@@ -339,11 +340,12 @@ class MetActivity : CommonActivity(), OnChartValueSelectedListener {
         calendar.time = date
         var sum = 0
         for (i in 0..6) {
-            calendar.add(Calendar.DATE, -1 * i)
+            if (i > 0) {
+                calendar.add(Calendar.DATE, -1)
+            }
             val date = DateUtil.getYMDDate(calendar.time)
 
-            for (index in metItemsAll.indices) {
-                val met = metItemsAll[index]
+            for (met in metItemsAll.reversed()) {
                 if (date == met.date) {
                     sum += met.value
                     break
@@ -352,6 +354,7 @@ class MetActivity : CommonActivity(), OnChartValueSelectedListener {
         }
 
         binding.tvMetValue.text = sum.toString()
+
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -382,7 +385,7 @@ class MetActivity : CommonActivity(), OnChartValueSelectedListener {
         chart.marker = mv
 
         // enable scaling and dragging
-        chart.setDragEnabled(true)
+        chart.isDragEnabled = true
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
 
@@ -431,8 +434,8 @@ class MetActivity : CommonActivity(), OnChartValueSelectedListener {
         val values = ArrayList<BarEntry>()
         for (index in trendItems.indices) {
             val item = trendItems[index]
-            val x = (index + 1.0) / trendItems.count()
-            values.add(BarEntry((x + 1).toFloat(), item.toFloat()))
+            val x = (index + 1.0)
+            values.add(BarEntry(x.toFloat(), item.toFloat()))
         }
         val set1 = BarDataSet(values, "")
         set1.setDrawIcons(false)
@@ -447,10 +450,8 @@ class MetActivity : CommonActivity(), OnChartValueSelectedListener {
 
         // create a data object with the data sets
         val data = BarData(dataSets)
-
-        // set data
-        chart.data = data
         data.barWidth = 0.7f
+        chart.data = data
         chart!!.animateX(1500)
     }
 }
