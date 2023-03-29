@@ -16,6 +16,7 @@ import com.linhua.smartwatch.bp.BPActivity
 import com.linhua.smartwatch.event.MessageEvent
 import com.linhua.smartwatch.heartrate.HeartRateActivity
 import com.linhua.smartwatch.met.MetActivity
+import com.linhua.smartwatch.oxygen.OxygenActivity
 import com.linhua.smartwatch.sleep.SleepActivity
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.IntentUtil
@@ -86,7 +87,12 @@ class HomeFragment: BaseFragment(){
         }
 
         hostView?.findViewById<RelativeLayout>(R.id.rl_blood_oxygen)?.setOnClickListener {
-
+            this.context?.let { it ->
+                IntentUtil.goToActivity(
+                    it,
+                    OxygenActivity::class.java
+                )
+            }
         }
 
         hostView?.findViewById<RelativeLayout>(R.id.rl_tempr)?.setOnClickListener {

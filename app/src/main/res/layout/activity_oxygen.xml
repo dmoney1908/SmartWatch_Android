@@ -9,13 +9,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".bp.BPActivity">
+        tools:context=".oxygen.OxygenActivity">
 
         <RelativeLayout
             android:id="@+id/rl_top"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="20dp">
 
             <ImageView
@@ -32,16 +33,17 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:text="@string/bp"
+                android:text="@string/oxygen"
                 android:textSize="16dp"
                 android:textStyle="bold"/>
 
             <RelativeLayout
                 android:id="@+id/rl_month"
-                android:layout_width="118dp"
+                android:layout_width="120dp"
                 android:layout_height="34dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="0dp"
                 android:background="@drawable/light_blue_corner_shape">
 
                 <TextView
@@ -51,9 +53,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="30dp"
-
+                    android:autoSizeMaxTextSize="13dp"
+                    android:autoSizeTextType="uniform"
                     android:gravity="center_vertical|right"
-                    android:text="Augest,2023"
+                    android:text="March,2023"
                     android:textSize="13dp"
                     android:textStyle="bold"/>
 
@@ -61,9 +64,11 @@
                     android:id="@+id/iv_down"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
                     android:src="@drawable/main_arrow_down"/>
 
             </RelativeLayout>
@@ -85,8 +90,8 @@
                     android:layout_height="79dp"/>
 
                 <RelativeLayout
-                    android:id="@+id/rl_hr_time"
-                    android:layout_width="200dp"
+                    android:id="@+id/rl_oxygen_time"
+                    android:layout_width="118dp"
                     android:layout_height="84dp"
                     android:layout_below="@+id/rl_scroll"
                     android:layout_centerHorizontal="true"
@@ -94,11 +99,11 @@
                     android:layout_marginRight="20dp">
 
                     <TextView
-                        android:id="@+id/tv_bp"
+                        android:id="@+id/tv_oxygen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:autoSizeTextType="uniform"
+                        android:autoSizeMaxTextSize="50dp"
                         android:gravity="center"
                         android:text="--"
                         android:textColor="@color/dark"
@@ -106,14 +111,14 @@
                         android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/tv_mmhg"
+                        android:id="@+id/tv_average"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="2dp"
                         android:gravity="center"
-                        android:text="@string/mmhg"
+                        android:text="@string/average"
                         android:textColor="@color/primary_blue"
                         android:textSize="16dp"
                         android:textStyle="bold"/>
@@ -123,7 +128,7 @@
                     android:id="@+id/rl_last"
                     android:layout_width="81dp"
                     android:layout_height="35dp"
-                    android:layout_below="@+id/rl_hr_time"
+                    android:layout_below="@+id/rl_oxygen_time"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/light_blue_corner_shape2">
@@ -151,8 +156,8 @@
                         android:textStyle="bold"/>
                 </RelativeLayout>
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lc_daily_chart"
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bc_daily_chart"
                     android:layout_width="match_parent"
                     android:layout_height="184dp"
                     android:layout_below="@+id/rl_last"
@@ -163,7 +168,7 @@
                     android:id="@+id/ll_hr_axis"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_below="@+id/lc_daily_chart"
+                    android:layout_below="@+id/bc_daily_chart"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="-10dp"
                     android:layout_marginEnd="20dp"
@@ -181,14 +186,14 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:id="@+id/rl_range"
+                        android:id="@+id/rl_lowest"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/lowest_corner_shape">
 
                         <TextView
-                            android:id="@+id/tv_range_value"
+                            android:id="@+id/tv_lowest_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
@@ -197,8 +202,8 @@
                             android:layout_marginEnd="14dp"
                             android:gravity="center"
                             android:text="--"
-                            android:textColor="@color/primary_black"
-                            android:textSize="14dp"
+                            android:textColor="@color/dark"
+                            android:textSize="20sp"
                             android:textStyle="bold"/>
 
                         <TextView
@@ -206,12 +211,11 @@
                             android:layout_height="15dp"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginStart="14dp"
-                            android:layout_marginEnd="14dp"
                             android:layout_marginBottom="12dp"
+                            android:autoSizeTextType="uniform"
                             android:gravity="center"
-                            android:text="@string/blood_pressure_range"
-                            android:textColor="@color/red"
+                            android:text="@string/lowest_value"
+                            android:textColor="@color/purple_200"
                             android:textSize="12dp"
                             android:textStyle="normal"/>
                     </RelativeLayout>
@@ -221,6 +225,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@+id/rl_lowest"
                         android:layout_weight="1"
                         android:background="@drawable/average_corner_shape">
 
@@ -234,23 +239,62 @@
                             android:layout_marginEnd="14dp"
                             android:gravity="center"
                             android:text="--"
-                            android:textColor="@color/primary_black"
-                            android:textSize="14dp"/>
+                            android:textColor="@color/dark"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="15dp"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginStart="14dp"
-                            android:layout_marginEnd="14dp"
                             android:layout_marginBottom="12dp"
+                            android:autoSizeTextType="uniform"
                             android:gravity="center"
                             android:text="@string/average_value"
                             android:textColor="@color/purple_700"
                             android:textSize="12dp"
                             android:textStyle="normal"/>
                     </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_highest"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@+id/rl_average"
+                        android:layout_weight="1"
+                        android:background="@drawable/highest_corner_shape">
+
+                        <TextView
+                            android:id="@+id/tv_highest_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginStart="14dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="14dp"
+                            android:gravity="center"
+                            android:text="--"
+                            android:textColor="@color/dark"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="12dp"
+                            android:autoSizeTextType="uniform"
+                            android:gravity="center"
+                            android:text="@string/highest_value"
+                            android:textColor="@color/orange"
+                            android:textSize="12dp"
+                            android:textStyle="normal"/>
+                    </RelativeLayout>
+
                 </LinearLayout>
 
                 <RelativeLayout
@@ -266,7 +310,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical|left"
-                        android:text="@string/blood_trend"
+                        android:text="@string/oxygen_trend"
                         android:textColor="@color/dark"
                         android:textSize="18dp"
                         android:textStyle="bold"/>
@@ -321,8 +365,8 @@
                     android:layout_marginTop="-10dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="horizontal" />
+
             </RelativeLayout>
         </ScrollView>
-
     </RelativeLayout>
 </com.scwang.smart.refresh.layout.SmartRefreshLayout>

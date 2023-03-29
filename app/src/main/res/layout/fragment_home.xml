@@ -338,7 +338,7 @@
                     <TextView
                         android:id="@+id/tv_sleep_name"
                         android:layout_width="120dp"
-                        android:layout_height="14dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="36dp"
                         android:layout_marginTop="12dp"
                         android:gravity="center_vertical|left"
@@ -547,7 +547,7 @@
                     <TextView
                         android:id="@+id/tv_oxgen_name"
                         android:layout_width="120dp"
-                        android:layout_height="14dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="36dp"
                         android:layout_marginTop="12dp"
                         android:gravity="center_vertical|left"
@@ -572,7 +572,7 @@
                     <TextView
                         android:id="@+id/tv_oxygen_unit"
                         android:layout_width="wrap_content"
-                        android:layout_height="18dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="6dp"
                         android:layout_marginBottom="18dp"
@@ -689,7 +689,7 @@
                     <TextView
                         android:id="@+id/tv_weight_name"
                         android:layout_width="120dp"
-                        android:layout_height="14dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="36dp"
                         android:layout_marginTop="12dp"
                         android:gravity="center_vertical|left"

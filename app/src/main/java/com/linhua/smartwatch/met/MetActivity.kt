@@ -55,7 +55,7 @@ class MetActivity : CommonActivity(), OnChartValueSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMetBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        findViewById<TextView>(R.id.tv_time).text = DateUtil.getYMDate(Date())
+        binding.tvTime.text = DateUtil.getYMDate(Date())
         binding.vDateType.setOnClickListener {
             XPopup.Builder(this).atView(binding.vDateType).asAttachList(
                 arrayOf("Days", "Weeks", "Months"), null

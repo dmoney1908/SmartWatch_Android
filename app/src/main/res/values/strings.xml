@@ -40,6 +40,7 @@
     <string name="feedback">Feedback</string>
     <string name="about">About</string>
     <string name="hr_trend">Heart Rate Trend</string>
+    <string name="oxygen_trend">Blood Oxygen Trend</string>
     <string name="sleep_record">Sleep Record</string>
     <string name="bp">Bp</string>
     <string name="mmhg">MmHg</string>
@@ -84,6 +85,7 @@
     <string name="scan_device_open_set">Please turn on Bluetooth for device connection</string>
     <string name="scan_device_set">Set</string>
     <string name="no_chart_data">No heart rate data available</string>
+    <string name="no_oxygen_data">No blood oxygen data available</string>
     <string name="no_blood_data">No blood pressure data available</string>
     <string name="no_sleep_data">No sleep data available</string>
     <string name="no_met_data">No MET. data available</string>
