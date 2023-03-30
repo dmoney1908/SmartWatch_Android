@@ -2,16 +2,16 @@ package com.linhua.smartwatch.mine
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.linhua.smartwatch.R
 import com.linhua.smartwatch.databinding.ActivityAboutBinding
-import com.linhua.smartwatch.databinding.ActivityOxygenBinding
+import com.linhua.smartwatch.databinding.ActivityFeedbackBinding
 
-class AboutActivity : AppCompatActivity() {
+class FeedbackActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAboutBinding
+    private lateinit var binding: ActivityFeedbackBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAboutBinding.inflate(layoutInflater)
+        binding = ActivityFeedbackBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.baseTitleBack.setOnClickListener {

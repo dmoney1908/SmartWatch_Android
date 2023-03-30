@@ -34,6 +34,8 @@
     <string name="my_devices">My Devices</string>
     <string name="reconnect">Reconnect</string>
     <string name="email">Email</string>
+    <string name="mailbox">Your Mailbox</string>
+
     <string name="personal_info">Personal Information</string>
     <string name="system_settings">System Settings</string>
     <string name="help">Questions &amp; Help</string>
@@ -67,6 +69,9 @@
     <string name="average_value">Average value</string>
     <string name="highest_value">Highest value</string>
     <string name="average">Average</string>
+    <string name="enter_email">Please enter your email</string>
+    <string name="click_enter">Click enter...</string>
+
     <string name="deep_sleep">Deep Sleep</string>
     <string name="light_sleep">Light Sleep</string>
     <string name="wide_awake">Wide Awake</string>
@@ -102,7 +107,10 @@
     <string name="welcome_back">Welcome Back !</string>
     <string name="login_continue">Login to continue</string>
     <string name="password">Password</string>
+    <string name="feedback_comment">Feedback your question or comments</string>
+
     <string name="login">Log in</string>
+    <string name="send">Send</string>
     <string name="sign">Sign up</string>
     <string name="tempr_f">°F</string>
     <string name="tempr_c">°C</string>
