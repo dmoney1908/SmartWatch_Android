@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseFragment
 import com.linhua.smartwatch.helper.UserData
+import com.linhua.smartwatch.mine.AboutActivity
 import com.linhua.smartwatch.mine.UserDetailActivity
 import com.linhua.smartwatch.utils.DeviceManager
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.UserBean
@@ -27,6 +28,10 @@ class PersonalFragment: BaseFragment(){
         }
         hostView!!.findViewById<RelativeLayout>(R.id.rl_person_info).setOnClickListener {
             val intent = Intent(this.context, UserDetailActivity::class.java)
+            startActivity(intent)
+        }
+        hostView!!.findViewById<RelativeLayout>(R.id.rl_about).setOnClickListener {
+            val intent = Intent(this.context, AboutActivity::class.java)
             startActivity(intent)
         }
         return hostView

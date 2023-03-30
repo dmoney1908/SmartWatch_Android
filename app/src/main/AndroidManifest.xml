@@ -35,6 +35,13 @@
         android:theme="@style/Theme.SmartWatch"
         tools:targetApi="31">
         <activity
+            android:name=".mine.AboutActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".tempr.TemperatureActivity"
             android:exported="false">
             <meta-data
