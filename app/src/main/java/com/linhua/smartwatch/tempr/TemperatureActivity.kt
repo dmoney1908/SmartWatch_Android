@@ -1,7 +1,13 @@
-package com.linhua.smartwatch.oxygen
+package com.linhua.smartwatch.tempr
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -10,6 +16,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.ColorUtils
+import com.blankj.utilcode.util.StringUtils
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -24,8 +31,11 @@ import com.github.mikephil.charting.utils.Utils
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.chart.MyMarkerView
-import com.linhua.smartwatch.databinding.ActivityOxygenBinding
+import com.linhua.smartwatch.databinding.ActivityTemperatureBinding
+import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.monthpicker.MonthYearPickerDialogFragment
+import com.linhua.smartwatch.utils.CommonUtil.AutoTempr
+import com.linhua.smartwatch.utils.CommonUtil.FahFromCelTempr
 import com.linhua.smartwatch.utils.DateType
 import com.linhua.smartwatch.utils.DateUtil
 import com.linhua.smartwatch.utils.DeviceManager
@@ -33,27 +43,27 @@ import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRateItem
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.TempInfo
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import java.util.*
 
-class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
+class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
     private var dateType = DateType.Days
     private var currentMonth = Date()
     private var needSyncTrend = true
     private var todayCalendar = Calendar.getInstance()
     private var trendCalendar = Calendar.getInstance()
-    private var oxygenItemsAll = mutableListOf<HealthHeartRateItem?>()
-    private var trendOxygenItems = mutableListOf<List<HealthHeartRateItem>?>()
+    private var temprItemsAll = mutableListOf<TempInfo>()
+    private var trendTemprItems = mutableListOf<List<TempInfo>>()
     private var refreshLayout: RefreshLayout? = null
 
-    private lateinit var binding: ActivityOxygenBinding
+    private lateinit var binding: ActivityTemperatureBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityOxygenBinding.inflate(layoutInflater)
+        binding = ActivityTemperatureBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.tvTime.text = DateUtil.getYMDate(Date())
         binding.vDateType.setOnClickListener {
@@ -65,7 +75,7 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
                 findViewById<TextView>(R.id.iv_date_type).text = text
                 dateIndex = 0
                 trendCalendar = Calendar.getInstance()
-                trendOxygenItems.clear()
+                trendTemprItems.clear()
                 syncTrendHeartHistory()
             }.show()
         }
@@ -126,27 +136,28 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
         }
         setupChart(binding.bcDailyChart)
         setupTrendChart(binding.lcTrendChart)
-        syncDailyOxygenHistory()
+        syncDailyTemprHistory()
     }
 
-    private fun syncDailyOxygenHistory() {
+    private fun syncDailyTemprHistory() {
         if (!DeviceManager.isSDKAvailable || DeviceManager.getConnectedDevice() == null) {
             refreshLayout!!.finishRefresh(false)
         }
-        oxygenItemsAll.clear()
+        temprItemsAll.clear()
         val year: Int = todayCalendar.get(Calendar.YEAR)
         val month: Int = todayCalendar.get(Calendar.MONTH) + 1
         val day: Int = todayCalendar.get(Calendar.DATE)
-        BleSdkWrapper.getHistoryHeartRateData(year,
+
+        BleSdkWrapper.getHistoryTemp(year,
             month,
             day,
             object : OnLeWriteCharacteristicListener() {
                 override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                     if (handlerBleDataResult.isComplete) {
-                        val healthHeartRateItems =
-                            handlerBleDataResult.data as List<HealthHeartRateItem>?
-                        if (healthHeartRateItems != null) {
-                            oxygenItemsAll.addAll(healthHeartRateItems)
+                        val tempInfos =
+                            handlerBleDataResult.data as List<TempInfo>?
+                        if (tempInfos != null) {
+                            temprItemsAll.addAll(tempInfos)
                         }
                         drawDailyChart()
                         if (needSyncTrend) {
@@ -172,7 +183,7 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
         val year: Int = trendCalendar.get(Calendar.YEAR)
         val month: Int = trendCalendar.get(Calendar.MONTH) + 1
         val day: Int = trendCalendar.get(Calendar.DATE)
-        BleSdkWrapper.getHistoryHeartRateData(year,
+        BleSdkWrapper.getHistoryTemp(year,
             month,
             day,
             object : OnLeWriteCharacteristicListener() {
@@ -180,8 +191,8 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
                     if (handlerBleDataResult.isComplete) {
                         if (handlerBleDataResult.hasNext) { //是否还有更多的历史数据
                             val healthHeartRateItems =
-                                handlerBleDataResult.data as List<HealthHeartRateItem>
-                            trendOxygenItems.add(healthHeartRateItems)
+                                handlerBleDataResult.data as List<TempInfo>
+                            trendTemprItems.add(healthHeartRateItems)
                             when (dateType) {
                                 DateType.Days -> {
                                     if (dateIndex >= 7) {
@@ -212,42 +223,31 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
             })
     }
 
-    private fun computeMath(): Triple<Int, Int, Int>? {
-        var min = 30
-        var max = 0
-        var average: Int = 0
-        var sum = 0
+    private fun computeMath(): Float? {
+        var sum = 0.0f
         var valid = 0
-        if (oxygenItemsAll.isEmpty()) {
-            return Triple(0, max, average)
+        if (temprItemsAll.isEmpty()) {
+            return null
         }
-        for (item in oxygenItemsAll) {
-            if (item!!.oxygen > max) {
-                max = item.oxygen
-            }
-            if (item.oxygen in 11 until min) {
-                min = item.oxygen
-            }
-            if (item.oxygen > 10) {
-                sum += item.oxygen
+        for (item in temprItemsAll) {
+            if (item.tmpHandler > 10) {
+                sum += item.tmpHandler
                 valid++
             }
         }
         return if (valid > 0) {
-            average = sum / valid
-            Triple(min, max, average)
+            sum / valid
         } else {
             null
         }
-
     }
 
     private fun drawLatest() {
-        for (item in oxygenItemsAll.reversed()) {
-            if (item!!.oxygen > 10) {
+        for (item in temprItemsAll.reversed()) {
+            if (item.tmpHandler > 10) {
                 binding.tvLastTime.text =
-                    String.format("%02d:%02d", item!!.hour, item!!.minuter)
-                binding.tvOxygen.text = item.oxygen.toString()
+                    String.format("%02d:%02d", item.hour, item.minute)
+                binding.tvTempr.text =  String.format("%.1f", AutoTempr(item.tmpHandler.toFloat()) / 100f)
                 return
             }
         }
@@ -255,9 +255,9 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
 
 
     private fun drawTrendChart() {
-        if (trendOxygenItems.isEmpty()) return
+        if (trendTemprItems.isEmpty()) return
         val trendItems = mutableListOf<Int>()
-        for (items in trendOxygenItems) {
+        for (items in trendTemprItems) {
             var average: Int = 0
             var valid = 0
             var sum = 0
@@ -266,8 +266,8 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
                 break
             }
             for (item in items) {
-                if (item.oxygen > 10) {
-                    sum += item.oxygen
+                if (item.tmpHandler > 10) {
+                    sum += item.tmpHandler
                     valid++
                 }
             }
@@ -299,12 +299,115 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawDailyChart() {
-        if (oxygenItemsAll.isEmpty()) return
-        val item = computeMath() ?: return
-        val (min, max, average) = item
-        binding.tvLowestValue.text = "$min %"
-        binding.tvAverageValue.text = "$average %"
-        binding.tvHighestValue.text = "$max %"
+        if (temprItemsAll.isEmpty()) return
+        val averageValue = computeMath() ?: return
+        var min = ""
+        var max = ""
+        var unit = StringUtils.getString(R.string.tempr_f)
+        if (UserData.systemSetting.temprUnit == 0) {
+            unit = StringUtils.getString(R.string.tempr_f)
+            min = String.format("<%.1f", FahFromCelTempr(36.0F))
+            max = String.format(">%.1f", FahFromCelTempr( 37.3F))
+        } else {
+            unit = StringUtils.getString(R.string.tempr_c)
+            min = "<36.0"
+            max = ">37.3"
+        }
+        var average = String.format("%.1f", AutoTempr(averageValue / 100.0F))
+
+        val minText = "$min $unit"
+        val minString: Spannable = SpannableString(minText)
+        minString.setSpan(
+            StyleSpan(Typeface.BOLD), 0, minText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            minText.length - 3,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            minText.length - 3,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            minText.length - 3,
+            minText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        minString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            minText.length - 3,
+            minText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        findViewById<TextView>(R.id.tv_lowest_value).text = minString
+
+        val maxText = "$max $unit"
+        val maxString: Spannable = SpannableString(maxText)
+        maxString.setSpan(
+            StyleSpan(Typeface.BOLD), 0, maxText.length - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            maxText.length - 3,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            maxText.length - 3,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            maxText.length - 3,
+            maxText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        maxString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            maxText.length - 3,
+            maxText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        findViewById<TextView>(R.id.tv_highest_value).text = maxString
+
+        val averageText = "$average $unit"
+        val averageString: Spannable = SpannableString(averageText)
+        averageString.setSpan(
+            StyleSpan(Typeface.BOLD), 0, averageText.length - 3, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.dark)),
+            0,
+            averageText.length - 3,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size20dp)),
+            0,
+            averageText.length - 3,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            AbsoluteSizeSpan(resources.getDimensionPixelSize(R.dimen.size12dp)),
+            averageText.length - 3,
+            averageText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        averageString.setSpan(
+            ForegroundColorSpan(ColorUtils.getColor(R.color.light_gray)),
+            averageText.length - 3,
+            averageText.length,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        findViewById<TextView>(R.id.tv_average_value).text = averageString
+
         drawLatest()
         setupDailyData()
         drawDailyAxis()
@@ -373,8 +476,8 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
     private fun selectDate(date: Date) {
         todayCalendar.time = date
         needSyncTrend = false
-        oxygenItemsAll.clear()
-        syncDailyOxygenHistory()
+        temprItemsAll.clear()
+        syncDailyTemprHistory()
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -508,7 +611,7 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
         yAxis.setDrawLimitLinesBehindData(false)
         xAxis.setDrawLimitLinesBehindData(false)
 
-        chart.setNoDataText(resources.getString(R.string.no_chart_data))
+        chart.setNoDataText(resources.getString(R.string.no_tempr_data))
 
         // draw points over time
         chart.animateX(1500)
@@ -518,10 +621,10 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
     private fun setupDailyData() {
         val chart = binding.bcDailyChart
         val values = ArrayList<BarEntry>()
-        for (index in oxygenItemsAll.indices) {
-            val item = oxygenItemsAll[index]
+        for (index in temprItemsAll.indices) {
+            val item = temprItemsAll[index]
             val x = index + 1.0
-            val value = item!!.oxygen
+            val value = AutoTempr(item.tmpHandler / 100F)
             values.add(BarEntry(x.toFloat(), value.toFloat()))
         }
         val set1 = BarDataSet(values, "")
@@ -550,7 +653,8 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
         for (index in trendItems.indices) {
             val item = trendItems[index]
             val x = (index + 1.0) / trendItems.count()
-            values.add(Entry(x.toFloat(), item.toFloat()))
+            val value: Float = AutoTempr(item.toFloat() / 100.0F).toFloat()
+            values.add(Entry(x.toFloat(), value))
         }
         val set1 = LineDataSet(values, "")
         set1.setDrawIcons(false)
@@ -592,4 +696,3 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
         chart!!.animateX(1500)
     }
 }
-

@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import com.linhua.smartwatch.SmartWatchApplication
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.DeviceState
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.UserBean
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
@@ -24,7 +25,8 @@ object UserData {
     var isDeviceEmpty = true
     var userInfo = UserInfo()
     var isLogined = false
-
+    var systemSetting = SystemSettings()
+    var deviceConfig: DeviceState? = null
     init {
         loadUserInfo()
     }

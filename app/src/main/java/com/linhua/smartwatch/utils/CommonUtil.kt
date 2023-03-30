@@ -13,14 +13,63 @@ import android.text.TextUtils
 import android.util.TypedValue
 import android.widget.TextView
 import com.linhua.smartwatch.SmartWatchApplication
+import com.linhua.smartwatch.helper.UserData
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 /**
  * Describe 工具栏
  */
 object CommonUtil {
+
+     fun FahFromCelTempr(tempr: Float) : Double {
+        return 32 + tempr * 1.8
+//    华氏度 = 32°F+ 摄氏度 × 1.8
+//    摄氏度 = (华氏度 - 32°F) ÷ 1.8
+    }
+
+    fun CelFromFahTempr(tempr: Float) : Double {
+        return (tempr - 32) / 1.8
+    }
+
+    fun AutoTempr(tempr: Float) : Double {
+        if (UserData.systemSetting.temprUnit == 0) {
+            if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 0) {
+                return tempr.toDouble()
+            } else if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 1) {
+                return FahFromCelTempr(tempr)
+            } else {
+                return tempr.toDouble()
+            }
+        } else {
+            if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 0) {
+                return CelFromFahTempr(tempr)
+            } else if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 1) {
+                return tempr.toDouble()
+            } else {
+                return tempr.toDouble()
+            }
+        }
+    }
+
+    fun PoundsFromKg(kg: Int) : Float {
+        return kg.toFloat() * 0.220462.roundToInt()
+    }
+
+    fun KgFromPounds(pounds: Int) : Int {
+        return (pounds.toFloat() * 0.4536 * 10).roundToInt()
+    }
+
+    fun FiFromCm(cm: Int) : Int {
+        return (3.2808 * cm.toFloat() / 100 * 12).roundToInt()
+    }
+
+    fun CmFromFi(fi: Int) : Int {
+        return (fi.toFloat() / 12.0 / 3.2808 * 100).roundToInt()
+    }
+
     /**
      * 是否是24小时
      *

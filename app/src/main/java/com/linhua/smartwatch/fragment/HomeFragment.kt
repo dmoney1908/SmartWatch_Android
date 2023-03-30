@@ -18,6 +18,7 @@ import com.linhua.smartwatch.heartrate.HeartRateActivity
 import com.linhua.smartwatch.met.MetActivity
 import com.linhua.smartwatch.oxygen.OxygenActivity
 import com.linhua.smartwatch.sleep.SleepActivity
+import com.linhua.smartwatch.tempr.TemperatureActivity
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.IntentUtil
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -96,7 +97,12 @@ class HomeFragment: BaseFragment(){
         }
 
         hostView?.findViewById<RelativeLayout>(R.id.rl_tempr)?.setOnClickListener {
-
+            this.context?.let { it ->
+                IntentUtil.goToActivity(
+                    it,
+                    TemperatureActivity::class.java
+                )
+            }
         }
 
         hostView?.findViewById<RelativeLayout>(R.id.rl_weight)?.setOnClickListener {
@@ -211,6 +217,7 @@ class HomeFragment: BaseFragment(){
                 val heartRate = handlerBleDataResult.data as HealthHeartRate
                 hostView!!.findViewById<TextView>(R.id.tv_heart_rate_num).setText(heartRate.silentHeart.toString())
                 hostView!!.findViewById<TextView>(R.id.tv_pressure_value).setText(heartRate.ss.toString())
+                hostView!!.findViewById<TextView>(R.id.tv_oxygen_num).setText(heartRate.oxygen.toString() + "%")
             }
 
             override fun onFailed(e: WriteBleException) {

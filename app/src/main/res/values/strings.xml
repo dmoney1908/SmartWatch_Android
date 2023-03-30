@@ -41,6 +41,7 @@
     <string name="about">About</string>
     <string name="hr_trend">Heart Rate Trend</string>
     <string name="oxygen_trend">Blood Oxygen Trend</string>
+    <string name="tempr_trend">Temperature Trend</string>
     <string name="sleep_record">Sleep Record</string>
     <string name="bp">Bp</string>
     <string name="mmhg">MmHg</string>
@@ -89,7 +90,7 @@
     <string name="no_blood_data">No blood pressure data available</string>
     <string name="no_sleep_data">No sleep data available</string>
     <string name="no_met_data">No MET. data available</string>
-
+    <string name="no_tempr_data">No temperature data available</string>
     <string name="permisson_location_open">Open</string>
     <string name="permisson_location_title">Location access is not turned on</string>
     <string name="permisson_location_tips">Outdoor sports require authorized location information permissions</string>
