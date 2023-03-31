@@ -34,6 +34,7 @@
     <string name="my_devices">My Devices</string>
     <string name="reconnect">Reconnect</string>
     <string name="email">Email</string>
+    <string name="signature">Signature</string>
     <string name="mailbox">Your Mailbox</string>
 
     <string name="personal_info">Personal Information</string>
@@ -113,14 +114,23 @@
     <string name="welcome_back">Welcome Back !</string>
     <string name="login_continue">Login to continue</string>
     <string name="password">Password</string>
+    <string name="birthday">Date Of Birth</string>
     <string name="feedback_comment">Feedback your question or comments</string>
-
+    <string name="name">Name</string>
+    <string name="nick_name">Nick Name</string>
     <string name="login">Log in</string>
+    <string name="save">Save</string>
     <string name="send">Send</string>
     <string name="sign">Sign up</string>
     <string name="tempr_f">°F</string>
     <string name="tempr_c">°C</string>
     <string name="pounds">Pounds</string>
+    <string name="gender">Gender</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+
+    <string name="ft">Ft</string>
+    <string name="in">in</string>
 
     <string name="forgot_pwd">Forgot password?</string>
     <string name="or">or</string>
@@ -143,8 +153,12 @@
     <string name="pwd_invalid">Please input valid password.</string>
     <string name="name_invalid">Please input valid name.</string>
     <string name="what_met">What is MET ?</string>
-    <string name="weight">Body Weight</string>
+    <string name="body_weight">Body Weight</string>
     <string name="cumulative_met">Cumulative\nthis week</string>
+
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
 
     <string name="met_desc">MET (Metabolic Equivalent of Energy) refers to the energy metabolism equivalent, a standard indicator for expressing various activities\' relative energy metabolism level based on the energy consumption during quiet and sitting. For example, one minute of training per kilogram of body weight consumes 3.5 ml of oxygen, and the intensity of this exercise is 1MET. The activity intensity of 1MET is only slightly higher than the basal metabolism of healthy adults, which is equivalent to the metabolic level of healthy adults when they are sitting quietly.</string>
 </resources>
