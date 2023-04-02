@@ -21,6 +21,17 @@ class DateUtil {
             return simpleDateFormat.format(date)
         }
 
+        fun getYMDDate2(date: Date): String? {
+            val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd")
+            return simpleDateFormat.format(date)
+        }
+
+        fun getYMDDateString2(date: String): Date? {
+            val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd")
+            return simpleDateFormat.parse(date)
+        }
+
+
         fun getYMDate(date: Date): String? {
             val simpleDateFormat = SimpleDateFormat("MMMM,yyyy")
             return simpleDateFormat.format(date)

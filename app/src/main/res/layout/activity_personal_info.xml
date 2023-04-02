@@ -223,7 +223,7 @@
                 android:background="@drawable/email_corner_shape"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/et_birthday"
+                    android:id="@+id/tv_birthday"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_marginStart="10dp"
@@ -290,21 +290,16 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/email_corner_shape"
                         android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tv_height_value"
-                            android:layout_width="match_parent"
+                        <Spinner
+                            android:id="@+id/spinner_height"
                             android:layout_marginStart="10dp"
+                            android:overlapAnchor="false"
+                            style="@style/CommonSpinner"
+                            android:layout_gravity="center_vertical"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@null"
-                            android:gravity="center_vertical|left"/>
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginStart="14dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="14dp"
-                            android:src="@drawable/gray_arrow_down" />
+                            android:layout_width="match_parent"
+                            android:prompt="@string/hint_spinner" />
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -349,41 +344,23 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/email_corner_shape"
                         android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tv_weight_value"
-                            android:layout_width="match_parent"
+                        <Spinner
+                            android:id="@+id/spinner_weight"
                             android:layout_marginStart="10dp"
+                            android:overlapAnchor="false"
+                            style="@style/CommonSpinner"
+                            android:layout_gravity="center_vertical"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@null"
-                            android:gravity="center_vertical|left"/>
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginStart="14dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="14dp"
-                            android:src="@drawable/gray_arrow_down" />
+                            android:layout_width="match_parent"
+                            android:prompt="@string/hint_spinner" />
 
                     </LinearLayout>
                 </RelativeLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_save"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                android:autoSizeMaxTextSize="30dp"
-                android:gravity="center"
-                android:text="@string/save"
-                android:background="@drawable/sign_shape"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_signature"
                 android:layout_width="match_parent"
@@ -423,7 +400,20 @@
                     android:layout_marginTop="14dp"
                     android:src="@drawable/gray_arrow_down" />
             </LinearLayout>
-
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="20dp"
+                android:autoSizeMaxTextSize="30dp"
+                android:gravity="center"
+                android:text="@string/save"
+                android:background="@drawable/sign_shape"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </ScrollView>

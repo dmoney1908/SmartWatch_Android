@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.activity.MainActivity
 import com.linhua.smartwatch.base.CommonActivity
@@ -100,7 +102,16 @@ class SignupActivity : CommonActivity() {
                 if (email != null) {
                     UserData.userInfo.email = email
                 }
+
                 showToast("Account have been created with email $email")
+                val db = Firebase.firestore
+                val profile = hashMapOf(
+                    "name" to UserData.userInfo.name,
+                    "email" to email
+                )
+                db.collection("profile").document(FirebaseAuth.getInstance().currentUser!!.uid).set(
+                    profile).addOnSuccessListener {
+                }
                 startMainActivity()
             }
             .addOnFailureListener{e->

@@ -1,6 +1,7 @@
 package com.linhua.smartwatch.helper
 
 import android.graphics.Bitmap
+import com.google.gson.Gson
 
 data class UserInfo(var name: String = "Tribe",
                     var avatar: Bitmap? = null,
@@ -10,4 +11,8 @@ data class UserInfo(var name: String = "Tribe",
                     var age: Int = 0,
                     var height: Int = 0,
                     var weight: Int = 0,
-                    var birthday: String = "",)
+                    var birthday: String = "") {
+    fun deepCopy(): UserInfo {
+        return Gson().fromJson(Gson().toJson(this), this.javaClass)
+    }
+}
