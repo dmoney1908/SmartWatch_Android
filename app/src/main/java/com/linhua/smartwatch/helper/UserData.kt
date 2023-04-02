@@ -31,6 +31,36 @@ object UserData {
         loadUserInfo()
     }
 
+    fun loadSystemSetting() {
+        val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
+            Context.MODE_PRIVATE
+        )
+
+        try {
+            systemSetting.unitSettings = userSP.getInt("unitSettings", 0)
+            systemSetting.temprUnit = userSP.getInt("temprUnit", 0)
+            systemSetting.dataShare = userSP.getInt("dataShare", 0)
+        } catch (var6: IOException) {
+            var6.printStackTrace()
+        }
+    }
+
+    fun saveSystemSetting() {
+        val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
+            Context.MODE_PRIVATE
+        )
+
+        try {
+            val editor = userSP.edit()
+            editor.putInt("unitSettings", systemSetting.unitSettings)
+            editor.putInt("temprUnit", systemSetting.temprUnit)
+            editor.putInt("dataShare", systemSetting.dataShare)
+            editor.commit()
+        } catch (var6: IOException) {
+            var6.printStackTrace()
+        }
+    }
+
     fun loadUserInfo() {
 
         val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("userInfo",
@@ -54,6 +84,8 @@ object UserData {
         }
         getAvatar()
     }
+
+
 
     fun saveUserInfo() {
         BleSdkWrapper.setUserInfo(deviceUserInfo, object : OnLeWriteCharacteristicListener() {
