@@ -4,7 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Base64
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storage
 import com.linhua.smartwatch.SmartWatchApplication
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.DeviceState
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.UserBean
@@ -14,9 +21,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicLi
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.IOException
+import java.io.*
 
 
 object UserData {
@@ -85,8 +90,6 @@ object UserData {
         getAvatar()
     }
 
-
-
     fun saveUserInfo() {
         BleSdkWrapper.setUserInfo(deviceUserInfo, object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
@@ -98,6 +101,28 @@ object UserData {
                 ToastUtil.showToast(SmartWatchApplication.instance, "Fail to save")
             }
         })
+    }
+
+    private fun uploadImageToFirebase(path: String) {
+        if (path != null) {
+            val storage = Firebase.storage
+            val storageRef = storage.reference
+            val uid = FirebaseAuth.getInstance().currentUser!!.uid
+            var file = Uri.fromFile(File(path))
+            val riversRef = storageRef.child("images/${uid}.png")
+            riversRef.putFile(file)
+                .addOnSuccessListener(
+                    OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            val imageUrl = it.toString()
+                            UserData.userInfo.avatar = imageUrl
+                        }
+                    })
+
+                ?.addOnFailureListener(OnFailureListener { e ->
+                    print(e.message)
+                })
+        }
     }
 
 

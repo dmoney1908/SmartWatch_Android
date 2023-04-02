@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import com.google.gson.Gson
 
 data class UserInfo(var name: String = "Tribe",
-                    var avatar: Bitmap? = null,
+                    var avatar: String = "",
                     var signature: String = "Love Sports, Love life~",
                     var email: String = "",
                     var sex: Int = 0,

@@ -4,10 +4,15 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.blankj.utilcode.util.ColorUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -21,7 +26,7 @@ import com.yuyh.library.imgsel.ISNav
 import com.yuyh.library.imgsel.config.ISCameraConfig
 import com.yuyh.library.imgsel.config.ISListConfig
 import java.util.*
-import com.bumptech.glide.Glide
+
 
 class PersonalInfoActivity : CommonActivity() {
     private lateinit var binding: ActivityPersonalInfoBinding
@@ -35,8 +40,11 @@ class PersonalInfoActivity : CommonActivity() {
         ISNav.getInstance().init { context, path, imageView ->
             Glide.with(context).load(path).into(imageView)
         }
+
         binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Glide.with(this).load(R.drawable.avatar_user).centerCrop()
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(binding.ivAvatar)
 
         binding.etName.setText(userInfo.name)
         binding.etSignature.setText(userInfo.signature)
@@ -235,7 +243,7 @@ class PersonalInfoActivity : CommonActivity() {
         ISNav.getInstance().toListActivity(this, config, REQUEST_LIST_CODE)
     }
 
-    fun Camera(view: View?) {
+    private fun Camera(view: View?) {
         val config = ISCameraConfig.Builder()
             .needCrop(true)
             .cropSize(1, 1, 200, 200)
@@ -248,20 +256,16 @@ class PersonalInfoActivity : CommonActivity() {
         if (requestCode == REQUEST_LIST_CODE && resultCode == RESULT_OK && data != null) {
             val pathList: List<String>? = data.getStringArrayListExtra("result")
 
+            ///storage/emulated/0/Android/media/com.linhua.smartwatch/1680442090933.jpg
+
             // 测试Fresco
             // draweeView.setImageURI(Uri.parse("file://"+pathList.get(0)));
-            for (path in pathList!!) {
-                val c =
-                    """
-                    $path
-                    """.trimIndent()
-            }
+            if (pathList == null || pathList.isEmpty())return
+            val path = "file://"+ pathList[0]
+            Glide.with(this).load(path).transform(CenterInside(),RoundedCorners(50)).into(binding.ivAvatar)
         } else if (requestCode == REQUEST_CAMERA_CODE && resultCode == RESULT_OK && data != null) {
             val path = data.getStringExtra("result")
-            val c =
-                """
-                $path
-                """.trimIndent()
+            Glide.with(this).load(path).into(binding.ivAvatar)
         }
     }
 }
