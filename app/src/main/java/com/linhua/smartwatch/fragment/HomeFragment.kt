@@ -196,6 +196,8 @@ class HomeFragment: BaseFragment(){
 
     override fun onDestroy() {
         super.onDestroy()
+        connectDevice = null
+        mBluetoothLe?.destroy(TAG)
         EventBus.getDefault().unregister(this)
     }
 
