@@ -42,7 +42,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             binding.ivCheckTempr2.setImageResource(R.drawable.simple_check)
         }
 
-        binding.ivCheckUnit1.setOnClickListener {
+        binding.llImperial.setOnClickListener {
             binding.tvImperial.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.tvMetric.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.ivCheckUnit1.setImageResource(R.drawable.simple_check)
@@ -51,7 +51,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             UserData.saveSystemSetting()
         }
 
-        binding.ivCheckUnit2.setOnClickListener {
+        binding.llMetric.setOnClickListener {
             binding.tvImperial.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.tvMetric.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.ivCheckUnit1.setImageResource(R.drawable.simple_uncheck)
@@ -60,7 +60,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             UserData.saveSystemSetting()
         }
 
-        binding.ivCheckTempr1.setOnClickListener {
+        binding.llTemprF.setOnClickListener {
             binding.tvF.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.tvC.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.ivCheckTempr1.setImageResource(R.drawable.simple_check)
@@ -69,7 +69,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             UserData.saveSystemSetting()
         }
 
-        binding.ivCheckTempr2.setOnClickListener {
+        binding.llTemprC.setOnClickListener {
             binding.tvF.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.tvC.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.ivCheckTempr1.setImageResource(R.drawable.simple_uncheck)
