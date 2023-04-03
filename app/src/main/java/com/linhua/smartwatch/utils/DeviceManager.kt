@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Base64
 import com.linhua.smartwatch.SmartWatchApplication
 import com.linhua.smartwatch.event.MessageEvent
+import com.linhua.smartwatch.helper.UserData
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.BLEDevice
 import org.greenrobot.eventbus.EventBus
 import java.io.*
@@ -35,6 +36,7 @@ object DeviceManager {
 
     fun setConnectedDevice(device: BLEDevice?) {
         currentDevice = device
+        UserData.saveMac(device?.mDeviceAddress)
         val event = MessageEvent(MessageEvent.DeviceStatusChanged)
         EventBus.getDefault().post(event)
     }

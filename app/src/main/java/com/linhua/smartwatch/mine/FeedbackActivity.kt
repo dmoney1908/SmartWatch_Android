@@ -24,5 +24,10 @@ class FeedbackActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        binding.tvSend.setOnClickListener {
+
+        }
+
+
     }
 }

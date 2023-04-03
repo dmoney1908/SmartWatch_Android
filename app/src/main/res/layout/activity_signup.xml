@@ -82,7 +82,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/enter_name"
                     android:gravity="center_vertical|left"/>
             </LinearLayout>
 
@@ -123,6 +123,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_height="match_parent"
                     android:background="@null"
+                    android:hint="@string/enter_email"
                     android:inputType="textEmailAddress"
                     android:gravity="center_vertical|left"/>
             </LinearLayout>
@@ -164,7 +165,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/enter_password"
                     android:gravity="center_vertical|left"/>
                 <ImageView
                     android:id="@+id/iv_secure"

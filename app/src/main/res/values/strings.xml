@@ -70,7 +70,10 @@
     <string name="average_value">Average value</string>
     <string name="highest_value">Highest value</string>
     <string name="average">Average</string>
-    <string name="enter_email">Please enter your email</string>
+    <string name="please_enter_email">Please enter your email</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="enter_password">Enter your password</string>
     <string name="click_enter">Click enter...</string>
 
     <string name="hint_spinner">-Select-</string>

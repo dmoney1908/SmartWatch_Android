@@ -1,5 +1,6 @@
 package com.linhua.smartwatch.fragment
 
+import android.bluetooth.BluetoothGatt
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.view.View
@@ -15,23 +16,26 @@ import com.linhua.smartwatch.base.BaseFragment
 import com.linhua.smartwatch.bp.BPActivity
 import com.linhua.smartwatch.event.MessageEvent
 import com.linhua.smartwatch.heartrate.HeartRateActivity
+import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.met.MetActivity
 import com.linhua.smartwatch.mine.PersonalInfoActivity
 import com.linhua.smartwatch.oxygen.OxygenActivity
 import com.linhua.smartwatch.sleep.SleepActivity
 import com.linhua.smartwatch.tempr.TemperatureActivity
+import com.linhua.smartwatch.utils.CommonUtil
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.IntentUtil
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.zhj.bluetooth.zhjbluetoothsdk.bean.Goal
-import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRate
-import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthSport
-import com.zhj.bluetooth.zhjbluetoothsdk.bean.TempInfo
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.*
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.BluetoothLe
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeConnectListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.ConnBleException
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
+import com.zhj.bluetooth.zhjbluetoothsdk.util.LogUtil
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -42,6 +46,13 @@ class HomeFragment: BaseFragment(){
     private val RESULT_CODE_ADD = 1000
     var hostView: View? = null
     private var refreshLayout: RefreshLayout? = null
+    private var connectDevice: BLEDevice? = null
+    var mBluetoothLe: BluetoothLe? = null
+    private var dailyDateIndex = 0
+    protected val TAG: String = this.javaClass.simpleName
+    private var healthSleepItems = mutableListOf<List<HealthSleepItem>?>()
+    private var todayCalendar = Calendar.getInstance()
+
     override fun initView(): View? {
         hostView = View.inflate(activity, R.layout.fragment_home,null) as View?
         hostView?.findViewById<ImageView>(R.id.iv_add)?.setOnClickListener {
@@ -125,10 +136,58 @@ class HomeFragment: BaseFragment(){
                 )
             }
         }
+        autoConnect()
         if (!EventBus.getDefault().isRegistered(this))  //这里的取反别忘记了
             EventBus.getDefault().register(this)
         return hostView
     }
+
+    private fun autoConnect() {
+        if (!DeviceManager.isSDKAvailable) {
+            return
+        }
+        mBluetoothLe = BluetoothLe.getDefault()
+        if (!mBluetoothLe!!.isBluetoothOpen || !CommonUtil.isOPen(requireActivity())) {
+            return
+        }
+        if (DeviceManager.getConnectedDevice() == null){
+            val devices = DeviceManager.getDeviceList()
+            if (UserData.lastMac.isNotEmpty() && devices.isNotEmpty()) {
+                for (item in devices) {
+                    if (item.mDeviceAddress == UserData.lastMac) {
+                        addConnectionListener()
+                        connectDevice = item
+                        mBluetoothLe?.startConnect(item.mDeviceAddress)
+                        return
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addConnectionListener() {
+        mBluetoothLe!!.setOnConnectListener(TAG, object : OnLeConnectListener() {
+            override fun onDeviceConnecting() {}
+            override fun onDeviceConnected() {}
+            override fun onDeviceDisconnected() {
+                connectDevice = null
+            }
+
+            override fun onServicesDiscovered(bluetoothGatt: BluetoothGatt) {
+                if (connectDevice != null) {
+                    DeviceManager.setConnectedDevice(connectDevice)
+                    DeviceManager.addDevice(connectDevice!!)
+                    mBluetoothLe!!.destroy(TAG)
+                }
+            }
+
+            override fun onDeviceConnectFail(e: ConnBleException) {
+                connectDevice = null
+                mBluetoothLe!!.destroy(TAG)
+            }
+        })
+    }
+
 
     override fun initData() {
     }
@@ -226,11 +285,13 @@ class HomeFragment: BaseFragment(){
                 hostView!!.findViewById<TextView>(R.id.tv_heart_rate_num).text = heartRate.silentHeart.toString()
                 hostView!!.findViewById<TextView>(R.id.tv_pressure_value).text = heartRate.ss.toString()
                 hostView!!.findViewById<TextView>(R.id.tv_oxygen_num).text = heartRate.oxygen.toString() + "%"
-                getCurrentTmp()
+                dailyDateIndex = 0
+                todayCalendar = Calendar.getInstance()
+                syncDailySleepHistory()
             }
 
             override fun onFailed(e: WriteBleException) {
-                getCurrentTmp()
+                syncDailySleepHistory()
             }
         })
     }
@@ -250,11 +311,79 @@ class HomeFragment: BaseFragment(){
         })
     }
 
+    //历史睡眠数据 (正常计算卡路里数据)
+    private fun syncDailySleepHistory() {
+        dailyDateIndex++
+        val year: Int = todayCalendar.get(Calendar.YEAR)
+        val month: Int = todayCalendar.get(Calendar.MONTH) + 1
+        val day: Int = todayCalendar.get(Calendar.DATE)
+        BleSdkWrapper.getStepOrSleepHistory(
+            year,
+            month,
+            day,
+            object : OnLeWriteCharacteristicListener() {
+                override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                    if (handlerBleDataResult.isComplete) {
+                        if (handlerBleDataResult.hasNext) {
+                            val sleepItems = handlerBleDataResult.sleepItems
+                            if (sleepItems != null) {
+                                healthSleepItems.add(sleepItems)
+                            }
+                            if (dailyDateIndex >= 2) {
+                                showSleepData()
+                                return
+                            }
+                            todayCalendar.add(Calendar.DATE, -1)
+                            syncDailySleepHistory()
+
+                        } else {
+                            showSleepData()
+                        }
+                    }else {
+                        getCurrentTmp()
+                    }
+                }
+
+                override fun onFailed(e: WriteBleException) {
+                    getCurrentTmp()
+                }
+            })
+    }
+
+    private fun showSleepData() {
+        if (healthSleepItems.isEmpty()) return
+        val item = computeMath()
+        val time = item / 60.0
+        hostView!!.findViewById<TextView>(R.id.tv_sleep_num).text = String.format("%.1f", time)
+        getCurrentTmp()
+    }
+
+    private fun computeMath(): Int {
+        var deep = 0
+        var light = 0
+        var wide = 0
+        if (healthSleepItems.isEmpty()) {
+            return 0
+        }
+        val sleepItems = healthSleepItems.first()
+
+        for (item in sleepItems!!) {
+            if (item.sleepStatus == 2) {
+                light += 10
+            } else if (item.sleepStatus == 3) {
+                deep += 10
+            } else if (item.sleepStatus == 4) {
+                wide += 10
+            }
+        }
+        return deep + light + wide
+    }
+
     private fun getCurrentTmp() {
         BleSdkWrapper.getCurrentTmp(object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                 val tempInfo = handlerBleDataResult.data as TempInfo
-                hostView!!.findViewById<TextView>(R.id.tv_tempr_value).text = tempInfo.tmpHandler.toString()
+                hostView!!.findViewById<TextView>(R.id.tv_tempr_value).text = String.format("%.1f", tempInfo.tmpHandler / 100.0)
                 getCurrentMetInfo()
             }
 

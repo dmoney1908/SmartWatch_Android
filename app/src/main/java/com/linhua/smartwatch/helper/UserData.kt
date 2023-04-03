@@ -34,6 +34,7 @@ object UserData {
     var isLogined = false
     var systemSetting = SystemSettings()
     var deviceConfig: DeviceState? = null
+    var lastMac = ""
     init {
         loadUserInfo()
         loadSystemSetting()
@@ -45,6 +46,7 @@ object UserData {
         )
 
         try {
+            lastMac = userSP.getString("lastMac", "").toString()
             systemSetting.unitSettings = userSP.getInt("unitSettings", 0)
             systemSetting.temprUnit = userSP.getInt("temprUnit", 0)
             systemSetting.dataShare = userSP.getInt("dataShare", 0)
@@ -52,6 +54,22 @@ object UserData {
             var6.printStackTrace()
         }
     }
+
+    fun saveMac(mac: String?) {
+        lastMac = mac ?: ""
+        val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
+            Context.MODE_PRIVATE
+        )
+
+        try {
+            val editor = userSP.edit()
+            editor.putString("lastMac", lastMac)
+            editor.apply()
+        } catch (var6: IOException) {
+            var6.printStackTrace()
+        }
+    }
+
 
     fun saveSystemSetting() {
         val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
