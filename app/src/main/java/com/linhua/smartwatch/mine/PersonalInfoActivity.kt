@@ -8,6 +8,7 @@ import android.os.Environment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import com.blankj.utilcode.util.ColorUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
@@ -56,23 +57,12 @@ class PersonalInfoActivity : CommonActivity() {
             userInfo.name = binding.etName.text.toString()
             userInfo.signature = binding.etSignature.text.toString()
             UserData.userInfo = userInfo
-            val db = Firebase.firestore
-            val profile = hashMapOf(
-                "name" to userInfo.name,
-                "avatar" to userInfo.avatar,
-                "signature" to userInfo.signature,
-                "email" to userInfo.email,
-                "sex" to userInfo.sex,
-                "height" to userInfo.height,
-                "weight" to userInfo.weight,
-                "birthday" to userInfo.birthday,
-            )
-
-            db.collection("profile").document(FirebaseAuth.getInstance().currentUser!!.uid).set(
-                profile).addOnSuccessListener {
+            UserData.saveUserInfo { result ->
+                if (result) {
                     finish()
-            }.addOnFailureListener {
-                showToast( "Sign Up Failded")
+                } else {
+                    showToast( "Save Failed")
+                }
             }
         }
 
@@ -221,7 +211,7 @@ class PersonalInfoActivity : CommonActivity() {
         }
     }
 
-    fun Single(view: View?) {
+    private fun Single(view: View?) {
         val config = ISListConfig.Builder() // 是否多选
             .multiSelect(false)
             .btnText("Confirm") // 确定按钮背景色
@@ -257,15 +247,28 @@ class PersonalInfoActivity : CommonActivity() {
             val pathList: List<String>? = data.getStringArrayListExtra("result")
 
             ///storage/emulated/0/Android/media/com.linhua.smartwatch/1680442090933.jpg
-
-            // 测试Fresco
-            // draweeView.setImageURI(Uri.parse("file://"+pathList.get(0)));
             if (pathList == null || pathList.isEmpty())return
-            val path = "file://"+ pathList[0]
-            Glide.with(this).load(path).transform(CenterInside(),RoundedCorners(50)).into(binding.ivAvatar)
+            val path = pathList[0]
+            UserData.uploadImageToFirebase(path) { complete, result ->
+                if (complete && result != null) {
+                    UserData.userInfo.avatar = result
+                    UserData.saveUserInfo(null)
+                }
+            }
+            val filePath = "file://$path"
+            Glide.with(this).load(filePath).transform(CenterInside(),RoundedCorners(50)).into(binding.ivAvatar)
         } else if (requestCode == REQUEST_CAMERA_CODE && resultCode == RESULT_OK && data != null) {
             val path = data.getStringExtra("result")
-            Glide.with(this).load(path).into(binding.ivAvatar)
+            if (path != null) {
+                UserData.uploadImageToFirebase(path) { complete, result ->
+                    if (complete && result != null) {
+                        UserData.userInfo.avatar = result
+                        UserData.saveUserInfo(null)
+                    }
+                }
+                val filePath = "file://$path"
+                Glide.with(this).load(filePath).into(binding.ivAvatar)
+            }
         }
     }
 }

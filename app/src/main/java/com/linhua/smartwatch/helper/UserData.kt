@@ -9,6 +9,7 @@ import android.util.Base64
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
@@ -22,6 +23,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleExcepti
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
 import java.io.*
+import java.util.*
 
 
 object UserData {
@@ -34,6 +36,7 @@ object UserData {
     var deviceConfig: DeviceState? = null
     init {
         loadUserInfo()
+        loadSystemSetting()
     }
 
     fun loadSystemSetting() {
@@ -60,7 +63,7 @@ object UserData {
             editor.putInt("unitSettings", systemSetting.unitSettings)
             editor.putInt("temprUnit", systemSetting.temprUnit)
             editor.putInt("dataShare", systemSetting.dataShare)
-            editor.commit()
+            editor.apply()
         } catch (var6: IOException) {
             var6.printStackTrace()
         }
@@ -90,7 +93,33 @@ object UserData {
         getAvatar()
     }
 
-    fun saveUserInfo() {
+    fun saveUserInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val profile = hashMapOf(
+            "name" to userInfo.name,
+            "avatar" to userInfo.avatar,
+            "signature" to userInfo.signature,
+            "email" to userInfo.email,
+            "sex" to userInfo.sex,
+            "height" to userInfo.height,
+            "weight" to userInfo.weight,
+            "birthday" to userInfo.birthday,
+        )
+
+        db.collection("profile").document(FirebaseAuth.getInstance().currentUser!!.uid).set(
+            profile).addOnSuccessListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun saveUserInfoToDevice() {
         BleSdkWrapper.setUserInfo(deviceUserInfo, object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                 ToastUtil.showToast(SmartWatchApplication.instance, "Save successfully")
@@ -103,7 +132,7 @@ object UserData {
         })
     }
 
-    private fun uploadImageToFirebase(path: String) {
+    fun uploadImageToFirebase(path: String, completeBlock : ((complete: Boolean, result: String?) -> Unit)) {
         if (path != null) {
             val storage = Firebase.storage
             val storageRef = storage.reference
@@ -111,16 +140,17 @@ object UserData {
             var file = Uri.fromFile(File(path))
             val riversRef = storageRef.child("images/${uid}.png")
             riversRef.putFile(file)
-                .addOnSuccessListener(
-                    OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
-                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            val imageUrl = it.toString()
-                            UserData.userInfo.avatar = imageUrl
-                        }
-                    })
+                .addOnSuccessListener { taskSnapshot ->
+                    taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                        val imageUrl = it.toString()
+                        userInfo.avatar = imageUrl
+                        completeBlock(true, imageUrl)
+                    }
+                }
 
                 ?.addOnFailureListener(OnFailureListener { e ->
                     print(e.message)
+                    completeBlock(false, null)
                 })
         }
     }
