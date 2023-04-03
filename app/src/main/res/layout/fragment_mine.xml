@@ -145,7 +145,7 @@
             <TextView
                 android:id="@+id/tv_personal"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:textSize="16dp"
                 android:textColor="@color/dark"
@@ -193,7 +193,7 @@
             <TextView
                 android:id="@+id/tv_settings"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:textSize="16dp"
                 android:textColor="@color/dark"
@@ -238,7 +238,7 @@
             <TextView
                 android:id="@+id/tv_help"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:textSize="16dp"
                 android:textColor="@color/dark"
@@ -283,7 +283,7 @@
             <TextView
                 android:id="@+id/tv_feedback"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:textSize="16dp"
                 android:textColor="@color/dark"
@@ -330,7 +330,7 @@
             <TextView
                 android:id="@+id/tv_about"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:textSize="16dp"
                 android:textColor="@color/dark"

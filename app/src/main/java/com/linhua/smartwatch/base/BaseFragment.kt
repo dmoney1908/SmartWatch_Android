@@ -30,6 +30,8 @@ abstract class BaseFragment:Fragment(){
 
     abstract fun initView(): View?
 
-    protected  open fun initData() {
+    protected open fun initData() {
     }
+
 }
+

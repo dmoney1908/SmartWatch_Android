@@ -44,13 +44,29 @@ class PersonalInfoActivity : CommonActivity() {
 
         binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Glide.with(this).load(R.drawable.avatar_user).centerCrop()
-            .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(binding.ivAvatar)
+        if (userInfo.avatar.isNotEmpty()) {
+            Glide.with(this).load(userInfo.avatar).centerCrop()
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(binding.ivAvatar)
+        } else {
+            Glide.with(this).load(R.drawable.avatar_user).centerCrop()
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(binding.ivAvatar)
+        }
 
-        binding.etName.setText(userInfo.name)
-        binding.etSignature.setText(userInfo.signature)
+
         binding.baseTitleBack.setOnClickListener {
             onBackPressed()
+        }
+
+        if (userInfo.signature.isEmpty()) {
+            binding.etSignature.setText("Love Sports, Love life~")
+        } else {
+            binding.etSignature.setText(userInfo.signature)
+        }
+
+        if (userInfo.name.isEmpty()) {
+            binding.etName.setText("Tribe")
+        } else {
+            binding.etName.setText(userInfo.name)
         }
 
         binding.tvSave.setOnClickListener {

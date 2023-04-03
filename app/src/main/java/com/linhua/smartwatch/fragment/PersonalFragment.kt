@@ -14,10 +14,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseFragment
+import com.linhua.smartwatch.helper.SystemSettings
 import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.mine.AboutActivity
+import com.linhua.smartwatch.mine.FeedbackActivity
 import com.linhua.smartwatch.mine.PersonalInfoActivity
-import com.linhua.smartwatch.mine.UserDetailActivity
+import com.linhua.smartwatch.mine.SystemSettingsActivity
 import com.linhua.smartwatch.utils.DeviceManager
 import com.lxj.xpopup.XPopup
 import com.yuyh.library.imgsel.ISNav
@@ -28,6 +30,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
+
 
 class PersonalFragment: BaseFragment(){
     var hostView: View? = null
@@ -45,10 +48,19 @@ class PersonalFragment: BaseFragment(){
             val intent = Intent(this.context, PersonalInfoActivity::class.java)
             startActivity(intent)
         }
+        hostView!!.findViewById<RelativeLayout>(R.id.rl_settings).setOnClickListener {
+            val intent = Intent(this.context, SystemSettingsActivity::class.java)
+            startActivity(intent)
+        }
+        hostView!!.findViewById<RelativeLayout>(R.id.rl_feedback).setOnClickListener {
+            val intent = Intent(this.context, FeedbackActivity::class.java)
+            startActivity(intent)
+        }
         hostView!!.findViewById<RelativeLayout>(R.id.rl_about).setOnClickListener {
             val intent = Intent(this.context, AboutActivity::class.java)
             startActivity(intent)
         }
+
         ISNav.getInstance().init { context, path, imageView ->
             Glide.with(context).load(path).into(imageView)
         }
@@ -95,7 +107,11 @@ class PersonalFragment: BaseFragment(){
     }
 
     private fun showUserInfo() {
-        hostView!!.findViewById<TextView>(R.id.tv_name).text = UserData.userInfo.name
+        if (UserData.userInfo.name.isNotEmpty()) {
+            hostView!!.findViewById<TextView>(R.id.tv_name).text = UserData.userInfo.name
+        } else {
+            hostView!!.findViewById<TextView>(R.id.tv_name).text = "Tribe"
+        }
         if (UserData.userInfo.email.isNotEmpty()) {
             hostView!!.findViewById<TextView>(R.id.tv_email_addr).text = UserData.userInfo.email
         }
@@ -107,7 +123,6 @@ class PersonalFragment: BaseFragment(){
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(hostView!!.findViewById<ImageView>(R.id.iv_avatar))
         }
     }
-
 
     private fun Single(view: View?) {
         val config = ISListConfig.Builder() // 是否多选

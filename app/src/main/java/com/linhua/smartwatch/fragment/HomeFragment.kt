@@ -16,6 +16,7 @@ import com.linhua.smartwatch.bp.BPActivity
 import com.linhua.smartwatch.event.MessageEvent
 import com.linhua.smartwatch.heartrate.HeartRateActivity
 import com.linhua.smartwatch.met.MetActivity
+import com.linhua.smartwatch.mine.PersonalInfoActivity
 import com.linhua.smartwatch.oxygen.OxygenActivity
 import com.linhua.smartwatch.sleep.SleepActivity
 import com.linhua.smartwatch.tempr.TemperatureActivity
@@ -26,6 +27,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.Goal
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRate
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthSport
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.TempInfo
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
@@ -34,6 +36,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 class HomeFragment: BaseFragment(){
     private val RESULT_CODE_ADD = 1000
@@ -106,7 +109,12 @@ class HomeFragment: BaseFragment(){
         }
 
         hostView?.findViewById<RelativeLayout>(R.id.rl_weight)?.setOnClickListener {
-
+            this.context?.let { it ->
+                IntentUtil.goToActivity(
+                    it,
+                    PersonalInfoActivity::class.java
+                )
+            }
         }
 
         hostView?.findViewById<RelativeLayout>(R.id.rl_blood_pressure)?.setOnClickListener {
@@ -213,18 +221,50 @@ class HomeFragment: BaseFragment(){
     private fun getCurrentRate() {
         BleSdkWrapper.getHeartRate(object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
-                refreshLayout!!.finishRefresh(true)
+
                 val heartRate = handlerBleDataResult.data as HealthHeartRate
-                hostView!!.findViewById<TextView>(R.id.tv_heart_rate_num).setText(heartRate.silentHeart.toString())
-                hostView!!.findViewById<TextView>(R.id.tv_pressure_value).setText(heartRate.ss.toString())
-                hostView!!.findViewById<TextView>(R.id.tv_oxygen_num).setText(heartRate.oxygen.toString() + "%")
+                hostView!!.findViewById<TextView>(R.id.tv_heart_rate_num).text = heartRate.silentHeart.toString()
+                hostView!!.findViewById<TextView>(R.id.tv_pressure_value).text = heartRate.ss.toString()
+                hostView!!.findViewById<TextView>(R.id.tv_oxygen_num).text = heartRate.oxygen.toString() + "%"
+                getCurrentTmp()
             }
 
             override fun onFailed(e: WriteBleException) {
+                getCurrentTmp()
+            }
+        })
+    }
+
+    private fun getCurrentMetInfo() {
+        BleSdkWrapper.getMettInfo(object : OnLeWriteCharacteristicListener() {
+            override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                refreshLayout!!.finishRefresh(true)
+                val map = handlerBleDataResult.data as Map<Int, Int>
+                val met = map[0]
+                hostView!!.findViewById<TextView>(R.id.tv_met_num).text = met.toString()
+            }
+
+            override fun onFailed(p0: WriteBleException?) {
                 refreshLayout!!.finishRefresh(true)
             }
         })
     }
+
+    private fun getCurrentTmp() {
+        BleSdkWrapper.getCurrentTmp(object : OnLeWriteCharacteristicListener() {
+            override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                val tempInfo = handlerBleDataResult.data as TempInfo
+                hostView!!.findViewById<TextView>(R.id.tv_tempr_value).text = tempInfo.tmpHandler.toString()
+                getCurrentMetInfo()
+            }
+
+            override fun onFailed(p0: WriteBleException?) {
+                getCurrentMetInfo()
+            }
+        })
+    }
+
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
