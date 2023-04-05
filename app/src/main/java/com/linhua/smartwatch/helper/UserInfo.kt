@@ -1,6 +1,5 @@
 package com.linhua.smartwatch.helper
 
-import android.graphics.Bitmap
 import com.google.gson.Gson
 
 data class UserInfo(var name: String = "Tribe",

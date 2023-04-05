@@ -9,6 +9,7 @@ import com.linhua.smartwatch.helper.UserData
 
 class SystemSettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySystemSettingsBinding
+    private var settings = UserData.systemSetting.deepCopy()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySystemSettingsBinding.inflate(layoutInflater)
@@ -18,7 +19,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        if (UserData.systemSetting.unitSettings == 0) {
+        if (settings.unitSettings == 0) {
             binding.tvImperial.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.tvMetric.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.ivCheckUnit1.setImageResource(R.drawable.simple_check)
@@ -30,7 +31,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             binding.ivCheckUnit2.setImageResource(R.drawable.simple_check)
         }
 
-        if (UserData.systemSetting.temprUnit == 0) {
+        if (settings.temprUnit == 0) {
             binding.tvF.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.tvC.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.ivCheckTempr1.setImageResource(R.drawable.simple_check)
@@ -47,8 +48,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             binding.tvMetric.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.ivCheckUnit1.setImageResource(R.drawable.simple_check)
             binding.ivCheckUnit2.setImageResource(R.drawable.simple_uncheck)
-            UserData.systemSetting.unitSettings = 0
-            UserData.saveSystemSetting()
+            settings.unitSettings = 0
         }
 
         binding.llMetric.setOnClickListener {
@@ -56,8 +56,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             binding.tvMetric.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.ivCheckUnit1.setImageResource(R.drawable.simple_uncheck)
             binding.ivCheckUnit2.setImageResource(R.drawable.simple_check)
-            UserData.systemSetting.unitSettings = 1
-            UserData.saveSystemSetting()
+            settings.unitSettings = 1
         }
 
         binding.llTemprF.setOnClickListener {
@@ -65,8 +64,7 @@ class SystemSettingsActivity : AppCompatActivity() {
             binding.tvC.setTextColor(ColorUtils.getColor(R.color.light_gray))
             binding.ivCheckTempr1.setImageResource(R.drawable.simple_check)
             binding.ivCheckTempr2.setImageResource(R.drawable.simple_uncheck)
-            UserData.systemSetting.temprUnit = 0
-            UserData.saveSystemSetting()
+            settings.temprUnit = 0
         }
 
         binding.llTemprC.setOnClickListener {
@@ -74,9 +72,13 @@ class SystemSettingsActivity : AppCompatActivity() {
             binding.tvC.setTextColor(ColorUtils.getColor(R.color.primary_black))
             binding.ivCheckTempr1.setImageResource(R.drawable.simple_uncheck)
             binding.ivCheckTempr2.setImageResource(R.drawable.simple_check)
-            UserData.systemSetting.temprUnit = 1
-            UserData.saveSystemSetting()
+            settings.temprUnit = 1
         }
 
+
+        binding.tvSave.setOnClickListener {
+            UserData.systemSetting = settings
+            UserData.saveSystemSetting(null)
+        }
     }
 }

@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
@@ -44,14 +45,13 @@ object UserData {
         val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
             Context.MODE_PRIVATE
         )
-
-        try {
-            lastMac = userSP.getString("lastMac", "").toString()
-            systemSetting.unitSettings = userSP.getInt("unitSettings", 0)
-            systemSetting.temprUnit = userSP.getInt("temprUnit", 0)
-            systemSetting.dataShare = userSP.getInt("dataShare", 0)
-        } catch (var6: IOException) {
-            var6.printStackTrace()
+        val db = Firebase.firestore
+        val docRef = db.collection("settings").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val settings = documentSnapshot.toObject<SystemSettings>()
+            if (settings != null) {
+                systemSetting = settings
+            }
         }
     }
 
@@ -70,20 +70,24 @@ object UserData {
         }
     }
 
-
-    fun saveSystemSetting() {
-        val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
-            Context.MODE_PRIVATE
+    fun saveSystemSetting(completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val settings = hashMapOf(
+            "unitSettings" to systemSetting.unitSettings,
+            "temprUnit" to systemSetting.temprUnit,
+            "dataShare" to systemSetting.dataShare
         )
 
-        try {
-            val editor = userSP.edit()
-            editor.putInt("unitSettings", systemSetting.unitSettings)
-            editor.putInt("temprUnit", systemSetting.temprUnit)
-            editor.putInt("dataShare", systemSetting.dataShare)
-            editor.apply()
-        } catch (var6: IOException) {
-            var6.printStackTrace()
+        db.collection("settings").document(FirebaseAuth.getInstance().currentUser!!.uid).set(
+            settings).addOnSuccessListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
         }
     }
 
