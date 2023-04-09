@@ -474,12 +474,14 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         }
 
         var lastModel: SleepStepModel? = null
-        var lastType: Int = 0
+        var lastType = 0
         val stepSleepValues = mutableListOf<SleepStepModel>()
         var beginDate : Int? = null
         var endDate : Int? = null
+        var baseHour = 0
         if (healthSleepItems.count() >= 2) {
             val yesterday = healthSleepItems[1]
+
             //11点到最后
             for (item in yesterday!!) {
                 if (item.hour < 22) {
@@ -490,20 +492,21 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
 
                         if (lastType != item.sleepStatus) {
                             lastModel = SleepStepModel()
-                            lastModel.duration = 10
+                            lastModel.duration = item.offsetMinute
                             lastModel.type = item.sleepStatus
                             lastModel.beginTime = (item.hour - 22) * 60 + item.minuter
                             stepSleepValues.add(lastModel)
                         } else {
                             if (lastModel != null) {
-                                lastModel.duration += 10
+                                lastModel.duration += item.offsetMinute
                             }
                         }
                         lastType = item.sleepStatus
                         if (beginDate == null) {
                             beginDate = lastModel!!.beginTime
+                            baseHour = 22
                         }
-                        endDate = lastModel!!.beginTime + 10
+                        endDate = lastModel!!.beginTime + lastModel.duration
                     }
                     else -> {
                         lastType = 0
@@ -513,7 +516,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             }
         }
         var delta = 0
-        if (beginDate != null) {
+        if (baseHour == 22) {
             delta = 120
         }
         val today = healthSleepItems.first()
@@ -526,20 +529,21 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                 2, 3, 4 -> {
                     if (lastType != item.sleepStatus) {
                         lastModel = SleepStepModel()
-                        lastModel.duration = 10
+                        lastModel.duration = item.offsetMinute
                         lastModel.type = item.sleepStatus
                         lastModel.beginTime = item.hour * 60 + item.minuter + delta
                         stepSleepValues.add(lastModel)
                     } else {
                         if (lastModel != null) {
-                            lastModel.duration += 10
+                            lastModel.duration += item.offsetMinute
                         }
                     }
                     lastType = item.sleepStatus
                     if (beginDate == null) {
                         beginDate = lastModel!!.beginTime
+                        baseHour = 0
                     }
-                    endDate = lastModel!!.beginTime + 10
+                    endDate = lastModel!!.beginTime + lastModel.duration
                 }
                 else -> {
                     lastType = 0
@@ -553,11 +557,11 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         val hour = beginDate!! / 60
         val sep = ceil((endDate!! - hour * 60) / 240.0).toInt()
         val timeArray = arrayOf(
-            DateUtil.convert24To12Hour(22 + hour),
-            DateUtil.convert24To12Hour(22 + hour + sep),
-            DateUtil.convert24To12Hour(22 + hour + sep * 2),
-            DateUtil.convert24To12Hour(22 + hour + sep * 3),
-            DateUtil.convert24To12Hour(22 + hour + sep * 4)
+            DateUtil.convert24To12Hour(baseHour + hour),
+            DateUtil.convert24To12Hour(baseHour + hour + sep),
+            DateUtil.convert24To12Hour(baseHour + hour + sep * 2),
+            DateUtil.convert24To12Hour(baseHour + hour + sep * 3),
+            DateUtil.convert24To12Hour(baseHour + hour + sep * 4)
         )
         for (i in timeArray.indices) {
             val textView = TextView(linearLayout.context)

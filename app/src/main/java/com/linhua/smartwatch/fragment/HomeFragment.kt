@@ -268,7 +268,7 @@ class HomeFragment: BaseFragment(){
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                 val sport = handlerBleDataResult.data as HealthSport
                 hostView!!.findViewById<TextView>(R.id.tv_steps).setText(sport.totalStepCount.toString())
-                hostView!!.findViewById<TextView>(R.id.tv_calories_value).setText((sport.totalCalory * 1000).toString()) //单位千卡
+                hostView!!.findViewById<TextView>(R.id.tv_calories_value).setText((sport.totalCalory).toString()) //单位千卡
                 hostView!!.findViewById<TextView>(R.id.tv_distance_value).setText(sport.totalDistance.toString()) //单位米
                 getCurrentRate()
             }
