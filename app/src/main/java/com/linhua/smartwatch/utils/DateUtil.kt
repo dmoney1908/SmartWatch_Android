@@ -86,5 +86,15 @@ class DateUtil {
             }
             return -1
         }
+
+        fun convert24To12Hour(hour: Int) : String {
+            return if (hour > 24) {
+                String.format("%02d:00 am", hour - 24)
+            } else if (hour > 12) {
+                String.format("%02d:00 pm", hour - 12)
+            } else {
+                String.format("%02d:00 am", hour)
+            }
+        }
     }
 }

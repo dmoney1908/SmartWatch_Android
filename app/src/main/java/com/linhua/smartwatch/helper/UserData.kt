@@ -45,6 +45,12 @@ object UserData {
         val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
             Context.MODE_PRIVATE
         )
+        try {
+            lastMac = userSP.getString("lastMac", "").toString()
+        } catch (var6: IOException) {
+            var6.printStackTrace()
+        }
+
         val db = Firebase.firestore
         val docRef = db.collection("settings").document(FirebaseAuth.getInstance().currentUser!!.uid)
         docRef.get().addOnSuccessListener { documentSnapshot ->

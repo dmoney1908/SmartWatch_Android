@@ -408,7 +408,7 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
                 1.0f
             )
             textView.layoutParams = layoutParams
-            textView.text = String.format("%02d:00", i * 6)
+            textView.text = DateUtil.convert24To12Hour(i * 6)
             textView.textSize = 10f
             textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
             textView.gravity = Gravity.CENTER

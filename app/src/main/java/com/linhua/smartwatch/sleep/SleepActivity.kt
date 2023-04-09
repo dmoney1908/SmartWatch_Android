@@ -48,6 +48,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import java.util.*
+import kotlin.math.ceil
 
 
 class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
@@ -140,7 +141,8 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         setupPieChart(findViewById<PieChart>(R.id.pc_daily_chart))
         setupTrendChart(findViewById<LineChart>(R.id.lc_trend_chart))
 
-        drawDailyAxis()
+        val linearLayout = findViewById<LinearLayout>(R.id.rl_step_title)
+        linearLayout.removeAllViews()
         healthSleepItems.clear()
         syncDailySleepHistory()
     }
@@ -251,12 +253,16 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         val sleepItems = healthSleepItems.first()
 
         for (item in sleepItems!!) {
-            if (item.sleepStatus == 2) {
-                light += 10
-            } else if (item.sleepStatus == 3) {
-                deep += 10
-            } else if (item.sleepStatus == 4) {
-                wide += 10
+            when (item.sleepStatus) {
+                2 -> {
+                    light += 10
+                }
+                3 -> {
+                    deep += 10
+                }
+                4 -> {
+                    wide += 10
+                }
             }
         }
         return Triple(deep, light, wide)
@@ -470,6 +476,8 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         var lastModel: SleepStepModel? = null
         var lastType: Int = 0
         val stepSleepValues = mutableListOf<SleepStepModel>()
+        var beginDate : Int? = null
+        var endDate : Int? = null
         if (healthSleepItems.count() >= 2) {
             val yesterday = healthSleepItems[1]
             //11点到最后
@@ -479,6 +487,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                 }
                 when (item.sleepStatus) {
                     2, 3, 4 -> {
+
                         if (lastType != item.sleepStatus) {
                             lastModel = SleepStepModel()
                             lastModel.duration = 10
@@ -491,6 +500,10 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                             }
                         }
                         lastType = item.sleepStatus
+                        if (beginDate == null) {
+                            beginDate = lastModel!!.beginTime
+                        }
+                        endDate = lastModel!!.beginTime + 10
                     }
                     else -> {
                         lastType = 0
@@ -498,6 +511,10 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                     }
                 }
             }
+        }
+        var delta = 0
+        if (beginDate != null) {
+            delta = 120
         }
         val today = healthSleepItems.first()
         //0点到9:00
@@ -511,7 +528,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                         lastModel = SleepStepModel()
                         lastModel.duration = 10
                         lastModel.type = item.sleepStatus
-                        lastModel.beginTime = item.hour * 60 + item.minuter
+                        lastModel.beginTime = item.hour * 60 + item.minuter + delta
                         stepSleepValues.add(lastModel)
                     } else {
                         if (lastModel != null) {
@@ -519,6 +536,10 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
                         }
                     }
                     lastType = item.sleepStatus
+                    if (beginDate == null) {
+                        beginDate = lastModel!!.beginTime
+                    }
+                    endDate = lastModel!!.beginTime + 10
                 }
                 else -> {
                     lastType = 0
@@ -527,12 +548,39 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             }
         }
         if (stepSleepValues.isEmpty()) return
-        val totalMinute = 660F
+        val linearLayout = findViewById<LinearLayout>(R.id.rl_step_title)
+        linearLayout.removeAllViews()
+        val hour = beginDate!! / 60
+        val sep = ceil((endDate!! - hour * 60) / 240.0).toInt()
+        val timeArray = arrayOf(
+            DateUtil.convert24To12Hour(22 + hour),
+            DateUtil.convert24To12Hour(22 + hour + sep),
+            DateUtil.convert24To12Hour(22 + hour + sep * 2),
+            DateUtil.convert24To12Hour(22 + hour + sep * 3),
+            DateUtil.convert24To12Hour(22 + hour + sep * 4)
+        )
+        for (i in timeArray.indices) {
+            val textView = TextView(linearLayout.context)
+            val layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                1.0f
+            )
+            textView.layoutParams = layoutParams
+            textView.text = timeArray[i]
+            textView.textSize = 10f
+            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
+            textView.gravity = Gravity.CENTER
+            linearLayout.addView(textView)
+        }
+
+        val totalMinute = sep * 4 * 60F
         val relativeLayout = findViewById<RelativeLayout>(R.id.rl_step_chart)
         val px = ScreenUtil.dp2px(1F, this)
         for (item in stepSleepValues) {
             val view = View(relativeLayout.context)
             view.setBackgroundResource(R.drawable.step_corner_shape)
+            item.beginTime = item.beginTime - hour * 60
             val width: Int = (item.duration / totalMinute * relativeLayout.width + 2 * px).toInt()
             val height: Int = (15F / 200 * relativeLayout.height).toInt()
             val layoutParams = RelativeLayout.LayoutParams(
