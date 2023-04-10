@@ -35,7 +35,6 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeConnectListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.ConnBleException
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
-import com.zhj.bluetooth.zhjbluetoothsdk.util.LogUtil
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -234,7 +233,7 @@ class HomeFragment: BaseFragment(){
             refreshLayout!!.finishRefresh(true)
             return
         }
-        getTarget()
+        syncTime()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -247,6 +246,34 @@ class HomeFragment: BaseFragment(){
                 }
             }
         }
+    }
+
+    private fun syncTime() {
+        BleSdkWrapper.setDeviceData(object :OnLeWriteCharacteristicListener() {
+            override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                syncUnit()
+            }
+
+            override fun onFailed(e: WriteBleException) {
+                syncUnit()
+            }
+        })
+    }
+
+    private fun syncUnit() {
+        val deviceState = DeviceState()
+        deviceState.tempUnit = if (UserData.systemSetting.temprUnit == 1) 0 else 1
+        deviceState.unit = if (UserData.systemSetting.unitSettings == 1) 0 else 1
+        deviceState.timeFormat = 1
+        BleSdkWrapper.setDeviceState(deviceState, object : OnLeWriteCharacteristicListener() {
+            override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+                getTarget()
+            }
+
+            override fun onFailed(e: WriteBleException) {
+                getTarget()
+            }
+        })
     }
 
     private fun getTarget() {
