@@ -129,6 +129,8 @@
     <string name="sign">Sign up</string>
     <string name="tempr_f">°F</string>
     <string name="tempr_c">°C</string>
+    <string name="km">km</string>
+    <string name="miles">miles</string>
     <string name="pounds">Pounds</string>
     <string name="gender">Gender</string>
     <string name="height">Height</string>

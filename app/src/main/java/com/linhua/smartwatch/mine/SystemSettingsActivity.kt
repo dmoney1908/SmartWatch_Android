@@ -5,12 +5,14 @@ import android.os.Bundle
 import com.blankj.utilcode.util.ColorUtils
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.databinding.ActivitySystemSettingsBinding
+import com.linhua.smartwatch.event.MessageEvent
 import com.linhua.smartwatch.helper.UserData
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.DeviceState
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
+import org.greenrobot.eventbus.EventBus
 
 class SystemSettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySystemSettingsBinding
@@ -93,8 +95,11 @@ class SystemSettingsActivity : AppCompatActivity() {
         deviceState.tempUnit = if (UserData.systemSetting.temprUnit == 1) 0 else 1
         deviceState.unit = if (UserData.systemSetting.unitSettings == 1) 0 else 1
         deviceState.timeFormat = 1
+        val event = MessageEvent(MessageEvent.UnitChanged)
+        EventBus.getDefault().post(event)
         BleSdkWrapper.setDeviceState(deviceState, object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
+
             }
 
             override fun onFailed(e: WriteBleException) {

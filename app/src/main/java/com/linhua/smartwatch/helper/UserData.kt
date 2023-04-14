@@ -80,8 +80,7 @@ object UserData {
         val db = Firebase.firestore
         val settings = hashMapOf(
             "unitSettings" to systemSetting.unitSettings,
-            "temprUnit" to systemSetting.temprUnit,
-            "dataShare" to systemSetting.dataShare
+            "temprUnit" to systemSetting.temprUnit
         )
 
         db.collection("settings").document(FirebaseAuth.getInstance().currentUser!!.uid).set(

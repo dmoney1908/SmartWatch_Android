@@ -96,5 +96,17 @@ class DateUtil {
                 String.format("%02d:00 am", hour)
             }
         }
+
+        fun convert24To12Time(time: Int) : String {
+            val hour = time / 60
+            val minute = time % 60
+            if (hour > 24) {
+                return String.format("%02d:%02d am", hour - 24, minute)
+            } else if (hour > 12) {
+                return String.format("%02d:%02d pm", hour - 12, minute)
+            } else {
+                return String.format("%02d:%02d am", hour, minute)
+            }
+        }
     }
 }

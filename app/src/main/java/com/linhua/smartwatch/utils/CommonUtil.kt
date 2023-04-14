@@ -24,32 +24,28 @@ import kotlin.math.roundToInt
  */
 object CommonUtil {
 
-     fun FahFromCelTempr(tempr: Float) : Double {
-        return 32 + tempr * 1.8
+     fun FahFromCelTempr(tempr: Float) : Float {
+        return (32 + tempr * 1.8).toFloat()
 //    华氏度 = 32°F+ 摄氏度 × 1.8
 //    摄氏度 = (华氏度 - 32°F) ÷ 1.8
     }
 
-    fun CelFromFahTempr(tempr: Float) : Double {
-        return (tempr - 32) / 1.8
+    fun CelFromFahTempr(tempr: Float) : Float {
+        return ((tempr - 32) / 1.8).toFloat()
     }
 
-    fun AutoTempr(tempr: Float) : Double {
+    fun AutoTempr(tempr: Float) : Float {
         if (UserData.systemSetting.temprUnit == 0) {
-            if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 0) {
-                return tempr.toDouble()
-            } else if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 1) {
-                return FahFromCelTempr(tempr)
+            return if (tempr < 50) {
+                FahFromCelTempr(tempr)
             } else {
-                return tempr.toDouble()
+                tempr
             }
         } else {
-            if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 0) {
-                return CelFromFahTempr(tempr)
-            } else if (UserData.deviceConfig != null && UserData.deviceConfig!!.tempUnit == 1) {
-                return tempr.toDouble()
+            return if (tempr < 50) {
+                tempr
             } else {
-                return tempr.toDouble()
+                CelFromFahTempr(tempr)
             }
         }
     }

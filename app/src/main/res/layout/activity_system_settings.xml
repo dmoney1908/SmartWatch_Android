@@ -31,44 +31,6 @@
             android:textSize="16dp"
             android:textStyle="bold"/>
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginTop="2dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/settings_share" />
-        <TextView
-            android:id="@+id/tv_share"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:text="@string/data_share"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/dark"
-            android:textStyle="bold"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|left"/>
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/arrow_right" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:background="@color/line"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="79dp"

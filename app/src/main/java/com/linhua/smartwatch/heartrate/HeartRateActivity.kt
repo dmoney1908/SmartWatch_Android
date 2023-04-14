@@ -34,6 +34,7 @@ import com.linhua.smartwatch.chart.MyMarkerView
 import com.linhua.smartwatch.monthpicker.MonthYearPickerDialogFragment
 import com.linhua.smartwatch.utils.DateType
 import com.linhua.smartwatch.utils.DateUtil
+import com.linhua.smartwatch.utils.DateUtil.Companion.convert24To12Time
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
@@ -302,6 +303,8 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawDailyChart() {
+        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
+        linearLayout.removeAllViews()
         if (healthHeartRateItemsAll.isEmpty()) return
         val item = computeMath() ?: return
         val (min, max, average) = item
@@ -399,24 +402,6 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_average_value).text = averageString
         drawLatest()
         setupDailyData()
-        drawDailyAxis()
-    }
-
-    private fun drawDailyAxis() {
-        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
-        linearLayout.removeAllViews()
-        for (i in 0..4) {
-            val textView = TextView(linearLayout.context)
-            val layoutParams = LinearLayout.LayoutParams(
-                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
-            )
-            textView.layoutParams = layoutParams
-            textView.text = DateUtil.convert24To12Hour(i * 6)
-            textView.textSize = 10f
-            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
-            textView.gravity = Gravity.CENTER
-            linearLayout.addView(textView)
-        }
     }
 
     private fun drawTrendAxis() {
@@ -549,12 +534,63 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun setupDailyData() {
+        var beginHr: HealthHeartRateItem? = null
+        var endHr: HealthHeartRateItem? = null
+        var details = mutableListOf<HealthHeartRateItem>()
+        for (item in healthHeartRateItemsAll) {
+            if (item!!.heartRaveValue > 10) {
+                if (beginHr == null) {
+                    beginHr = item
+                }
+                details.add(item)
+                endHr = item
+            }
+        }
+        if (details.isEmpty()) {
+            return
+        }
+        val lowTime = beginHr!!.hour * 60 + beginHr!!.minuter
+        val totalIntervals =  (endHr!!.hour - beginHr.hour) * 60 + endHr.minuter - beginHr.minuter
+
+        var timeArray = mutableListOf<String>()
+        if (totalIntervals < 1) {
+            timeArray.add(convert24To12Time(lowTime))
+        } else if (totalIntervals < 10) {
+            timeArray.add(convert24To12Time(lowTime))
+            timeArray.add(convert24To12Time(lowTime + totalIntervals))
+        } else if (totalIntervals < 60) {
+            timeArray.add(convert24To12Time(lowTime))
+            timeArray.add(convert24To12Time(lowTime + totalIntervals / 2))
+            timeArray.add(convert24To12Time(lowTime + totalIntervals))
+        } else {
+            val sep = totalIntervals / 5
+            timeArray.add(convert24To12Time(lowTime))
+            timeArray.add(convert24To12Time(lowTime + sep))
+            timeArray.add(convert24To12Time(lowTime + sep * 2))
+            timeArray.add(convert24To12Time(lowTime + sep * 3))
+            timeArray.add(convert24To12Time(lowTime + sep * 4))
+            timeArray.add(convert24To12Time(lowTime + totalIntervals))
+        }
+        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
+        for (i in 0 until timeArray.size) {
+            val textView = TextView(linearLayout.context)
+            val layoutParams = LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
+            )
+            textView.layoutParams = layoutParams
+            textView.text = timeArray[i]
+            textView.textSize = 10f
+            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
+            textView.gravity = Gravity.CENTER
+            linearLayout.addView(textView)
+        }
+
         val chart = findViewById<LineChart>(R.id.lc_daily_chart)
         val values = ArrayList<Entry>()
-        for (index in healthHeartRateItemsAll.indices) {
-            val item = healthHeartRateItemsAll[index]
-            val x = (index + 1.0) / healthHeartRateItemsAll.count()
-            val value = item!!.heartRaveValue
+        for (index in details.indices) {
+            val item = details[index]
+            val x = (index + 1.0) / details.count()
+            val value = item.heartRaveValue
             values.add(Entry(x.toFloat(), value.toFloat()))
         }
         val set1 = LineDataSet(values, "")

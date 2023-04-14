@@ -323,6 +323,8 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawDailyChart() {
+        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
+        linearLayout.removeAllViews()
         if (healthHeartRateItemsAll.isEmpty()) return
         val item = computeMath() ?: return
         val rangeText = "${item.maxSS}/${item.minFZ}  MmHg"
@@ -394,26 +396,6 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
         findViewById<TextView>(R.id.tv_average_value).text = averageString
         drawLatest()
         setupDailyData()
-        drawDailyAxis()
-    }
-
-    private fun drawDailyAxis() {
-        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
-        linearLayout.removeAllViews()
-        for (i in 0..4) {
-            val textView = TextView(linearLayout.context)
-            val layoutParams = LinearLayout.LayoutParams(
-                0,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                1.0f
-            )
-            textView.layoutParams = layoutParams
-            textView.text = DateUtil.convert24To12Hour(i * 6)
-            textView.textSize = 10f
-            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
-            textView.gravity = Gravity.CENTER
-            linearLayout.addView(textView)
-        }
     }
 
     private fun drawTrendAxis() {
@@ -550,12 +532,64 @@ class BPActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun setupDailyData() {
+        var beginBP: HealthHeartRateItem? = null
+        var endBP: HealthHeartRateItem? = null
+        var details = mutableListOf<HealthHeartRateItem>()
+        for (item in healthHeartRateItemsAll) {
+            if (item!!.fz > 10 || item!!.ss > 10) {
+                if (beginBP == null) {
+                    beginBP = item
+                }
+                details.add(item)
+                endBP = item
+            }
+        }
+        if (details.isEmpty()) {
+            return
+        }
+        val lowTime = beginBP!!.hour * 60 + beginBP!!.minuter
+        val totalIntervals =  (endBP!!.hour - beginBP.hour) * 60 + endBP.minuter - beginBP.minuter
+
+
+        var timeArray = mutableListOf<String>()
+        if (totalIntervals < 1) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+        } else if (totalIntervals < 10) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        } else if (totalIntervals < 60) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals / 2))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        } else {
+            val sep = totalIntervals / 5
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 2))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 3))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 4))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        }
+        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
+        for (i in 0 until timeArray.size) {
+            val textView = TextView(linearLayout.context)
+            val layoutParams = LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
+            )
+            textView.layoutParams = layoutParams
+            textView.text = timeArray[i]
+            textView.textSize = 10f
+            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
+            textView.gravity = Gravity.CENTER
+            linearLayout.addView(textView)
+        }
+
         val chart = findViewById<LineChart>(R.id.lc_daily_chart)
         val values1 = ArrayList<Entry>()
         val values2 = ArrayList<Entry>()
-        for (index in healthHeartRateItemsAll.indices) {
-            val item = healthHeartRateItemsAll[index]
-            val x = (index + 1.0) / healthHeartRateItemsAll.count()
+        for (index in details.indices) {
+            val item = details[index]
+            val x = (index + 1.0) / details.count()
             values1.add(Entry(x.toFloat(), item!!.ss.toFloat()))
             values2.add(Entry(x.toFloat(), item.fz.toFloat()))
         }

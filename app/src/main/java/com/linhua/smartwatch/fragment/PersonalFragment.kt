@@ -96,7 +96,9 @@ class PersonalFragment: BaseFragment(){
         }
         BleSdkWrapper.getUserInfo(object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
-                UserData.deviceUserInfo = handlerBleDataResult.data as UserBean
+                if ( handlerBleDataResult.data is UserBean) {
+                    UserData.deviceUserInfo = handlerBleDataResult.data as UserBean
+                }
                 //0x00:男 0x01:女 0x02:其他
             }
 

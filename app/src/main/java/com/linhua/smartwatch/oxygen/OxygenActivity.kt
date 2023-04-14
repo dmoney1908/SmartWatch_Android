@@ -299,6 +299,7 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawDailyChart() {
+        binding.llHrAxis.removeAllViews()
         if (oxygenItemsAll.isEmpty()) return
         val item = computeMath() ?: return
         val (min, max, average) = item
@@ -307,24 +308,6 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
         binding.tvHighestValue.text = "$max %"
         drawLatest()
         setupDailyData()
-        drawDailyAxis()
-    }
-
-    private fun drawDailyAxis() {
-        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
-        linearLayout.removeAllViews()
-        for (i in 0..4) {
-            val textView = TextView(linearLayout.context)
-            val layoutParams = LinearLayout.LayoutParams(
-                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
-            )
-            textView.layoutParams = layoutParams
-            textView.text = DateUtil.convert24To12Hour(i * 6)
-            textView.textSize = 10f
-            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
-            textView.gravity = Gravity.CENTER
-            linearLayout.addView(textView)
-        }
     }
 
     private fun drawTrendAxis() {
@@ -516,6 +499,55 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
     }
 
     private fun setupDailyData() {
+        var beginOxygen: HealthHeartRateItem? = null
+        var endOxygen: HealthHeartRateItem? = null
+        var details = mutableListOf<HealthHeartRateItem>()
+        for (item in oxygenItemsAll) {
+            if (item!!.oxygen > 10) {
+                if (beginOxygen == null) {
+                    beginOxygen = item
+                }
+                details.add(item)
+                endOxygen = item
+            }
+        }
+        if (details.isEmpty()) {
+            return
+        }
+        val lowTime = beginOxygen!!.hour * 60 + beginOxygen!!.minuter
+        val totalIntervals =  (endOxygen!!.hour - beginOxygen.hour) * 60 + endOxygen.minuter - beginOxygen.minuter
+
+        var timeArray = mutableListOf<String>()
+        if (totalIntervals < 1) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+        } else if (totalIntervals < 10) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        } else if (totalIntervals < 60) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals / 2))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        } else {
+            val sep = totalIntervals / 5
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 2))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 3))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 4))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        }
+        for (i in 0 until timeArray.size) {
+            val textView = TextView(binding.llHrAxis.context)
+            val layoutParams = LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
+            )
+            textView.layoutParams = layoutParams
+            textView.text = timeArray[i]
+            textView.textSize = 10f
+            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
+            textView.gravity = Gravity.CENTER
+            binding.llHrAxis.addView(textView)
+        }
         val chart = binding.bcDailyChart
         val values = ArrayList<BarEntry>()
         for (index in oxygenItemsAll.indices) {

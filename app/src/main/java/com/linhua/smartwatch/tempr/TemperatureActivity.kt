@@ -43,6 +43,7 @@ import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRateItem
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.TempInfo
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
@@ -299,6 +300,8 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawDailyChart() {
+        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
+        linearLayout.removeAllViews()
         if (temprItemsAll.isEmpty()) return
         val averageValue = computeMath() ?: return
         var min = ""
@@ -410,24 +413,6 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
 
         drawLatest()
         setupDailyData()
-        drawDailyAxis()
-    }
-
-    private fun drawDailyAxis() {
-        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
-        linearLayout.removeAllViews()
-        for (i in 0..4) {
-            val textView = TextView(linearLayout.context)
-            val layoutParams = LinearLayout.LayoutParams(
-                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
-            )
-            textView.layoutParams = layoutParams
-            textView.text = DateUtil.convert24To12Hour(i * 6)
-            textView.textSize = 10f
-            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
-            textView.gravity = Gravity.CENTER
-            linearLayout.addView(textView)
-        }
     }
 
     private fun drawTrendAxis() {
@@ -619,10 +604,61 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
     }
 
     private fun setupDailyData() {
+        var beginTempr: TempInfo? = null
+        var endTempr: TempInfo? = null
+        var details = mutableListOf<TempInfo>()
+        for (item in temprItemsAll) {
+            if (item!!.tmpHandler > 10) {
+                if (beginTempr == null) {
+                    beginTempr = item
+                }
+                details.add(item)
+                endTempr = item
+            }
+        }
+        if (details.isEmpty()) {
+            return
+        }
+        val lowTime = beginTempr!!.hour * 60 + beginTempr!!.minute
+        val totalIntervals =  (endTempr!!.hour - beginTempr.hour) * 60 + endTempr.minute - beginTempr.minute
+
+        var timeArray = mutableListOf<String>()
+        if (totalIntervals < 1) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+        } else if (totalIntervals < 10) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        } else if (totalIntervals < 60) {
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals / 2))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        } else {
+            val sep = totalIntervals / 5
+            timeArray.add(DateUtil.convert24To12Time(lowTime))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 2))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 3))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + sep * 4))
+            timeArray.add(DateUtil.convert24To12Time(lowTime + totalIntervals))
+        }
+        val linearLayout = findViewById<LinearLayout>(R.id.ll_hr_axis)
+        for (i in 0 until timeArray.size) {
+            val textView = TextView(linearLayout.context)
+            val layoutParams = LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f
+            )
+            textView.layoutParams = layoutParams
+            textView.text = timeArray[i]
+            textView.textSize = 10f
+            textView.setTextColor(ColorUtils.getColor(R.color.light_gary))
+            textView.gravity = Gravity.CENTER
+            linearLayout.addView(textView)
+        }
+
         val chart = binding.bcDailyChart
         val values = ArrayList<BarEntry>()
-        for (index in temprItemsAll.indices) {
-            val item = temprItemsAll[index]
+        for (index in details.indices) {
+            val item = details[index]
             val x = index + 1.0
             val value = AutoTempr(item.tmpHandler / 100F)
             values.add(BarEntry(x.toFloat(), value.toFloat()))

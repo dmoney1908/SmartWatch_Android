@@ -23,6 +23,7 @@ import com.linhua.smartwatch.oxygen.OxygenActivity
 import com.linhua.smartwatch.sleep.SleepActivity
 import com.linhua.smartwatch.tempr.TemperatureActivity
 import com.linhua.smartwatch.utils.CommonUtil
+import com.linhua.smartwatch.utils.CommonUtil.AutoTempr
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.IntentUtil
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -51,6 +52,8 @@ class HomeFragment: BaseFragment(){
     protected val TAG: String = this.javaClass.simpleName
     private var healthSleepItems = mutableListOf<List<HealthSleepItem>?>()
     private var todayCalendar = Calendar.getInstance()
+    private var totalSteps: Int? = null
+    private var tmpHandler: Int? = null
 
     override fun initView(): View? {
         hostView = View.inflate(activity, R.layout.fragment_home,null) as View?
@@ -136,7 +139,7 @@ class HomeFragment: BaseFragment(){
             }
         }
         autoConnect()
-        if (!EventBus.getDefault().isRegistered(this))  //这里的取反别忘记了
+        if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
         return hostView
     }
@@ -294,9 +297,30 @@ class HomeFragment: BaseFragment(){
         BleSdkWrapper.getCurrentStep(object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                 val sport = handlerBleDataResult.data as HealthSport
-                hostView!!.findViewById<TextView>(R.id.tv_steps).setText(sport.totalStepCount.toString())
-                hostView!!.findViewById<TextView>(R.id.tv_calories_value).setText((sport.totalCalory).toString()) //单位千卡
-                hostView!!.findViewById<TextView>(R.id.tv_distance_value).setText(sport.totalDistance.toString()) //单位米
+                hostView!!.findViewById<TextView>(R.id.tv_steps).text = sport.totalStepCount.toString()
+                hostView!!.findViewById<TextView>(R.id.tv_calories_value).text = (sport.totalCalory).toString() //单位千卡
+                hostView!!.findViewById<TextView>(R.id.tv_distance_value).text = sport.totalDistance.toString() //单位米
+                totalSteps = sport.totalStepCount
+                if (UserData.systemSetting.unitSettings == 1) {
+                    if (UserData.userInfo.sex == 1) {
+                        hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                            String.format("%.1f", sport.totalStepCount / 1000.0 * 0.6096)
+                    } else {
+                        hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                            String.format("%.1f", sport.totalStepCount / 1000.0 * 0.762) //单位km
+                    }
+                    hostView!!.findViewById<TextView>(R.id.tv_distance_unit).text = "km"
+                } else {
+                    if (UserData.userInfo.sex == 1) {
+                        hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                            String.format("%.1f", sport.totalStepCount / 1609.0 * 0.6096)
+                    } else {
+                        hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                            String.format("%.1f", sport.totalStepCount / 1609.0 * 0.762) //单位mile
+                    }
+                    hostView!!.findViewById<TextView>(R.id.tv_distance_unit).text = "miles"
+                }
+
                 getCurrentRate()
             }
 
@@ -412,6 +436,7 @@ class HomeFragment: BaseFragment(){
         BleSdkWrapper.getCurrentTmp(object : OnLeWriteCharacteristicListener() {
             override fun onSuccess(handlerBleDataResult: HandlerBleDataResult) {
                 val tempInfo = handlerBleDataResult.data as TempInfo
+                tmpHandler = tempInfo.tmpHandler
                 hostView!!.findViewById<TextView>(R.id.tv_tempr_value).text = String.format("%.1f", tempInfo.tmpHandler / 100.0)
                 getCurrentMetInfo()
             }
@@ -422,6 +447,44 @@ class HomeFragment: BaseFragment(){
         })
     }
 
+    private fun reloadUnit() {
+        if (totalSteps != null) {
+            if (UserData.systemSetting.unitSettings == 1) {
+                if (UserData.userInfo.sex == 1) {
+                    hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                        String.format("%.1f", totalSteps!! / 1000.0 * 0.6096)
+                } else {
+                    hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                        String.format("%.1f", totalSteps!! / 1000.0 * 0.762) //单位km
+                }
+                hostView!!.findViewById<TextView>(R.id.tv_distance_unit).text = requireActivity().resources.getString(R.string.km)
+            } else {
+                if (UserData.userInfo.sex == 1) {
+                    hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                        String.format("%.1f", totalSteps!! / 1609.0 * 0.6096)
+                } else {
+                    hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
+                        String.format("%.1f", totalSteps!! / 1609.0 * 0.762) //单位mile
+                }
+                hostView!!.findViewById<TextView>(R.id.tv_distance_unit).text = requireActivity().resources.getString(R.string.miles)
+            }
+        } else {
+            if (UserData.systemSetting.unitSettings == 1) {
+                hostView!!.findViewById<TextView>(R.id.tv_distance_unit).text = requireActivity().resources.getString(R.string.km)
+            } else {
+                hostView!!.findViewById<TextView>(R.id.tv_distance_unit).text = requireActivity().resources.getString(R.string.miles)
+            }
+        }
+        if (UserData.systemSetting.temprUnit == 0) {
+            hostView!!.findViewById<TextView>(R.id.tv_tempr_unit).text = requireActivity().resources.getString(R.string.tempr_f)
+        } else {
+            hostView!!.findViewById<TextView>(R.id.tv_tempr_unit).text = requireActivity().resources.getString(R.string.tempr_c)
+        }
+
+        if (tmpHandler != null) {
+            hostView!!.findViewById<TextView>(R.id.tv_tempr_value).text = String.format("%.1f", AutoTempr((tmpHandler!! / 100.0).toFloat()))
+        }
+    }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -429,6 +492,9 @@ class HomeFragment: BaseFragment(){
         when (event.type) {
             MessageEvent.DeviceStatusChanged -> {
                 reloadView()
+            }
+            MessageEvent.UnitChanged -> {
+                reloadUnit()
             }
         }
     }
