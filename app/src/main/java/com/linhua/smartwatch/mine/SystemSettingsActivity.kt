@@ -105,5 +105,6 @@ class SystemSettingsActivity : AppCompatActivity() {
             override fun onFailed(e: WriteBleException) {
             }
         })
+        finish()
     }
 }

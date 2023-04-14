@@ -43,7 +43,6 @@ import com.linhua.smartwatch.view.ScrollDateView
 import com.lxj.xpopup.XPopup
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.zhj.bluetooth.zhjbluetoothsdk.bean.HealthHeartRateItem
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.TempInfo
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
@@ -249,8 +248,13 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
                 binding.tvLastTime.text =
                     String.format("%02d:%02d", item.hour, item.minute)
                 binding.tvTempr.text =  String.format("%.1f", AutoTempr(item.tmpHandler.toFloat()) / 100f)
-                return
+                break
             }
+        }
+        if (UserData.systemSetting.temprUnit == 0) {
+            binding.tvTemprUnit.text = StringUtils.getString(R.string.tempr_f)
+        } else {
+            binding.tvTemprUnit.text = StringUtils.getString(R.string.tempr_c)
         }
     }
 

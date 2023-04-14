@@ -111,7 +111,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/tv_average"
+                        android:id="@+id/tv_tempr_unit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -120,7 +120,7 @@
                         android:gravity="center"
                         android:text="@string/tempr_f"
                         android:textColor="@color/primary_blue"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
 

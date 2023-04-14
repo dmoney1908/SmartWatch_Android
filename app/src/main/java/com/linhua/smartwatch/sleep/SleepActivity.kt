@@ -457,7 +457,18 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawDailyChart() {
-        if (healthSleepItems.isEmpty()) return
+        val linearLayout = findViewById<LinearLayout>(R.id.rl_step_title)
+        linearLayout.removeAllViews()
+        val relativeLayout = findViewById<RelativeLayout>(R.id.rl_step_chart)
+        relativeLayout.removeAllViews()
+        if (healthSleepItems.isEmpty()) {
+            findViewById<TextView>(R.id.tv_duration_hr).text = "-"
+            findViewById<TextView>(R.id.tv_duration_min).text = "-"
+            val chart = findViewById<PieChart>(R.id.pc_daily_chart)
+            chart.data = null
+            chart.notifyDataSetChanged()
+            return
+        }
         val item = computeMath() ?: return
         val (deep, light, wide) = item
         findViewById<TextView>(R.id.tv_deepsleep_value).text = makeAttributeString(deep)
@@ -469,6 +480,8 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
     }
 
     private fun drawStepChart() {
+        val linearLayout = findViewById<LinearLayout>(R.id.rl_step_title)
+        val relativeLayout = findViewById<RelativeLayout>(R.id.rl_step_chart)
         if (healthSleepItems.isEmpty()) {
             return
         }
@@ -552,8 +565,6 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             }
         }
         if (stepSleepValues.isEmpty()) return
-        val linearLayout = findViewById<LinearLayout>(R.id.rl_step_title)
-        linearLayout.removeAllViews()
         val hour = beginDate!! / 60
         val sep = ceil((endDate!! - hour * 60) / 240.0).toInt()
         val timeArray = arrayOf(
@@ -579,7 +590,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         }
 
         val totalMinute = sep * 4 * 60F
-        val relativeLayout = findViewById<RelativeLayout>(R.id.rl_step_chart)
+
         val px = ScreenUtil.dp2px(1F, this)
         for (item in stepSleepValues) {
             val view = View(relativeLayout.context)
