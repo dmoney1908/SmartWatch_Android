@@ -1,6 +1,8 @@
 package com.linhua.smartwatch.activity
 
+import android.bluetooth.BluetoothGatt
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -12,15 +14,21 @@ import com.linhua.smartwatch.fragment.DeviceFragment
 import com.linhua.smartwatch.fragment.HomeFragment
 import com.linhua.smartwatch.fragment.PersonalFragment
 import com.linhua.smartwatch.fragment.SportFragment
+import com.linhua.smartwatch.helper.UserData
+import com.linhua.smartwatch.utils.CommonUtil
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.FragmentManage
 import com.scwang.smart.refresh.header.ClassicsHeader
+import com.zhj.bluetooth.zhjbluetoothsdk.bean.BLEDevice
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.WarningInfo
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleCallbackWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.BluetoothLe
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.DeviceCallback
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeConnectListener
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.ConnBleException
 import com.zhj.bluetooth.zhjbluetoothsdk.util.Constants
 import com.zhj.bluetooth.zhjbluetoothsdk.util.LogUtil
+import org.greenrobot.eventbus.EventBus
 
 class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   {
     companion object {
@@ -31,6 +39,8 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
     }
     var bottomView: BottomNavigationView? = null
     private var currentFragment: Fragment? = null
+    private var connectDevice: BLEDevice? = null
+    var mBluetoothLe: BluetoothLe? = null
 
     override fun prepareData() {
         ClassicsHeader.REFRESH_HEADER_PULLING = getString(R.string.header_pulling)
@@ -58,6 +68,7 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
                 LogUtil.d("resultCode:$resultCode")
                 if (resultCode == Constants.BLE_RESULT_CODE.SUCCESS) {
                     DeviceManager.isSDKAvailable = true
+                    autoConnect()
                 } else {
                     DeviceManager.isSDKAvailable = false
                     showToast(resources.getString(R.string.sdk_not_available))
@@ -69,6 +80,52 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
 
             }
 
+        })
+    }
+
+    private fun autoConnect() {
+        if (!DeviceManager.isSDKAvailable) {
+            return
+        }
+        mBluetoothLe = BluetoothLe.getDefault()
+        if (!mBluetoothLe!!.isBluetoothOpen || !CommonUtil.isOPen(this)) {
+            return
+        }
+        if (DeviceManager.getConnectedDevice() == null){
+            val devices = DeviceManager.getDeviceList()
+            if (UserData.lastMac.isNotEmpty() && devices.isNotEmpty()) {
+                for (item in devices) {
+                    if (item.mDeviceAddress == UserData.lastMac) {
+                        addConnectionListener()
+                        connectDevice = item
+                        mBluetoothLe?.startConnect(item.mDeviceAddress)
+                        return
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addConnectionListener() {
+        mBluetoothLe!!.setOnConnectListener(TAG, object : OnLeConnectListener() {
+            override fun onDeviceConnecting() {}
+            override fun onDeviceConnected() {}
+            override fun onDeviceDisconnected() {
+                connectDevice = null
+            }
+            
+            override fun onServicesDiscovered(bluetoothGatt: BluetoothGatt) {
+                if (connectDevice != null) {
+                    DeviceManager.setConnectedDevice(connectDevice)
+                    DeviceManager.addDevice(connectDevice!!)
+                    mBluetoothLe!!.destroy(TAG)
+                }
+            }
+
+            override fun onDeviceConnectFail(e: ConnBleException) {
+                connectDevice = null
+                mBluetoothLe!!.destroy(TAG)
+            }
         })
     }
 
@@ -100,5 +157,11 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectDevice = null
+        mBluetoothLe?.destroy(TAG)
     }
 }

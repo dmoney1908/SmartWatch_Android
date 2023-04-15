@@ -3,6 +3,7 @@ package com.linhua.smartwatch.fragment
 import android.bluetooth.BluetoothGatt
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -46,8 +47,7 @@ class HomeFragment: BaseFragment(){
     private val RESULT_CODE_ADD = 1000
     var hostView: View? = null
     private var refreshLayout: RefreshLayout? = null
-    private var connectDevice: BLEDevice? = null
-    var mBluetoothLe: BluetoothLe? = null
+
     private var dailyDateIndex = 0
     protected val TAG: String = this.javaClass.simpleName
     private var healthSleepItems = mutableListOf<List<HealthSleepItem>?>()
@@ -138,58 +138,10 @@ class HomeFragment: BaseFragment(){
                 )
             }
         }
-        autoConnect()
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
         return hostView
     }
-
-    private fun autoConnect() {
-        if (!DeviceManager.isSDKAvailable) {
-            return
-        }
-        mBluetoothLe = BluetoothLe.getDefault()
-        if (!mBluetoothLe!!.isBluetoothOpen || !CommonUtil.isOPen(requireActivity())) {
-            return
-        }
-        if (DeviceManager.getConnectedDevice() == null){
-            val devices = DeviceManager.getDeviceList()
-            if (UserData.lastMac.isNotEmpty() && devices.isNotEmpty()) {
-                for (item in devices) {
-                    if (item.mDeviceAddress == UserData.lastMac) {
-                        addConnectionListener()
-                        connectDevice = item
-                        mBluetoothLe?.startConnect(item.mDeviceAddress)
-                        return
-                    }
-                }
-            }
-        }
-    }
-
-    private fun addConnectionListener() {
-        mBluetoothLe!!.setOnConnectListener(TAG, object : OnLeConnectListener() {
-            override fun onDeviceConnecting() {}
-            override fun onDeviceConnected() {}
-            override fun onDeviceDisconnected() {
-                connectDevice = null
-            }
-
-            override fun onServicesDiscovered(bluetoothGatt: BluetoothGatt) {
-                if (connectDevice != null) {
-                    DeviceManager.setConnectedDevice(connectDevice)
-                    DeviceManager.addDevice(connectDevice!!)
-                    mBluetoothLe!!.destroy(TAG)
-                }
-            }
-
-            override fun onDeviceConnectFail(e: ConnBleException) {
-                connectDevice = null
-                mBluetoothLe!!.destroy(TAG)
-            }
-        })
-    }
-
 
     override fun initData() {
     }
@@ -198,8 +150,6 @@ class HomeFragment: BaseFragment(){
 
     override fun onDestroy() {
         super.onDestroy()
-        connectDevice = null
-        mBluetoothLe?.destroy(TAG)
         EventBus.getDefault().unregister(this)
     }
 

@@ -156,8 +156,8 @@
                         android:textStyle="bold"/>
                 </RelativeLayout>
 
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/bc_daily_chart"
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lc_daily_chart"
                     android:layout_width="match_parent"
                     android:layout_height="184dp"
                     android:layout_below="@+id/rl_last"
@@ -168,7 +168,7 @@
                     android:id="@+id/ll_hr_axis"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_below="@+id/bc_daily_chart"
+                    android:layout_below="@+id/lc_daily_chart"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="-10dp"
                     android:layout_marginEnd="20dp"

@@ -134,8 +134,8 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
 
             dialogFragment.show(supportFragmentManager, null)
         }
-        setupChart(binding.bcDailyChart)
-        setupTrendChart(binding.lcTrendChart)
+        setupChart(binding.lcDailyChart)
+        setupChart(binding.lcTrendChart)
         syncDailyTemprHistory()
     }
 
@@ -475,73 +475,7 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
     override fun onNothingSelected() {
     }
 
-    private fun setupChart(chart: BarChart) {
-        // background color
-        chart.setBackgroundColor(Color.WHITE)
-
-        // disable description text
-        chart.description.isEnabled = false
-
-        // enable touch gestures
-        chart.setTouchEnabled(true)
-
-        // set listeners
-        chart.setOnChartValueSelectedListener(this)
-        chart.setDrawGridBackground(false)
-
-        // create marker to display box when values are selected
-        val mv = MyMarkerView(this, R.layout.custom_marker_view)
-
-        // Set the marker to the chart
-        mv.chartView = chart
-        chart.marker = mv
-
-        // enable scaling and dragging
-        chart.setDragEnabled(true)
-        chart.setScaleEnabled(true)
-        chart.setPinchZoom(true)
-
-        var xAxis: XAxis
-        run {
-            // // X-Axis Style // //
-            xAxis = chart.xAxis
-            xAxis.setDrawLabels(false)
-            xAxis.setDrawAxisLine(false)
-            xAxis.setDrawGridLines(false)
-            xAxis.setDrawLabels(false)
-            xAxis.xOffset = 0f
-            xAxis.yOffset = 0f
-            xAxis.axisLineColor = ColorUtils.getColor(R.color.light_gary2)
-            xAxis.textColor = ColorUtils.getColor(R.color.light_gary)
-
-            // vertical grid lines
-            xAxis.enableGridDashedLine(10f, 10f, 0f)
-        }
-        var yAxis: YAxis
-        run {
-            // // Y-Axis Style // //
-            yAxis = chart.axisLeft
-
-            // disable dual axis (only use LEFT axis)
-            chart.axisRight.isEnabled = false
-            chart.axisRight.setDrawLabels(false)
-            chart.axisRight.setDrawAxisLine(false)
-            yAxis.setDrawLabels(true)
-            yAxis.setDrawAxisLine(false)
-            yAxis.axisLineColor = ColorUtils.getColor(R.color.light_gary)
-            yAxis.textColor = ColorUtils.getColor(R.color.light_gary)
-        }
-        yAxis.setDrawLimitLinesBehindData(false)
-        xAxis.setDrawLimitLinesBehindData(false)
-
-        chart.setNoDataText(resources.getString(R.string.no_oxygen_data))
-
-        // draw points over time
-        chart.animateX(1500)
-        chart.legend.isEnabled = false
-    }
-
-    private fun setupTrendChart(chart: LineChart) {
+    private fun setupChart(chart: LineChart) {
         // background color
         chart.setBackgroundColor(Color.WHITE)
 
@@ -659,32 +593,56 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
             linearLayout.addView(textView)
         }
 
-        val chart = binding.bcDailyChart
-        val values = ArrayList<BarEntry>()
+        val chart = binding.lcDailyChart
+        val values = ArrayList<Entry>()
         for (index in details.indices) {
             val item = details[index]
-            val x = index + 1.0
+            val x = (index + 1.0) / details.count()
             val value = AutoTempr(item.tmpHandler / 100F)
-            values.add(BarEntry(x.toFloat(), value.toFloat()))
+            values.add(Entry(x.toFloat(), value.toFloat()))
         }
-        val set1 = BarDataSet(values, "")
+        val set1 = LineDataSet(values, "")
         set1.setDrawIcons(false)
+        set1.setDrawCircleHole(false)
+        set1.setDrawCircles(false)
         set1.setDrawValues(false)
+        set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+        // line thickness and point size
+        set1.lineWidth = 1f
+
+        // draw points as solid circles
+        set1.setDrawCircleHole(false)
         set1.color = ColorUtils.getColor(R.color.primary_blue)
 
         // text size of values
         set1.valueTextSize = 9f
+
+        // set the filled area
+        set1.setDrawFilled(true)
+        set1.fillFormatter =
+            IFillFormatter { dataSet, dataProvider -> chart!!.axisLeft.axisMinimum }
         // set color of filled area
-        val dataSets = ArrayList<IBarDataSet>()
+        if (Utils.getSDKInt() >= 18) {
+            // drawables only supported on api level 18 and above
+            val drawable = ContextCompat.getDrawable(this, R.drawable.fade_daily_hr)
+            set1.fillDrawable = drawable
+        } else {
+            set1.fillColor = Color.WHITE
+        }
+        val dataSets = ArrayList<ILineDataSet>()
         dataSets.add(set1) // add the data sets
 
         // create a data object with the data sets
-        val data = BarData(dataSets)
+        val data = LineData(dataSets)
 
         // set data
         chart.data = data
-        data.barWidth = 0.7f
-        chart.animateX(1500)
+        chart!!.animateX(1500)
+
+
+        /////
+
+
     }
 
     private fun setupTrendData(trendItems: List<Int>) {
