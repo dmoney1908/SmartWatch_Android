@@ -96,6 +96,7 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
             if (UserData.lastMac.isNotEmpty() && devices.isNotEmpty()) {
                 for (item in devices) {
                     if (item.mDeviceAddress == UserData.lastMac) {
+                        showLoading()
                         addConnectionListener()
                         connectDevice = item
                         mBluetoothLe?.startConnect(item.mDeviceAddress)
@@ -112,6 +113,7 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
             override fun onDeviceConnected() {}
             override fun onDeviceDisconnected() {
                 connectDevice = null
+                hideLoading()
             }
             
             override fun onServicesDiscovered(bluetoothGatt: BluetoothGatt) {
@@ -119,12 +121,14 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
                     DeviceManager.setConnectedDevice(connectDevice)
                     DeviceManager.addDevice(connectDevice!!)
                     mBluetoothLe!!.destroy(TAG)
+                    hideLoading()
                 }
             }
 
             override fun onDeviceConnectFail(e: ConnBleException) {
                 connectDevice = null
                 mBluetoothLe!!.destroy(TAG)
+                hideLoading()
             }
         })
     }

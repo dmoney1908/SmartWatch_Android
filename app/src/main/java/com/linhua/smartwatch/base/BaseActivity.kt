@@ -1,11 +1,11 @@
 package com.linhua.smartwatch.base
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.linhua.smartwatch.utils.DialogHelperNew
 import com.linhua.smartwatch.utils.PermissionUtil
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 
-public abstract class BaseActivity:CommonActivity(), PermissionUtil.RequsetResult {
+public abstract class BaseActivity: CommonActivity(), PermissionUtil.RequsetResult {
     override fun onCreate(savedInstanceState: Bundle?) {
         prepareData()
         super.onCreate(savedInstanceState)
