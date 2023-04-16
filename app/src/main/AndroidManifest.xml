@@ -35,6 +35,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartWatch"
         tools:targetApi="31">
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true"/>
+        <!--适配小米（xiaomi）刘海屏-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
         <activity
             android:name=".mine.SystemSettingsActivity"
             android:exported="false">

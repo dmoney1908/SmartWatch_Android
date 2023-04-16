@@ -35,7 +35,7 @@
 
                     <TextView
                         android:id="@+id/tv_steps"
-                        android:layout_width="120dp"
+                        android:layout_width="130dp"
                         android:layout_height="38dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="57dp"
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_marginStart="0dp"
-                    android:layout_marginTop="289dp"
+                    android:layout_marginTop="300dp"
                     android:layout_marginEnd="0dp">
 
                     <ImageView
@@ -107,6 +107,7 @@
                         android:layout_height="34dp"
                         android:layout_marginStart="40dp"
                         android:layout_marginTop="18dp"
+                        android:textColor="@color/primary_blue"
                         android:gravity="center_vertical|left"
                         android:text="-"
                         android:textSize="28dp"
@@ -117,6 +118,7 @@
                         android:layout_width="120dp"
                         android:layout_height="16dp"
                         android:layout_marginStart="40dp"
+                        android:textColor="@color/light_gray"
                         android:layout_marginTop="56dp"
                         android:gravity="center_vertical|left"
                         android:text="@string/calories"
@@ -128,6 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
                         android:layout_marginTop="18dp"
+                        android:textColor="@color/primary_blue"
                         android:layout_marginEnd="5dp"
                         android:layout_toStartOf="@+id/tv_distance_unit"
                         android:gravity="center_vertical|right"
@@ -142,6 +145,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="30dp"
                         android:layout_marginEnd="40dp"
+                        android:textColor="@color/light_gray"
                         android:gravity="center_vertical|right"
                         android:text=""
                         android:textSize="14sp"
@@ -153,7 +157,7 @@
                         android:layout_height="16dp"
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="56dp"
-
+                        android:textColor="@color/light_gray"
                         android:layout_marginEnd="40dp"
                         android:gravity="center_vertical|right"
                         android:text="@string/distance"
@@ -166,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="395dp"
+                    android:layout_marginTop="406dp"
                     android:layout_marginEnd="20dp">
 
                     <View

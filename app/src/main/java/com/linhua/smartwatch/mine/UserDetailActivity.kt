@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.adapter.UserDetailAdapter
+import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.bean.UserItem
 import com.linhua.smartwatch.databinding.ActivityUserDetailBinding
 import com.linhua.smartwatch.entity.MultipleEntity
@@ -20,8 +21,7 @@ import com.linhua.smartwatch.utils.OnMultiClickListener
 import com.lxj.xpopup.XPopup
 
 
-class UserDetailActivity : AppCompatActivity() {
-    private val TAG: String = this.javaClass.simpleName
+class UserDetailActivity : CommonActivity() {
     private var userDetailList = mutableListOf<UserItem>()
     private lateinit var userDetailBinding: ActivityUserDetailBinding
 

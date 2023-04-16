@@ -7,10 +7,11 @@ import android.os.Handler
 import android.os.Looper
 import com.google.firebase.auth.FirebaseAuth
 import com.linhua.smartwatch.R
+import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.sign.SigninActivity
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : CommonActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_SmartWatch)
         super.onCreate(savedInstanceState)

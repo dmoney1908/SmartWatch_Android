@@ -245,8 +245,7 @@ class OxygenActivity : CommonActivity(), OnChartValueSelectedListener {
     private fun drawLatest() {
         for (item in oxygenItemsAll.reversed()) {
             if (item!!.oxygen > 10) {
-                binding.tvLastTime.text =
-                    String.format("%02d:%02d", item!!.hour, item!!.minuter)
+                binding.tvLastTime.text = DateUtil.convert24To12Time(item.hour, item.minuter)
                 binding.tvOxygen.text = item.oxygen.toString()
                 return
             }

@@ -3,10 +3,11 @@ package com.linhua.smartwatch.mine
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.linhua.smartwatch.R
+import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.databinding.ActivityAboutBinding
 import com.linhua.smartwatch.databinding.ActivityOxygenBinding
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : CommonActivity() {
 
     private lateinit var binding: ActivityAboutBinding
     override fun onCreate(savedInstanceState: Bundle?) {

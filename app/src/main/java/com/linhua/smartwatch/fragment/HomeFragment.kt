@@ -140,6 +140,9 @@ class HomeFragment: BaseFragment(){
         }
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
+        UserData.syncSystemSettings {
+            reloadUnit()
+        }
         return hostView
     }
 

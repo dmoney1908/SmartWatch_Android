@@ -126,7 +126,7 @@
 
                 <RelativeLayout
                     android:id="@+id/rl_last"
-                    android:layout_width="81dp"
+                    android:layout_width="110dp"
                     android:layout_height="35dp"
                     android:layout_below="@+id/rl_oxygen_time"
                     android:layout_centerHorizontal="true"

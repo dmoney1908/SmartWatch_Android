@@ -38,10 +38,6 @@ object UserData {
     var lastMac = ""
     init {
         loadUserInfo()
-        loadSystemSetting()
-    }
-
-    fun loadSystemSetting() {
         val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
             Context.MODE_PRIVATE
         )
@@ -50,13 +46,18 @@ object UserData {
         } catch (var6: IOException) {
             var6.printStackTrace()
         }
+    }
 
+    fun syncSystemSettings(completeBlock : ((complete: Boolean) -> Unit)?) {
         val db = Firebase.firestore
         val docRef = db.collection("settings").document(FirebaseAuth.getInstance().currentUser!!.uid)
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val settings = documentSnapshot.toObject<SystemSettings>()
             if (settings != null) {
                 systemSetting = settings
+            }
+            if (completeBlock != null) {
+                completeBlock(true)
             }
         }
     }

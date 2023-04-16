@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.blankj.utilcode.util.ColorUtils
 import com.linhua.smartwatch.R
+import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.databinding.ActivitySystemSettingsBinding
 import com.linhua.smartwatch.event.MessageEvent
 import com.linhua.smartwatch.helper.UserData
@@ -14,7 +15,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicLi
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import org.greenrobot.eventbus.EventBus
 
-class SystemSettingsActivity : AppCompatActivity() {
+class SystemSettingsActivity : CommonActivity() {
     private lateinit var binding: ActivitySystemSettingsBinding
     private var settings = UserData.systemSetting.deepCopy()
     override fun onCreate(savedInstanceState: Bundle?) {

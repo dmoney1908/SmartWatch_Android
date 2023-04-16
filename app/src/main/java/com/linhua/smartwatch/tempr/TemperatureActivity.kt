@@ -245,9 +245,8 @@ class TemperatureActivity : CommonActivity(), OnChartValueSelectedListener {
     private fun drawLatest() {
         for (item in temprItemsAll.reversed()) {
             if (item.tmpHandler > 10) {
-                binding.tvLastTime.text =
-                    String.format("%02d:%02d", item.hour, item.minute)
-                binding.tvTempr.text =  String.format("%.1f", AutoTempr(item.tmpHandler.toFloat()) / 100f)
+                binding.tvLastTime.text = DateUtil.convert24To12Time(item.hour, item.minute)
+                binding.tvTempr.text =  String.format("%.1f", AutoTempr(item.tmpHandler.toFloat() / 100f))
                 break
             }
         }
