@@ -1,6 +1,5 @@
 package com.linhua.smartwatch.sleep
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -26,6 +25,8 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IFillFormatter
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
@@ -49,6 +50,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicLi
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import java.util.*
 import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 
 class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
@@ -846,6 +848,16 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
             chart.axisRight.setDrawAxisLine(false)
             yAxis.setDrawLabels(true)
             yAxis.setDrawAxisLine(false)
+
+            yAxis.valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return if (value.roundToInt() == value.toInt()) {
+                        String.format("%d hrs", value.toInt())
+                    } else {
+                        String.format("%.1f hrs", value)
+                    }
+                }
+            }
             yAxis.axisLineColor = ColorUtils.getColor(R.color.light_gary)
             yAxis.textColor = ColorUtils.getColor(R.color.light_gary)
         }
@@ -889,7 +901,7 @@ class SleepActivity : BaseActivity(), OnChartValueSelectedListener {
         for (index in trendItems.indices) {
             val item = trendItems[index]
             val x = (index + 1.0) / trendItems.count()
-            values.add(Entry(x.toFloat(), item.toFloat()))
+            values.add(Entry(x.toFloat(), item.toFloat() / 60))
         }
         val set1 = LineDataSet(values, "")
         set1.setDrawIcons(false)
