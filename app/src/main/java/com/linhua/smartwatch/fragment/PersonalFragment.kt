@@ -52,7 +52,7 @@ class PersonalFragment: BaseFragment(){
             val intent = Intent(this.context, SystemSettingsActivity::class.java)
             startActivity(intent)
         }
-        hostView!!.findViewById<RelativeLayout>(R.id.rl_feedback).setOnClickListener {
+        hostView!!.findViewById<RelativeLayout>(R.id.rl_help).setOnClickListener {
             val intent = Intent(this.context, FeedbackActivity::class.java)
             startActivity(intent)
         }
