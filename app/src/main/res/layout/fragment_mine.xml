@@ -309,5 +309,20 @@
                 >
             </View>
         </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_logout"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/rl_about"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:autoSizeMaxTextSize="30dp"
+            android:gravity="center"
+            android:text="@string/logout"
+            android:background="@drawable/sign_shape"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 </ScrollView>

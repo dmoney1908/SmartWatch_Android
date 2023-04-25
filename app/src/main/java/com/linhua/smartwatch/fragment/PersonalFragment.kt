@@ -12,11 +12,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseFragment
 import com.linhua.smartwatch.helper.SystemSettings
 import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.mine.*
+import com.linhua.smartwatch.sign.SigninActivity
 import com.linhua.smartwatch.utils.DeviceManager
 import com.lxj.xpopup.XPopup
 import com.yuyh.library.imgsel.ISNav
@@ -25,6 +27,7 @@ import com.yuyh.library.imgsel.config.ISListConfig
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.UserBean
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.BleSdkWrapper
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.BluetoothLe
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 
@@ -71,6 +74,22 @@ class PersonalFragment: BaseFragment(){
                 }
             }.show()
         }
+
+        hostView!!.findViewById<TextView>(R.id.tv_logout).setOnClickListener {
+            XPopup.Builder(this.context)
+                .asConfirm("", "Are you sure to logout？") {
+                    FirebaseAuth.getInstance().signOut()
+                    val device = DeviceManager.getConnectedDevice()
+                    if (device != null) {
+                        val mBluetoothLe = BluetoothLe.getDefault()
+                        mBluetoothLe.disconnect()
+                        DeviceManager.setConnectedDevice(null)
+                    }
+                    startActivity(Intent(this.context, SigninActivity::class.java))
+                    this.requireActivity().finish()
+                }.show()
+        }
+
         return hostView
     }
 

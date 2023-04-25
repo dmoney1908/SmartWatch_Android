@@ -81,6 +81,7 @@ object DeviceManager {
     }
 
     fun loadDevices() {
+        deviceList?.clear()
         val devicesSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("devices", MODE_PRIVATE)
 
         try {
