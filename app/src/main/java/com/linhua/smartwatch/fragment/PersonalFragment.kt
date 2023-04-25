@@ -16,10 +16,7 @@ import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseFragment
 import com.linhua.smartwatch.helper.SystemSettings
 import com.linhua.smartwatch.helper.UserData
-import com.linhua.smartwatch.mine.AboutActivity
-import com.linhua.smartwatch.mine.FeedbackActivity
-import com.linhua.smartwatch.mine.PersonalInfoActivity
-import com.linhua.smartwatch.mine.SystemSettingsActivity
+import com.linhua.smartwatch.mine.*
 import com.linhua.smartwatch.utils.DeviceManager
 import com.lxj.xpopup.XPopup
 import com.yuyh.library.imgsel.ISNav
@@ -53,7 +50,7 @@ class PersonalFragment: BaseFragment(){
             startActivity(intent)
         }
         hostView!!.findViewById<RelativeLayout>(R.id.rl_help).setOnClickListener {
-            val intent = Intent(this.context, FeedbackActivity::class.java)
+            val intent = Intent(this.context, HelpActivity::class.java)
             startActivity(intent)
         }
         hostView!!.findViewById<RelativeLayout>(R.id.rl_about).setOnClickListener {

@@ -109,4 +109,19 @@
             android:src="@drawable/arrow_right" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_logout"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:autoSizeMaxTextSize="30dp"
+        android:gravity="center"
+        android:text="@string/logout"
+        android:background="@drawable/sign_shape"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
 </LinearLayout>

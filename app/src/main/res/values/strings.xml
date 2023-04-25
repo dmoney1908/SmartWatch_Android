@@ -126,6 +126,9 @@
     <string name="login">Log in</string>
     <string name="save">Save</string>
     <string name="send">Send</string>
+    <string name="mailto_hint">For any questions or feedback, please send us an email at hello@tribeapp.com</string>
+    <string name="mailto">Mail to hello@tribeapp.com</string>
+    <string name="logout">Log Out</string>
     <string name="sign">Sign up</string>
     <string name="tempr_f">°F</string>
     <string name="tempr_c">°C</string>

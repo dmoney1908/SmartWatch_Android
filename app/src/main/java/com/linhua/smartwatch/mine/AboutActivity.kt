@@ -6,6 +6,8 @@ import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.databinding.ActivityAboutBinding
 import com.linhua.smartwatch.databinding.ActivityOxygenBinding
+import com.linhua.smartwatch.utils.DeviceManager
+import com.lxj.xpopup.XPopup
 
 class AboutActivity : CommonActivity() {
 
@@ -17,6 +19,13 @@ class AboutActivity : CommonActivity() {
 
         binding.baseTitleBack.setOnClickListener {
             onBackPressed()
+        }
+
+        binding.tvLogout.setOnClickListener {
+            XPopup.Builder(this)
+                .asConfirm("", "Are you sure to logout？") {
+
+                }.show()
         }
     }
 }
