@@ -8,6 +8,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.CallbackManager
 import com.facebook.CallbackManager.Factory.create
@@ -19,15 +20,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.linhua.smartwatch.R
 import com.linhua.smartwatch.activity.MainActivity
 import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.databinding.ActivitySigninBinding
 import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.utils.IntentUtil
+import com.lxj.xpopup.XPopup
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -108,6 +112,33 @@ class SigninActivity : CommonActivity() {
             } else {
                 binding.etPwd.transformationMethod = PasswordTransformationMethod.getInstance()
             }
+        }
+
+        binding.tvForget.setOnClickListener {
+            val email: String = binding.etEmail.text.toString().trim { it <= ' ' }
+            if (email.isEmpty()) {
+                showToast(resources.getString(com.linhua.smartwatch.R.string.email_invalid))
+                return@setOnClickListener
+            }
+
+            XPopup.Builder(this)
+                .asConfirm("", "Are you sure to reset your password?") {
+                    showLoading()
+                    val fAuth = FirebaseAuth.getInstance()
+                    fAuth.sendPasswordResetEmail(email).addOnCompleteListener { listener ->
+                        hideLoading()
+                        if (listener.isSuccessful) {
+                            // Do something when successful
+                            showToast(resources.getString(R.string.check_your_email))
+                        } else {
+                            showToast(resources.getString(R.string.email_not_exist))
+                        }
+                    }.addOnFailureListener {
+                        hideLoading()
+                        showToast(resources.getString(R.string.reset_failed))
+                    }
+                }.show()
+
         }
     }
 
@@ -198,9 +229,6 @@ class SigninActivity : CommonActivity() {
                         firebaseAuthWithGoogle(account.idToken!!)
                     }
                 } catch (e: ApiException) {
-                    val test = e.toString()
-                    val a = 0
-                    val c = a + 1
                     // Google Sign In failed, update UI appropriately
                 }
             }

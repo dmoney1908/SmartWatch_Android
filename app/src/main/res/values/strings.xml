@@ -165,6 +165,11 @@
     <string name="what_met">What is MET ?</string>
     <string name="body_weight">Body Weight</string>
     <string name="cumulative_met">Cumulative\nthis week</string>
+    <string name="check_your_email">Reset password instructions has sent to your email, please check your email</string>
+
+    <string name="email_not_exist">Email does not exist</string>
+    <string name="reset_failed">Reset Failed</string>
+    <string name="reset_password">Reset Password</string>
 
     <string name="male">Male</string>
     <string name="female">Female</string>

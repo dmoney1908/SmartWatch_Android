@@ -176,9 +176,6 @@ class PersonalFragment: BaseFragment(){
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_LIST_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null) {
             val pathList: List<String>? = data.getStringArrayListExtra("result")
-
-            ///storage/emulated/0/Android/media/com.linhua.smartwatch/1680442090933.jpg
-
             if (pathList == null || pathList.isEmpty())return
             val path = pathList[0]
             UserData.uploadImageToFirebase(path) { complete, result ->
