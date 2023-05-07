@@ -297,7 +297,9 @@
                 android:layout_below="@+id/rl_members"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/item_device_info"/>
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                tools:listitem="@layout/item_member_info"/>
         </RelativeLayout>
     </FrameLayout>
 </com.scwang.smart.refresh.layout.SmartRefreshLayout>

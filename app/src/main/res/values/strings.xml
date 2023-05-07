@@ -181,5 +181,10 @@
     <string name="create_tribe">Create a Tribe</string>
     <string name="join_tribe">Join Tribe</string>
     <string name="members">Members</string>
-
+    <string name="edit_tribe">Edit Tribe</string>
+    <string name="verification_code">Tribe Verification Code</string>
+    <string name="tribe_name">Tribe Name</string>
+    <string name="tribe_continue">Continue</string>
+    <string name="tribe_add">Add</string>
+    <string name="skip">Skip</string>
 </resources>

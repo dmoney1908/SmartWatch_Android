@@ -1,8 +1,6 @@
 package com.linhua.smartwatch.activity
 
 import android.bluetooth.BluetoothGatt
-import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -10,10 +8,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.BaseActivity
-import com.linhua.smartwatch.fragment.DeviceFragment
-import com.linhua.smartwatch.fragment.HomeFragment
-import com.linhua.smartwatch.fragment.PersonalFragment
-import com.linhua.smartwatch.fragment.SportFragment
 import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.utils.CommonUtil
 import com.linhua.smartwatch.utils.DeviceManager

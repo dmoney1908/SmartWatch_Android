@@ -36,7 +36,21 @@
         android:theme="@style/Theme.SmartWatch"
         tools:targetApi="31">
         <activity
-            android:name=".TribeActivity"
+            android:name=".tribe.TribeCreateActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".tribe.TribeJoinActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".tribe.TribeEditActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
