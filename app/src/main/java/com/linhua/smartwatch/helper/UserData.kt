@@ -34,6 +34,7 @@ object UserData {
     var userInfo = UserInfo()
     var isLogined = false
     var systemSetting = SystemSettings()
+    var tribe = Tribe()
     var deviceConfig: DeviceState? = null
     var lastMac = ""
     init {
@@ -120,6 +121,83 @@ object UserData {
         }
         getAvatar()
     }
+
+    fun fetchUserInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val docRef = db.collection("profile").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val userInfo = documentSnapshot.toObject<UserInfo>()
+            if (userInfo != null) {
+                this.userInfo = userInfo
+            }
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+        }
+    }
+
+    fun fetchTribeInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val docRef = db.collection("tribeInfo").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val tribeInfo = documentSnapshot.toObject<TribeInfo>()
+            if (tribeInfo != null) {
+                tribe.tribeInfo = tribeInfo
+            }
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun fetchTribeDetail(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+            return
+        }
+        val db = Firebase.firestore
+        val docRef = db.collection("tribeDetail").document(code)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val tribeDetail = documentSnapshot.toObject<TribeDetail>()
+            if (tribeDetail != null) {
+                tribe.tribeDetail = tribeDetail
+            }
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun fetchTribe(completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val docRef = db.collection("tribeInfo").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val tribeInfo = documentSnapshot.toObject<TribeInfo>()
+            if (tribeInfo != null) {
+                tribe.tribeInfo = tribeInfo
+                fetchTribeDetail(tribeInfo.code, completeBlock)
+            } else {
+                if (completeBlock != null) {
+                    completeBlock(false)
+                }
+            }
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
 
     fun saveUserInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
         val db = Firebase.firestore

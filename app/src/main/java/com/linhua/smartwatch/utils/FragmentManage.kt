@@ -18,7 +18,7 @@ class FragmentManage private constructor(){
         }
     }
 
-    fun getFragmentById(id:Int):BaseFragment?{
+    fun getFragmentById(id:Int):Fragment?{
         when(id){
             R.id.navigation_home->return homeFragment
             R.id.navigation_sport->return tribeFragment

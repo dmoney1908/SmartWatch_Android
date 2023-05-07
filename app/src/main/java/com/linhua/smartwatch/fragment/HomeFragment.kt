@@ -147,6 +147,7 @@ class HomeFragment: BaseFragment(){
     }
 
     override fun initData() {
+        UserData.fetchTribe {  }
     }
     override fun onListener() {
     }
