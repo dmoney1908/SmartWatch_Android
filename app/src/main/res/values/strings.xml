@@ -49,7 +49,9 @@
     <string name="bp">Bp</string>
     <string name="mmhg">MmHg</string>
     <string name="blood_trend">Blood pressure trend</string>
-    <string name="sport">Sport</string>
+    <string name="tribe">Tribe</string>
+
+    <string name="tribe_desc">A successful fitness app group fosters an environment of encouragement, accountability, and positive reinforcement for members to achieve their fitness goals.</string>
 
     <string name="days">Days</string>
     <string name="months">Months</string>
@@ -176,4 +178,8 @@
     <string name="other">Other</string>
 
     <string name="met_desc">MET (Metabolic Equivalent of Energy) refers to the energy metabolism equivalent, a standard indicator for expressing various activities\' relative energy metabolism level based on the energy consumption during quiet and sitting. For example, one minute of training per kilogram of body weight consumes 3.5 ml of oxygen, and the intensity of this exercise is 1MET. The activity intensity of 1MET is only slightly higher than the basal metabolism of healthy adults, which is equivalent to the metabolic level of healthy adults when they are sitting quietly.</string>
+    <string name="create_tribe">Create a Tribe</string>
+    <string name="join_tribe">Join Tribe</string>
+    <string name="members">Members</string>
+
 </resources>

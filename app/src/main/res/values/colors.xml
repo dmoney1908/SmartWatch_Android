@@ -45,7 +45,11 @@
     <color name="light_gray3">#F9F9FC</color>
     <color name="red1">#E64980</color>
     <color name="light_blue3">#4C6EF5</color>
+    <color name="light_blue4">#1A4C6EF5</color>
     <color name="yellow">#FAB005</color>
     <color name="gray">#63667F</color>
+    <color name="gray2">#4F536B</color>
+
+
 
 </resources>

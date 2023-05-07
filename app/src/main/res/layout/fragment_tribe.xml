@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/tribe"
+                    android:textColor="@color/primary_black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="313dp"
+                android:layout_height="279dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="44dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/tracker_bg">
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center_horizontal"
+                android:text="@string/tribe_desc"
+                android:textColor="@color/light_gary"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tv_create_tribe"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:autoSizeMaxTextSize="30dp"
+                android:background="@drawable/sign_shape"
+                android:gravity="center"
+                android:text="@string/create_tribe"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_join_tribe"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="20dp"
+                android:autoSizeMaxTextSize="30dp"
+                android:gravity="center"
+                android:text="@string/join_tribe"
+                android:textColor="@color/primary_blue"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rl_top"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="20dp">
+
+                <ImageView
+                    android:id="@+id/iv_tribe"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/mine_user" />
+
+                <TextView
+                    android:id="@+id/tv_tribe_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toEndOf="@+id/iv_tribe"
+                    android:gravity="center_vertical|left"
+                    android:hint="test"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <View
+                    android:id="@+id/v_dot"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="41dp"
+                    android:layout_toEndOf="@+id/iv_tribe"
+                    android:background="@drawable/dot_corner_shape"/>
+
+                <TextView
+                    android:id="@+id/tv_member_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_toEndOf="@+id/v_dot"
+                    android:gravity="center_vertical|left"
+                    android:hint="@string/connected"
+                    android:textColor="@color/green"
+                    android:textSize="12sp"/>
+
+
+                <ImageView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="13dp"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_tribe_setting">
+                </ImageView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/rl_header"
+                android:layout_below="@+id/rl_top"
+                android:layout_width="match_parent"
+                android:layout_height="81dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:id="@+id/rl_steps"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/steps_corner_shape"
+                    android:layout_marginLeft="0dp">
+
+                    <ImageView
+                        android:id="@+id/iv_steps"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:src="@drawable/icon_steps" />
+                    <View
+                        android:id="@+id/v_steps_dot"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_toEndOf="@+id/iv_steps"
+                        android:background="@drawable/dot_steps_shape"
+                        />
+                    <TextView
+                        android:id="@+id/tv_steps_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toEndOf="@+id/v_steps_dot"
+                        android:gravity="center_vertical|left"
+                        android:hint="test"
+                        android:textSize="18sp"
+                        android:textColor="@color/light_blue3"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_steps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:textStyle="bold"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center_vertical|left"
+                        android:hint="@string/steps"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rl_sleep"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp">
+                    <ImageView
+                        android:id="@+id/iv_sleep"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:src="@drawable/icon_sleep" />
+                    <View
+                        android:id="@+id/v_sleep_dot"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_toEndOf="@+id/iv_sleep"
+                        android:background="@drawable/dot_sleep_shape"/>
+                    <TextView
+                        android:id="@+id/tv_sleep_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toEndOf="@+id/v_sleep_dot"
+                        android:gravity="center_vertical|left"
+                        android:hint="test"
+                        android:textSize="18sp"
+                        android:textColor="@color/pink"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_sleep"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:textStyle="bold"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center_vertical|left"
+                        android:hint="@string/sleep"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/rl_members"
+                android:layout_below="@+id/rl_header"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_member"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/members"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_black"
+                    android:textSize="24sp"/>
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/main_add"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_members"
+                android:layout_below="@+id/rl_members"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_device_info"/>
+        </RelativeLayout>
+    </FrameLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

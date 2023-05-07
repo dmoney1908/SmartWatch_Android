@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/white"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:topLeftRadius="22dp"
+        android:topRightRadius="22dp"
+        android:bottomLeftRadius="22dp"
+        android:bottomRightRadius="22dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="13dp"
+        android:src="@drawable/avatar_user"
+        android:layout_marginBottom="13dp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:layout_marginTop="13dp"
+        android:textColor="@color/dark"
+        android:textSize="16sp"
+        tools:text="Device" />
+    <TextView
+        android:id="@+id/tv_time"
+        android:textStyle="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/light_gray"
+        android:textSize="12sp"
+        tools:text="Device" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="13dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_steps_num"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_blue"
+            android:textSize="14sp"
+            tools:text="Device" />
+        <TextView
+            android:id="@+id/tv_steps"
+            android:textStyle="normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/gray2"
+            android:textSize="12sp"
+            android:text="@string/steps"
+            />
+        <View
+            android:id="@+id/v_dot"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/dot_health_shape"/>
+        <TextView
+            android:id="@+id/tv_sleep_num"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/primary_blue"
+            android:textSize="14sp"
+            tools:text="Device" />
+        <TextView
+            android:id="@+id/tv_sleep"
+            android:textStyle="normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray2"
+            android:layout_marginStart="4dp"
+            android:textSize="12sp"
+            tools:text="Device" />
+    </LinearLayout>
+
+
+
+
+
+
+</RelativeLayout>
