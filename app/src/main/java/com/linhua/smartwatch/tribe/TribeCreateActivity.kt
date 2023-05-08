@@ -2,13 +2,16 @@ package com.linhua.smartwatch.tribe
 
 import android.content.Intent
 import android.graphics.Color
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ColorUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.linhua.smartwatch.R
 import com.linhua.smartwatch.base.CommonActivity
 import com.linhua.smartwatch.databinding.ActivityTribeCreateBinding
@@ -16,6 +19,7 @@ import com.linhua.smartwatch.databinding.ActivityTribeEditBinding
 import com.linhua.smartwatch.entity.MultipleEntity
 import com.linhua.smartwatch.helper.TribeDetail
 import com.linhua.smartwatch.helper.TribeInfo
+import com.linhua.smartwatch.helper.TribeMember
 import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.tribe.adapter.TribeMemberAdapter
 import com.linhua.smartwatch.tribe.adapter.TribeMemberItem
@@ -27,6 +31,13 @@ import com.yuyh.library.imgsel.config.ISListConfig
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 
 class TribeCreateActivity : CommonActivity() {
+
+    enum class CreateTribeProgress {
+        First,
+        Second,
+        Third
+    }
+
     private lateinit var binding: ActivityTribeCreateBinding
     var memberItemList = mutableListOf<TribeMemberItem>()
     private val memberAdapter = TribeMemberAdapter(mutableListOf())
@@ -34,13 +45,24 @@ class TribeCreateActivity : CommonActivity() {
     private val REQUEST_CAMERA_CODE = 1001
     private var tribeInfo: TribeInfo = UserData.tribe.tribeInfo ?: TribeInfo()
     private var tribeDetail = TribeDetail()
+    private var progress: CreateTribeProgress = CreateTribeProgress.First
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTribeCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.baseTitleBack.setOnClickListener {
-            onBackPressed()
+            when (progress) {
+                CreateTribeProgress.First -> {
+                    onBackPressed()
+                }
+                CreateTribeProgress.Second -> {
+                    gotoSteps(CreateTribeProgress.First)
+                }
+                CreateTribeProgress.Third -> {
+                    gotoSteps(CreateTribeProgress.Second)
+                }
+            }
         }
 
         binding.llAdd.setOnClickListener {
@@ -76,12 +98,130 @@ class TribeCreateActivity : CommonActivity() {
                 }
             }.show()
         }
+        binding.etName.setText(tribeInfo.name)
+        binding.tvNext1.setOnClickListener {
+            val name: String = binding.etName.text.toString().trim { it <= ' ' }
+            if (name.length < 4) {
+                showToast(resources.getString(R.string.enter_valid_tribe))
+                return@setOnClickListener
+            }
+            tribeInfo.name = name
+            gotoSteps(CreateTribeProgress.Second)
+        }
+
+        binding.tvNext2.setOnClickListener {
+            checkCodeExist()
+            gotoSteps(CreateTribeProgress.Third)
+            reloadData()
+        }
+        binding.tvSkip.setOnClickListener {
+            finish()
+        }
+        binding.tvAdd.setOnClickListener {
+            finish()
+        }
+        binding.rvMembers.apply {
+            adapter = memberAdapter
+            layoutManager = LinearLayoutManager(this.context)
+        }
+        if (tribeInfo.avatar.isEmpty()) {
+            tribeInfo.avatar = UserData.userInfo.avatar
+        }
+        tribeInfo.role = 1
+        gotoSteps(CreateTribeProgress.First)
     }
 
     fun reloadData() {
         convertMemberItems()
         memberAdapter.setNewInstance(memberItemList)
         memberAdapter.notifyDataSetChanged()
+    }
+
+    fun getRandomString(length: Int) : String {
+        val charset = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz0123456789"
+        return (1..length)
+            .map { charset.random() }
+            .joinToString("")
+    }
+
+    fun checkCodeExist() {
+        if (tribeInfo.code.isEmpty()) {
+            val randomString = getRandomString(10)
+            UserData.checkCodeExist(randomString) {
+                if (it) {
+                    checkCodeExist()
+                } else {
+                    tribeInfo.code = randomString
+                    checkCodeExist()
+                }
+            }
+        } else {
+            tribeDetail.name = tribeInfo.name
+            tribeDetail.avatar = tribeInfo.avatar
+            tribeDetail.members.clear()
+
+            val member = TribeMember(UserData.userInfo.name,
+                UserData.userInfo.email,
+                UserData.userInfo.avatar,
+                UserData.healthData.steps,
+                UserData.healthData.sleepTime,
+                1,
+                UserData.healthData.date)
+            tribeDetail.addMember(member)
+            UserData.tribe.tribeInfo = tribeInfo
+            UserData.tribe.tribeDetail = tribeDetail
+            UserData.updateTribeInfo {  }
+            UserData.updateTribeDetail {  }
+            reloadData()
+        }
+    }
+
+    private fun gotoSteps(progress: CreateTribeProgress) {
+        this.progress = progress
+        when (progress) {
+            CreateTribeProgress.First -> {
+                binding.tvSkip.visibility = View.INVISIBLE
+                binding.llProgress1.visibility = View.VISIBLE
+                binding.llProgress2.visibility = View.GONE
+                binding.rlProgress3.visibility = View.GONE
+                binding.ivFirst.setImageResource(R.drawable.tribe_progress_primary)
+                binding.ivSecond.setImageResource(R.drawable.tribe_progress_2)
+                binding.ivThird.setImageResource(R.drawable.tribe_progress_3)
+                binding.ivProgress1.setImageResource(R.drawable.tribe_progress_already)
+                binding.ivProgress2.setImageResource(R.drawable.tribe_progress_yet)
+            }
+            CreateTribeProgress.Second -> {
+                binding.tvSkip.visibility = View.INVISIBLE
+                if (tribeInfo.avatar.isNotEmpty()) {
+                    Glide.with(this).load(tribeInfo.avatar).placeholder(R.drawable.avatar_user).centerCrop()
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(75))).into(binding.ivAvatar)
+                } else {
+                    Glide.with(this).load(R.drawable.avatar_user).centerCrop()
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(75))).into(binding.ivAvatar)
+                }
+                binding.llProgress1.visibility = View.GONE
+                binding.llProgress2.visibility = View.VISIBLE
+                binding.rlProgress3.visibility = View.GONE
+                binding.ivFirst.setImageResource(R.drawable.icon_done_green)
+                binding.ivSecond.setImageResource(R.drawable.tribe_progress_primary)
+                binding.ivThird.setImageResource(R.drawable.tribe_progress_3)
+                binding.ivProgress1.setImageResource(R.drawable.tribe_progress_already)
+                binding.ivProgress2.setImageResource(R.drawable.tribe_progress_yet)
+
+            }
+            CreateTribeProgress.Third -> {
+                binding.tvSkip.visibility = View.VISIBLE
+                binding.llProgress1.visibility = View.GONE
+                binding.llProgress2.visibility = View.GONE
+                binding.rlProgress3.visibility = View.VISIBLE
+                binding.ivFirst.setImageResource(R.drawable.icon_done_green)
+                binding.ivSecond.setImageResource(R.drawable.icon_done_green)
+                binding.ivThird.setImageResource(R.drawable.tribe_progress_primary)
+                binding.ivProgress1.setImageResource(R.drawable.tribe_progress_already)
+                binding.ivProgress2.setImageResource(R.drawable.tribe_progress_yet)
+                reloadData()
+            }
+        }
     }
 
     private fun convertMemberItems() {

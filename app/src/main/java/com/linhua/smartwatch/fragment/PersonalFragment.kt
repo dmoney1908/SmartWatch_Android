@@ -85,7 +85,9 @@ class PersonalFragment: BaseFragment(){
                         mBluetoothLe.disconnect()
                         DeviceManager.setConnectedDevice(null)
                     }
+                    UserData.logout()
                     startActivity(Intent(this.context, SigninActivity::class.java))
+
                     this.requireActivity().finish()
                 }.show()
         }

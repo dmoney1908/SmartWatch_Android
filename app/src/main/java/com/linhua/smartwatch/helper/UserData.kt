@@ -64,6 +64,14 @@ object UserData {
         }
     }
 
+    fun logout() {
+        isLogined = false
+        userInfo = UserInfo()
+        tribe.tribeInfo = null
+        tribe.tribeDetail = null
+
+    }
+
     fun saveMac(mac: String?) {
         lastMac = mac ?: ""
         val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
@@ -147,6 +155,27 @@ object UserData {
             }
             if (completeBlock != null) {
                 completeBlock(tribeInfo != null)
+            }
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun checkCodeExist(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+            return
+        }
+        val db = Firebase.firestore
+        val docRef = db.collection("tribeDetail").document(code)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val tribeDetail = documentSnapshot.toObject<TribeDetail>()
+            if (completeBlock != null) {
+                completeBlock(tribeDetail != null)
             }
         }.addOnFailureListener {
             if (completeBlock != null) {
