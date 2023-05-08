@@ -343,7 +343,6 @@ object UserData {
                 .addOnSuccessListener { taskSnapshot ->
                     taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                         val imageUrl = it.toString()
-                        userInfo.avatar = imageUrl
                         completeBlock(true, imageUrl)
                     }
                 }
