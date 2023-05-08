@@ -1,7 +1,5 @@
 package com.linhua.smartwatch.helper
 
-import com.linhua.smartwatch.tribe.adapter.TribeMemberItem
-
 data class Tribe(
     var tribeInfo: TribeInfo? = null,
     var tribeDetail: TribeDetail? = null)
@@ -46,7 +44,7 @@ data class TribeDetail (
     }
 }
 
-data class TribeMember (
+data class TribeMember(
     val name: String = "",
     val email: String = "",
     val avatar: String = "",

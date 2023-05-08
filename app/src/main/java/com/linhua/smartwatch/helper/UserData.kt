@@ -29,6 +29,7 @@ import java.util.*
 
 object UserData {
 
+    val healthData = HealthData()
     var deviceUserInfo: UserBean = UserBean()
     var isDeviceEmpty = true
     var userInfo = UserInfo()
@@ -157,7 +158,7 @@ object UserData {
     fun fetchTribeDetail(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
         if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
             if (completeBlock != null) {
-                completeBlock(true)
+                completeBlock(false)
             }
             return
         }
@@ -210,6 +211,29 @@ object UserData {
                 completeBlock(true)
             }
 
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun sendEmail(to: String, code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val message = hashMapOf(
+            "subject" to "Tribe Verification Code",
+            "html" to "This is tribe verification code: <code>$code</code>"
+        )
+
+        val data = hashMapOf(
+            "to" to to,
+            "message" to message
+        )
+
+        db.collection("mail").add(data).addOnCompleteListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
         }.addOnFailureListener {
             if (completeBlock != null) {
                 completeBlock(false)

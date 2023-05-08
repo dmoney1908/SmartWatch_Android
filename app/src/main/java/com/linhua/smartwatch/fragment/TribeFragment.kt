@@ -25,6 +25,8 @@ import com.linhua.smartwatch.utils.DialogHelperNew
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.interfaces.OnInputConfirmListener
 import com.scwang.smart.refresh.header.ClassicsHeader
+import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
+import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
 
 
 class TribeFragment: Fragment(){
@@ -63,7 +65,20 @@ class TribeFragment: Fragment(){
             if (UserData.tribe.tribeInfo!!.role != 1) return@setOnClickListener
             XPopup.Builder(context).asInputConfirm("Add member", "Please input email address",
                 OnInputConfirmListener { text ->
-
+                    val code = UserData.tribe.tribeInfo!!.code
+                    UserData.sendEmail(text, code, completeBlock = {
+                        if (it) {
+                            ToastUtil.showToast(
+                                activity,
+                                resources.getString(R.string.code_sent)
+                            )
+                        } else {
+                            ToastUtil.showToast(
+                                activity,
+                                resources.getString(R.string.code_fail_sent)
+                            )
+                        }
+                    })
                 }).show()
         }
 

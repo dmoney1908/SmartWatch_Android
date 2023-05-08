@@ -24,6 +24,7 @@ import com.lxj.xpopup.interfaces.OnInputConfirmListener
 import com.yuyh.library.imgsel.ISNav
 import com.yuyh.library.imgsel.config.ISCameraConfig
 import com.yuyh.library.imgsel.config.ISListConfig
+import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 
 class TribeCreateActivity : CommonActivity() {
     private lateinit var binding: ActivityTribeCreateBinding
@@ -45,7 +46,20 @@ class TribeCreateActivity : CommonActivity() {
         binding.llAdd.setOnClickListener {
             XPopup.Builder(this).asInputConfirm("Add member", "Please input email address",
                 OnInputConfirmListener { text ->
-
+                    val code = UserData.tribe.tribeInfo!!.code
+                    UserData.sendEmail(text, code, completeBlock = {
+                        if (it) {
+                            ToastUtil.showToast(
+                                this,
+                                resources.getString(R.string.code_sent)
+                            )
+                        } else {
+                            ToastUtil.showToast(
+                                this,
+                                resources.getString(R.string.code_fail_sent)
+                            )
+                        }
+                    })
                 }).show()
         }
         ISNav.getInstance().init { context, path, imageView ->

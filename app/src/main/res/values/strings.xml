@@ -188,5 +188,7 @@
     <string name="tribe_add">Add</string>
     <string name="skip">Skip</string>
     <string name="enter_valid_tribe">Please enter valid tribe name</string>
-
+    <string name="enter_tribe_code">Please enter valid verification code</string>
+    <string name="code_sent">Verification code has been sent</string>
+    <string name="code_fail_sent">Failed to send verification code</string>
 </resources>
