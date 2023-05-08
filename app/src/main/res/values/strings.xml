@@ -187,4 +187,6 @@
     <string name="tribe_continue">Continue</string>
     <string name="tribe_add">Add</string>
     <string name="skip">Skip</string>
+    <string name="enter_valid_tribe">Please enter valid tribe name</string>
+
 </resources>

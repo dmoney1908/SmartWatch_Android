@@ -145,7 +145,7 @@ object UserData {
                 tribe.tribeInfo = tribeInfo
             }
             if (completeBlock != null) {
-                completeBlock(true)
+                completeBlock(tribeInfo != null)
             }
         }.addOnFailureListener {
             if (completeBlock != null) {
@@ -169,7 +169,7 @@ object UserData {
                 tribe.tribeDetail = tribeDetail
             }
             if (completeBlock != null) {
-                completeBlock(true)
+                completeBlock(tribeDetail != null)
             }
         }.addOnFailureListener {
             if (completeBlock != null) {
@@ -179,18 +179,59 @@ object UserData {
     }
 
     fun fetchTribe(completeBlock : ((complete: Boolean) -> Unit)?) {
-        val db = Firebase.firestore
-        val docRef = db.collection("tribeInfo").document(FirebaseAuth.getInstance().currentUser!!.uid)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val tribeInfo = documentSnapshot.toObject<TribeInfo>()
-            if (tribeInfo != null) {
-                tribe.tribeInfo = tribeInfo
-                fetchTribeDetail(tribeInfo.code, completeBlock)
+        fetchTribeInfo {
+            if (it) {
+                fetchTribeDetail(UserData.tribe.tribeInfo!!.code, completeBlock)
             } else {
                 if (completeBlock != null) {
                     completeBlock(false)
                 }
             }
+        }
+    }
+
+    fun updateTribeDetail(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || UserData.tribe.tribeInfo!!.code.isEmpty()) {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+            return
+        }
+        val db = Firebase.firestore
+        val tribeInfo = hashMapOf(
+            "name" to UserData.tribe.tribeDetail!!.name,
+            "avatar" to UserData.tribe.tribeDetail!!.avatar,
+            "members" to UserData.tribe.tribeDetail!!.members
+        )
+
+        db.collection("tribeDetail").document(UserData.tribe.tribeInfo!!.code).set(
+            tribeInfo).addOnSuccessListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun updateTribeInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val tribeInfo = hashMapOf(
+            "name" to UserData.tribe.tribeInfo!!.name,
+            "avatar" to UserData.tribe.tribeInfo!!.avatar,
+            "role" to UserData.tribe.tribeInfo!!.role,
+            "code" to UserData.tribe.tribeInfo!!.code
+        )
+
+        db.collection("tribeInfo").document(FirebaseAuth.getInstance().currentUser!!.uid).set(
+            tribeInfo).addOnSuccessListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+
         }.addOnFailureListener {
             if (completeBlock != null) {
                 completeBlock(false)
