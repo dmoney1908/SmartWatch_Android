@@ -19,6 +19,7 @@ class SplashActivity : CommonActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
 //            FirebaseAuth.getInstance().signOut()
             if (FirebaseAuth.getInstance().currentUser != null) {
+                UserData.userInfo.email = FirebaseAuth.getInstance().currentUser!!.email.toString()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {

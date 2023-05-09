@@ -11,8 +11,8 @@ enum class DateType {
 
 class DateUtil {
     companion object {
-        fun getYMDHMSDate(date: Long): String? {
-            val simpleDateFormat = SimpleDateFormat("yyyy-M-dd HH:mm:ss")
+        fun getYMDHMDate(date: Date): String? {
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
             return simpleDateFormat.format(date)
         }
 

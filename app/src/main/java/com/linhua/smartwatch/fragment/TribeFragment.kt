@@ -135,7 +135,7 @@ class TribeFragment: Fragment(){
             if (sleepTime % 60 == 0) {
                 binding.tvSleepNum.text = String.format("%dh", sleepTime / 60)
             } else {
-                binding.tvSleepNum.text = String.format("%dh %dminitue", sleepTime / 60, sleepTime % 60)
+                binding.tvSleepNum.text = String.format("%dh %dm", sleepTime / 60, sleepTime % 60)
             }
             if (UserData.tribe.tribeDetail!!.members.size < 2) {
                 binding.tvMemberNum.text = String.format("%d member", UserData.tribe.tribeDetail!!.members.size)

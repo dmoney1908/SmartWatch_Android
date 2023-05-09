@@ -17,7 +17,7 @@ data class TribeDetail (
     var members: MutableList<TribeMember> = mutableListOf()
 ) {
      fun addMember(member: TribeMember) {
-         val item = members.first {
+         val item = members.firstOrNull() {
              it.email == member.email
          }
 
@@ -48,8 +48,8 @@ data class TribeMember(
     val name: String = "",
     val email: String = "",
     val avatar: String = "",
-    val steps: Int = 0,
-    val sleep: Int = 0,
+    var steps: Int = 0,
+    var sleep: Int = 0,
     val role: Int = 0,
-    val time: String = ""
+    var time: String = ""
 )

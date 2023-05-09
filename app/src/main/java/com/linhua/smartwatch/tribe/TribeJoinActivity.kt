@@ -20,7 +20,7 @@ class TribeJoinActivity : CommonActivity() {
 
         binding.tvContinue.setOnClickListener {
             val code: String = binding.etName.text.toString().trim { it <= ' ' }
-            if (code.length == 10) {
+            if (code.length != 10) {
                 showToast(resources.getString(R.string.enter_tribe_code))
                 return@setOnClickListener
             }

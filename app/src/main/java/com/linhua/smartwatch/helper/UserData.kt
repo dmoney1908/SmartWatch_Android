@@ -39,7 +39,7 @@ object UserData {
     var deviceConfig: DeviceState? = null
     var lastMac = ""
     init {
-        loadUserInfo()
+        fetchUserInfo(null)
         val userSP: SharedPreferences = SmartWatchApplication.instance.getSharedPreferences("settings",
             Context.MODE_PRIVATE
         )
@@ -227,6 +227,25 @@ object UserData {
             }
             return
         }
+        if (UserData.tribe.tribeDetail == null) {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+            return
+        }
+        var item = UserData.tribe.tribeDetail!!.members.firstOrNull {
+            it.email == UserData.userInfo.email
+        }
+        if (item == null) {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+            return
+        }
+        item.steps = UserData.healthData.steps
+        item.sleep = UserData.healthData.sleepTime
+        item.time = UserData.healthData.date
+
         val db = Firebase.firestore
         val tribeInfo = hashMapOf(
             "name" to UserData.tribe.tribeDetail!!.name,

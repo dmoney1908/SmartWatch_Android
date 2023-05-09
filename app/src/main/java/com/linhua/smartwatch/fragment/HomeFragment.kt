@@ -25,6 +25,7 @@ import com.linhua.smartwatch.sleep.SleepActivity
 import com.linhua.smartwatch.tempr.TemperatureActivity
 import com.linhua.smartwatch.utils.CommonUtil
 import com.linhua.smartwatch.utils.CommonUtil.AutoTempr
+import com.linhua.smartwatch.utils.DateUtil
 import com.linhua.smartwatch.utils.DeviceManager
 import com.linhua.smartwatch.utils.IntentUtil
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -255,6 +256,8 @@ class HomeFragment: BaseFragment(){
                 hostView!!.findViewById<TextView>(R.id.tv_calories_value).text = (sport.totalCalory).toString() //单位千卡
                 hostView!!.findViewById<TextView>(R.id.tv_distance_value).text = sport.totalDistance.toString() //单位米
                 totalSteps = sport.totalStepCount
+                UserData.healthData.date = DateUtil.getYMDHMDate(Date()).toString()
+                UserData.healthData.steps = sport.totalStepCount
                 if (UserData.systemSetting.unitSettings == 1) {
                     if (UserData.userInfo.sex == 1) {
                         hostView!!.findViewById<TextView>(R.id.tv_distance_value).text =
@@ -360,6 +363,9 @@ class HomeFragment: BaseFragment(){
     private fun showSleepData() {
         if (healthSleepItems.isEmpty()) return
         val item = computeMath()
+        UserData.healthData.sleepTime = item
+        UserData.healthData.date = DateUtil.getYMDHMDate(Date()).toString()
+        UserData.updateTribeDetail{}
         val time = item / 60.0
         hostView!!.findViewById<TextView>(R.id.tv_sleep_num).text = String.format("%.1f", time)
         getCurrentTmp()

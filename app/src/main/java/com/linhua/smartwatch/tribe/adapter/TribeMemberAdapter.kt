@@ -20,7 +20,11 @@ class TribeMemberAdapter(data: MutableList<TribeMemberItem>?) :
     override fun convert(holder: BaseViewHolder, item: TribeMemberItem) {
         when (holder.itemViewType) {
             MultipleEntity.ONE -> {
-                holder.setText(R.id.tv_name, item.name)
+                if (item.name.isNotEmpty()) {
+                    holder.setText(R.id.tv_name, item.name)
+                } else {
+                    holder.setText(R.id.tv_name, item.email)
+                }
                 holder.setText(R.id.tv_time, item.time)
                 holder.getView<ImageView>(R.id.iv_avatar).clipToOutline = true
                 if (item.avatar.isNotEmpty()) {
