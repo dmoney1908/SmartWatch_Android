@@ -19,6 +19,7 @@ import com.linhua.smartwatch.helper.UserData
 import com.linhua.smartwatch.tribe.TribeCreateActivity
 import com.linhua.smartwatch.tribe.TribeEditActivity
 import com.linhua.smartwatch.tribe.TribeJoinActivity
+import com.linhua.smartwatch.tribe.TribeSettingsActivity
 import com.linhua.smartwatch.tribe.adapter.TribeMemberAdapter
 import com.linhua.smartwatch.tribe.adapter.TribeMemberItem
 import com.linhua.smartwatch.utils.DialogHelperNew
@@ -57,8 +58,13 @@ class TribeFragment: Fragment(){
         }
 
         binding.ivSettings.setOnClickListener {
-            val intent = Intent(this.context, TribeEditActivity::class.java)
-            startActivity(intent)
+            if (UserData.tribe.tribeInfo!!.role == 1) {
+                val intent = Intent(this.context, TribeEditActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(this.context, TribeSettingsActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.ivAddMember.setOnClickListener {
@@ -112,7 +118,7 @@ class TribeFragment: Fragment(){
             binding.llNotCreated.visibility = View.GONE
             binding.rlCreated.visibility = View.VISIBLE
             binding.tvTribeName.text = UserData.tribe.tribeInfo!!.name
-            binding.ivSettings.visibility = if (UserData.tribe.tribeInfo!!.role == 1) View.VISIBLE else View.INVISIBLE
+            binding.ivSettings.visibility = View.VISIBLE
             binding.ivAddMember.visibility = if (UserData.tribe.tribeInfo!!.role == 1) View.VISIBLE else View.INVISIBLE
             if (UserData.tribe.tribeInfo!!.avatar.isNotEmpty()) {
                 Glide.with(this).load(UserData.tribe.tribeInfo!!.avatar).placeholder(R.drawable.avatar_user).centerCrop()

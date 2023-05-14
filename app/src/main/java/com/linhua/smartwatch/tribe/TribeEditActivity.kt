@@ -5,7 +5,6 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import com.blankj.utilcode.util.ColorUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
@@ -56,6 +55,17 @@ class TribeEditActivity : CommonActivity() {
                     1 -> Camera(null)
                 }
             }.show()
+        }
+
+        binding.llDeleteTribe.setOnClickListener {
+            XPopup.Builder(this)
+                .asConfirm("", "Are you sure to delete this tribe？") {
+                    UserData.deleteTribeDetail(UserData.tribe.tribeInfo!!.code, completeBlock = {})
+                    UserData.deleteTribeInfo {  }
+                    UserData.tribe.tribeDetail = null
+                    UserData.tribe.tribeInfo = null
+                    finish()
+                }.show()
         }
 
         binding.tvSave.setOnClickListener {

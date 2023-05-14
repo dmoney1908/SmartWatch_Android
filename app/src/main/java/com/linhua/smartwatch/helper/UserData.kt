@@ -7,12 +7,10 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Base64
 import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.linhua.smartwatch.SmartWatchApplication
 import com.zhj.bluetooth.zhjbluetoothsdk.bean.DeviceState
@@ -22,7 +20,6 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.HandlerBleDataResult
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicListener
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
-import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil.showToast
 import java.io.*
 import java.util.*
 
@@ -311,6 +308,90 @@ object UserData {
         }
     }
 
+    fun deleteTribeDetail(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+            return
+        }
+        val db = Firebase.firestore
+        db.collection("tribeDetail")
+            .document(code)
+            .delete()
+            .addOnSuccessListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun deleteTribeInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        val db = Firebase.firestore
+        val docRef = db.collection("tribeInfo").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.delete().addOnSuccessListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+
+    fun leaveTribeDetail(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+            return
+        }
+        val db = Firebase.firestore
+        val docRef = db.collection("tribeDetail").document(code)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val tribeDetail = documentSnapshot.toObject<TribeDetail>()
+            if (tribeDetail != null) {
+                val item = tribeDetail.members.firstOrNull {
+                    it.email == UserData.userInfo.email
+                }
+                if (item != null) {
+                    tribeDetail.removeMember(item)
+                }
+
+                val tribe = hashMapOf(
+                    "name" to tribeDetail.name,
+                    "avatar" to tribeDetail.avatar,
+                    "members" to tribeDetail.members
+                )
+
+                db.collection("tribeDetail").document(code).set(
+                    tribe).addOnSuccessListener {
+                    if (completeBlock != null) {
+                        completeBlock(true)
+                    }
+
+                }.addOnFailureListener {
+                    if (completeBlock != null) {
+                        completeBlock(false)
+                    }
+                }
+
+            }
+            if (completeBlock != null) {
+                completeBlock(tribeDetail != null)
+            }
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
 
     fun saveUserInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
         val db = Firebase.firestore

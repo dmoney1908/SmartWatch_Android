@@ -21,7 +21,7 @@ class FragmentManage private constructor(){
     fun getFragmentById(id:Int):Fragment?{
         when(id){
             R.id.navigation_home->return homeFragment
-            R.id.navigation_sport->return tribeFragment
+            R.id.navigation_tribe->return tribeFragment
             R.id.navigation_device->return deviceFragment
             R.id.navigation_profile->return personalFragment
         }

@@ -27,7 +27,7 @@
     <string name="oxygen">Blood Oxygen</string>
     <string name="bpm">Bpm</string>
     <string name="title_home">HOME</string>
-    <string name="title_sport">SPORT</string>
+    <string name="title_tribe">TRIBE</string>
     <string name="title_device">DEVICE</string>
     <string name="title_profile">PROFILE</string>
     <string name="profile">Profile</string>
@@ -186,9 +186,13 @@
     <string name="tribe_name">Tribe Name</string>
     <string name="tribe_continue">Continue</string>
     <string name="tribe_add">Add</string>
+    <string name="tribe_delete">Delete Tribe</string>
+    <string name="tribe_leave">Leave Tribe</string>
     <string name="skip">Skip</string>
     <string name="enter_valid_tribe">Please enter valid tribe name</string>
     <string name="enter_tribe_code">Please enter valid verification code</string>
     <string name="code_sent">Verification code has been sent</string>
     <string name="code_fail_sent">Failed to send verification code</string>
+    <string name="tribe_settings">Tribe Settings</string>
+    <string name="tribe_created">Tribe created by</string>
 </resources>
