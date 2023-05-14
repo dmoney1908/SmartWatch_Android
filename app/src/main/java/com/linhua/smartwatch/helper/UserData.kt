@@ -135,6 +135,8 @@ object UserData {
             val userInfo = documentSnapshot.toObject<UserInfo>()
             if (userInfo != null) {
                 this.userInfo = userInfo
+                if (this.userInfo.email.isEmpty())
+                    this.userInfo.email = FirebaseAuth.getInstance().currentUser!!.email.toString()
             }
             if (completeBlock != null) {
                 completeBlock(true)
