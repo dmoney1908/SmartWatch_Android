@@ -220,7 +220,9 @@ object UserData {
     }
 
     fun updateTribeDetail(completeBlock : ((complete: Boolean) -> Unit)?) {
-        if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || UserData.tribe.tribeInfo!!.code.isEmpty()) {
+        if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() ||
+            UserData.tribe.tribeInfo == null ||
+            UserData.tribe.tribeInfo!!.code.isEmpty()) {
             if (completeBlock != null) {
                 completeBlock(true)
             }
