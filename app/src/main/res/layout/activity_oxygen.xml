@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.linhua.smartwatch.view.ScrollDateView
+                <com.lately.tribe.view.ScrollDateView
                     android:id="@+id/rl_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="79dp"/>

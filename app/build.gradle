@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.linhua.smartwatch'
+    namespace 'com.lately.tribe'
     compileSdk 32
 
     viewBinding {
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.linhua.smartwatch"
+        applicationId "com.lately.tribe"
         minSdk 26
         targetSdk 32
         versionCode 1

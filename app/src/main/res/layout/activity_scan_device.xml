@@ -25,7 +25,7 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <com.linhua.smartwatch.utils.RecyclerRefreshLayout
+    <com.lately.tribe.utils.RecyclerRefreshLayout
         android:id="@+id/mRefreshLayout"
         android:layout_below="@+id/layoutTitle"
         android:layout_width="match_parent"
@@ -37,6 +37,6 @@
             android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
-    </com.linhua.smartwatch.utils.RecyclerRefreshLayout>
+    </com.lately.tribe.utils.RecyclerRefreshLayout>
 
 </RelativeLayout>

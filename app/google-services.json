@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:793254568042:android:1a94d2e3f53525561bea13",
         "android_client_info": {
-          "package_name": "com.linhua.smartwatch"
+          "package_name": "com.lately.tribe"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "793254568042-uta5l93thjifb4ca94vual0kv5b3shml.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.linhua.iwatch"
+                "bundle_id": "com.lately.tribe"
               }
             }
           ]
