@@ -25,15 +25,15 @@ android {
 
     signingConfigs {
         debug {
-            keyAlias 'iWatch'
+            keyAlias 'Tribe'
             keyPassword 'danc88888888'
-            storeFile file('../doc/iWatch')
+            storeFile file('../doc/Tribe')
             storePassword 'danc88888888'
         }
         release {
-            keyAlias 'iWatch'
+            keyAlias 'Tribe'
             keyPassword 'danc88888888'
-            storeFile file('../doc/iWatch')
+            storeFile file('../doc/Tribe')
             storePassword 'danc88888888'
         }
     }

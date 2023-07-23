@@ -1,37 +1,45 @@
 {
   "project_info": {
-    "project_number": "793254568042",
-    "project_id": "tribe-4f770",
-    "storage_bucket": "tribe-4f770.appspot.com"
+    "project_number": "1039998415869",
+    "project_id": "tribe-c2d80",
+    "storage_bucket": "tribe-c2d80.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:793254568042:android:1a94d2e3f53525561bea13",
+        "mobilesdk_app_id": "1:1039998415869:android:1afa7e18c64f962e999f94",
         "android_client_info": {
           "package_name": "com.lately.tribe"
         }
       },
       "oauth_client": [
         {
-          "client_id": "793254568042-opka8gcetq6bn2rthe4itfl4g8pkkhs5.apps.googleusercontent.com",
+          "client_id": "1039998415869-ju78l869lkb3uvrbin7p2k7smeqmlcvk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lately.tribe",
+            "certificate_hash": "947c9d5c83765e976e853506dd02f3eec983eea4"
+          }
+        },
+        {
+          "client_id": "1039998415869-a4a91ilosq9svm7odgvpm2g4uejp7n9j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBJPyrfLt6tbnQzlvhognRQOyHQk9GV6KU"
+          "current_key": "AIzaSyA7Zw5xRVKKU_P-BucuNfcIr-mMmP5pSQQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "793254568042-n782lr3alpr90qhvo4ki69rlcoeb5ujh.apps.googleusercontent.com",
+              "client_id": "1039998415869-a4a91ilosq9svm7odgvpm2g4uejp7n9j.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "793254568042-uta5l93thjifb4ca94vual0kv5b3shml.apps.googleusercontent.com",
+              "client_id": "1039998415869-ok45m1godepsrvbjrab62kvvv8p099h4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.lately.tribe"

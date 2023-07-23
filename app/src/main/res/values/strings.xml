@@ -1,10 +1,8 @@
 <resources>
-    <string name="google_client_id">536400374040-r9ha1ilsjcftvrsbfcbbho912ln57pus.apps.googleusercontent.com</string>
-
-    <string name="google_as_id">536400374040-lohe3sljm0jho4un0ttqvhk92n2cdtuv.apps.googleusercontent.com</string>
-    <string name="facebook_app_id">627623712738337</string>
-    <string name="fb_login_protocol_scheme">fb627623712738337</string>
-    <string name="facebook_client_token">a9a543464f2b0dc31b853ae79bd4d464</string>
+    <string name="google_client_id">1039998415869-a4a91ilosq9svm7odgvpm2g4uejp7n9j.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">1462069321270859</string>
+    <string name="fb_login_protocol_scheme">fb1462069321270859</string>
+    <string name="facebook_client_token">c74f7842b7a60da0626e2661c058b901</string>
 
 
     <string name="app_name">Tribe</string>
