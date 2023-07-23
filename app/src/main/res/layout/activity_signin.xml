@@ -275,7 +275,7 @@
                             android:layout_toRightOf="@+id/iv_facebook"
                             android:layout_centerVertical="true"
                             android:layout_height="match_parent"
-                            android:text="@string/google"
+                            android:text="@string/facebook"
                             android:gravity="center"/>
                     </RelativeLayout>
                 </RelativeLayout>
