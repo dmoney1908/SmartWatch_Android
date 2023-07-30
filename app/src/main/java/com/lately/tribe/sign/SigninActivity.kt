@@ -4,11 +4,20 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
 import android.text.method.HideReturnsTransformationMethod
+import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.ColorUtils
 import com.facebook.CallbackManager
 import com.facebook.CallbackManager.Factory.create
 import com.facebook.FacebookCallback
@@ -28,8 +37,12 @@ import com.lately.tribe.activity.MainActivity
 import com.lately.tribe.base.CommonActivity
 import com.lately.tribe.databinding.ActivitySigninBinding
 import com.lately.tribe.helper.UserData
+import com.lately.tribe.mine.PrivacyActivity
+import com.lately.tribe.mine.TermsActivity
+import com.lately.tribe.utils.DeviceManager
 import com.lately.tribe.utils.IntentUtil
 import com.lxj.xpopup.XPopup
+import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.BluetoothLe
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -40,6 +53,12 @@ class SigninActivity : CommonActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private val RESULT_CODE_SIGN_UP = 1000
     private val RESULT_CODE_Google = 1001
+
+    private var bCheckedProtocl = false
+
+    private val termText = "I have read and agreed to the "
+    private val term = "User Agreement"
+    private val policy = "Privacy Policy"
 
     companion object {
         var mActivity: WeakReference<Activity>? = null
@@ -91,6 +110,7 @@ class SigninActivity : CommonActivity() {
                 showToast(resources.getString(com.lately.tribe.R.string.pwd_invalid))
                 return@setOnClickListener
             }
+
             login(email, pwd)
         }
 
@@ -138,9 +158,68 @@ class SigninActivity : CommonActivity() {
                 }.show()
 
         }
+
+        setupProtocol()
     }
 
+    private fun setupProtocol() {
+        val string = SpannableString("$termText$policy and $term")
+
+        string.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(widget.context, PrivacyActivity::class.java)
+                startActivity(intent)
+            }
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.color = getColor(R.color.colorAccent)
+                ds.isUnderlineText = false
+            }
+        }, termText.length, termText.length + policy.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length, termText.length + policy.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+
+        string.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(widget.context, TermsActivity::class.java)
+                startActivity(intent)
+            }
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.color = getColor(R.color.colorAccent)
+                ds.isUnderlineText = false
+            }
+        }, termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+
+
+        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+
+        binding.tvProtocol.text = string
+        binding.tvProtocol.movementMethod = LinkMovementMethod.getInstance()
+        binding.ivCheck.setOnClickListener {
+            if (bCheckedProtocl) {
+                binding.ivCheck.setImageResource(R.drawable.complex_uncheck)
+            } else {
+                binding.ivCheck.setImageResource(R.drawable.complex_check)
+            }
+            bCheckedProtocl = !bCheckedProtocl
+        }
+    }
+
+    private fun checkProtocol() : Boolean {
+        if (!bCheckedProtocl) {
+            XPopup.Builder(this)
+                .asConfirm("", "Please read and agree to the Privacy Policy and User Agreement",
+                    "", "OK",
+                    null, null, true).show()
+        }
+        return bCheckedProtocl
+    }
+
+
     private fun googleLogin() {
+        if (!checkProtocol()) {
+            return
+        }
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -158,6 +237,9 @@ class SigninActivity : CommonActivity() {
     private var fbCallbackManager: CallbackManager? = null
 
     private fun facebookLogin() {
+        if (!checkProtocol()) {
+            return
+        }
         fbCallbackManager = create()
         LoginManager.getInstance()
             .logInWithReadPermissions(this, Arrays.asList("email", "public_profile"))
@@ -185,6 +267,9 @@ class SigninActivity : CommonActivity() {
     }
 
     private fun login (email: String, password: String) {
+        if (!checkProtocol()) {
+            return
+        }
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
