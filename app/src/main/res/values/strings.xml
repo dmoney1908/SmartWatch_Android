@@ -5,7 +5,7 @@
     <string name="facebook_client_token">c74f7842b7a60da0626e2661c058b901</string>
 
 
-    <string name="app_name">Tribe</string>
+    <string name="app_name">Tribe Watch</string>
     <string name="connected">connected</string>
     <string name="connected_status">Connected</string>
     <string name="disconnected_status">Disconnected</string>
@@ -85,6 +85,7 @@
     <string name="user_agreement">User Agreement</string>
     <string name="blood_pressure_range">Blood pressure range</string>
     <string name="data_share">Data Sharing</string>
+    <string name="versionName">Version: 1.0.0</string>
 
     <string name="unit_settings">Unit Settings</string>
     <string name="imperial_unit">Imperial Unit</string>
@@ -129,6 +130,7 @@
     <string name="mailto_hint">For any questions or feedback, please send us an email at hello@tribeapp.com</string>
     <string name="mailto">Mail to hello@tribeapp.com</string>
     <string name="logout">Log Out</string>
+    <string name="add_device">Add Device</string>
     <string name="sign">Sign up</string>
     <string name="tempr_f">°F</string>
     <string name="tempr_c">°C</string>

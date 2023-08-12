@@ -159,60 +159,61 @@ class SigninActivity : CommonActivity() {
 
         }
 
-        setupProtocol()
+//        setupProtocol()
     }
 
-    private fun setupProtocol() {
-        val string = SpannableString("$termText$policy and $term")
-
-        string.setSpan(object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                val intent = Intent(widget.context, PrivacyActivity::class.java)
-                startActivity(intent)
-            }
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.color = getColor(R.color.colorAccent)
-                ds.isUnderlineText = false
-            }
-        }, termText.length, termText.length + policy.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
-        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length, termText.length + policy.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-
-        string.setSpan(object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                val intent = Intent(widget.context, TermsActivity::class.java)
-                startActivity(intent)
-            }
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.color = getColor(R.color.colorAccent)
-                ds.isUnderlineText = false
-            }
-        }, termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
-
-
-        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-
-        binding.tvProtocol.text = string
-        binding.tvProtocol.movementMethod = LinkMovementMethod.getInstance()
-        binding.ivCheck.setOnClickListener {
-            if (bCheckedProtocl) {
-                binding.ivCheck.setImageResource(R.drawable.complex_uncheck)
-            } else {
-                binding.ivCheck.setImageResource(R.drawable.complex_check)
-            }
-            bCheckedProtocl = !bCheckedProtocl
-        }
-    }
+//    private fun setupProtocol() {
+//        val string = SpannableString("$termText$policy and $term")
+//
+//        string.setSpan(object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                val intent = Intent(widget.context, PrivacyActivity::class.java)
+//                startActivity(intent)
+//            }
+//            override fun updateDrawState(ds: TextPaint) {
+//                super.updateDrawState(ds)
+//                ds.color = getColor(R.color.colorAccent)
+//                ds.isUnderlineText = false
+//            }
+//        }, termText.length, termText.length + policy.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+//        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length, termText.length + policy.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+//
+//        string.setSpan(object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                val intent = Intent(widget.context, TermsActivity::class.java)
+//                startActivity(intent)
+//            }
+//            override fun updateDrawState(ds: TextPaint) {
+//                super.updateDrawState(ds)
+//                ds.color = getColor(R.color.colorAccent)
+//                ds.isUnderlineText = false
+//            }
+//        }, termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+//
+//
+//        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+//
+//        binding.tvProtocol.text = string
+//        binding.tvProtocol.movementMethod = LinkMovementMethod.getInstance()
+//        binding.ivCheck.setOnClickListener {
+//            if (bCheckedProtocl) {
+//                binding.ivCheck.setImageResource(R.drawable.complex_uncheck)
+//            } else {
+//                binding.ivCheck.setImageResource(R.drawable.complex_check)
+//            }
+//            bCheckedProtocl = !bCheckedProtocl
+//        }
+//    }
 
     private fun checkProtocol() : Boolean {
-        if (!bCheckedProtocl) {
-            XPopup.Builder(this)
-                .asConfirm("", "Please read and agree to the Privacy Policy and User Agreement",
-                    "", "OK",
-                    null, null, true).show()
-        }
-        return bCheckedProtocl
+        return true
+//        if (!bCheckedProtocl) {
+//            XPopup.Builder(this)
+//                .asConfirm("", "Please read and agree to the Privacy Policy and User Agreement",
+//                    "", "OK",
+//                    null, null, true).show()
+//        }
+//        return bCheckedProtocl
     }
 
 
