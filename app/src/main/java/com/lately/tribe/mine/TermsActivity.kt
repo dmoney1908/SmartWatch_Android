@@ -15,7 +15,8 @@ class TermsActivity : CommonActivity() {
         binding = ActivityTermsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.wvTerms.loadUrl("file:///android_asset/Terms.html");
-
+        binding.wvTerms.settings.loadWithOverviewMode = true;
+        binding.wvTerms.settings.useWideViewPort = true;
         binding.baseTitleBack.setOnClickListener {
             onBackPressed()
         }

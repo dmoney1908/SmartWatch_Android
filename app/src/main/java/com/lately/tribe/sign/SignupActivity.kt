@@ -50,8 +50,8 @@ class SignupActivity : CommonActivity() {
 
     private var bCheckedProtocl = false
 
-    private val termText = "I have read and agreed to the "
-    private val term = "User Agreement"
+    private val termText = "I accept the "
+    private val term = "Terms"
     private val policy = "Privacy Policy"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,20 +109,7 @@ class SignupActivity : CommonActivity() {
     }
 
     private fun setupProtocol() {
-        val string = SpannableString("$termText$policy and $term")
-
-        string.setSpan(object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                val intent = Intent(widget.context, PrivacyActivity::class.java)
-                startActivity(intent)
-            }
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.color = getColor(R.color.colorAccent)
-                ds.isUnderlineText = false
-            }
-        }, termText.length, termText.length + policy.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
-        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length, termText.length + policy.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        val string = SpannableString("$termText$term & $policy")
 
         string.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
@@ -134,10 +121,23 @@ class SignupActivity : CommonActivity() {
                 ds.color = getColor(R.color.colorAccent)
                 ds.isUnderlineText = false
             }
-        }, termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+        }, termText.length, termText.length + term.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length, termText.length + term.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+
+        string.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(widget.context, PrivacyActivity::class.java)
+                startActivity(intent)
+            }
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.color = getColor(R.color.colorAccent)
+                ds.isUnderlineText = false
+            }
+        }, termText.length + term.length + " & ".length, termText.length + term.length + " & ".length + policy.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
 
 
-        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length + policy.length + " and ".length, termText.length + policy.length + " and ".length + term.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        string.setSpan(ForegroundColorSpan(getColor(R.color.primary_blue)), termText.length + term.length + " & ".length, termText.length + term.length + " & ".length + policy.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 
         binding.tvProtocol.text = string
         binding.tvProtocol.movementMethod = LinkMovementMethod.getInstance()

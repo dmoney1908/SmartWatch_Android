@@ -2,6 +2,7 @@ package com.lately.tribe.mine
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.webkit.WebSettings
 import com.lately.tribe.R
 import com.lately.tribe.base.CommonActivity
 import com.lately.tribe.databinding.ActivityHelpBinding
@@ -15,7 +16,8 @@ class PrivacyActivity : CommonActivity() {
         binding = ActivityPrivacyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.wvPrivacy.loadUrl("file:///android_asset/Privacy.html");
-
+        binding.wvPrivacy.settings.loadWithOverviewMode = true;
+        binding.wvPrivacy.settings.useWideViewPort = true;
         binding.baseTitleBack.setOnClickListener {
             onBackPressed()
         }
