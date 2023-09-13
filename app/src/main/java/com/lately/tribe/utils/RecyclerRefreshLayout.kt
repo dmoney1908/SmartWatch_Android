@@ -32,7 +32,7 @@ class RecyclerRefreshLayout @JvmOverloads constructor(
     private var mLastY: Int = 0
 
     init {
-        mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
+        mTouchSlop = context?.let { ViewConfiguration.get(it).scaledTouchSlop }!!
         setOnRefreshListener(this)
     }
 
