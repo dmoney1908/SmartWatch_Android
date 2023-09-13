@@ -89,7 +89,7 @@ class DeviceFragment: BaseFragment(){
             }
         }
 
-        if (!mBluetoothLe!!.isBluetoothOpen) {
+        if (!DeviceManager.isSDKAvailable || !mBluetoothLe!!.isBluetoothOpen) {
             showToast(activity, resources.getString(R.string.sdk_not_available))
         } else if (!CommonUtil.isOPen(requireActivity())) {
             showToast(activity, resources.getString(R.string.sdk_not_available))
