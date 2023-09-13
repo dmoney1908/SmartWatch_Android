@@ -70,6 +70,7 @@
     <string name="average_value">Average value</string>
     <string name="highest_value">Highest value</string>
     <string name="average">Average</string>
+    <string name="enter_bio">Enter bio</string>
     <string name="please_enter_email">Please enter your email</string>
     <string name="enter_email">Enter your email</string>
     <string name="enter_name">Enter your name</string>
@@ -127,8 +128,8 @@
     <string name="login">Log in</string>
     <string name="save">Save</string>
     <string name="send">Send</string>
-    <string name="mailto_hint">For any questions or feedback, please send us an email at hello@tribeapp.com</string>
-    <string name="mailto">Mail to hello@tribeapp.com</string>
+    <string name="mailto_hint">For any questions or feedback, please send us an email at support@tribesmartwatch.com</string>
+    <string name="mailto">Mail to support@tribesmartwatch.com</string>
     <string name="logout">Log Out</string>
     <string name="add_device">Add Device</string>
     <string name="sign">Sign up</string>

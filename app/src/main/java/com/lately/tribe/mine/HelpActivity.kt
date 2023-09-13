@@ -21,7 +21,7 @@ class HelpActivity : CommonActivity() {
 
         binding.tvMailTo.setOnClickListener {
             val emails = mutableListOf<String>()
-            val email = "hello@tribeapp.com"
+            val email = "support@tribesmartwatch.com"
             composeEmail(email,"Question & Help of Tribe")
         }
     }

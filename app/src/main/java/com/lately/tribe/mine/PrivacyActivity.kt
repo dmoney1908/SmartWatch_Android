@@ -15,7 +15,7 @@ class PrivacyActivity : CommonActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPrivacyBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.wvPrivacy.loadUrl("file:///android_asset/Privacy.html");
+        binding.wvPrivacy.loadUrl("https://tribesmartwatch.com/Privacypolicy.html");
         binding.wvPrivacy.settings.loadWithOverviewMode = true;
         binding.wvPrivacy.settings.useWideViewPort = true;
         binding.baseTitleBack.setOnClickListener {

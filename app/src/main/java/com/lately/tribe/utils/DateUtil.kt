@@ -93,6 +93,8 @@ class DateUtil {
             } else if (hour > 12) {
                 String.format("%02d:00 pm", hour - 12)
             } else if (hour == 0 || hour == 24){
+                return "12:00 am"
+            } else if (hour == 12){
                 return "12:00 pm"
             } else {
                 String.format("%02d:00 am", hour)
@@ -107,6 +109,8 @@ class DateUtil {
             } else if (hour > 12) {
                 return String.format("%02d:%02d pm", hour - 12, minute)
             } else if (hour == 0 || hour == 24){
+                return String.format("12:%02d am", minute)
+            } else if (hour == 12){
                 return String.format("12:%02d pm", minute)
             } else {
                 return String.format("%02d:%02d am", hour, minute)
@@ -119,6 +123,8 @@ class DateUtil {
             } else if (hour > 12) {
                 return String.format("%02d:%02d pm", hour - 12, minute)
             } else if (hour == 0 || hour == 24){
+                return String.format("12:%02d am", minute)
+            } else if (hour == 12){
                 return String.format("12:%02d pm", minute)
             } else {
                 return String.format("%02d:%02d am", hour, minute)
