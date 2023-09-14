@@ -39,12 +39,11 @@ class PersonalInfoActivity : CommonActivity() {
 
         binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.ivAvatar.clipToOutline = true
         if (userInfo.avatar.isNotEmpty()) {
-            Glide.with(this).load(userInfo.avatar).centerCrop()
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(binding.ivAvatar)
+            Glide.with(this).load(userInfo.avatar).centerCrop().into(binding.ivAvatar)
         } else {
-            Glide.with(this).load(R.drawable.avatar_user).centerCrop()
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(binding.ivAvatar)
+            Glide.with(this).load(R.drawable.avatar_user).centerCrop().into(binding.ivAvatar)
         }
 
 

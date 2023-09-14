@@ -90,7 +90,7 @@ class PersonalFragment: BaseFragment(){
                     this.requireActivity().finish()
                 }.show()
         }
-
+        hostView!!.findViewById<ImageView>(R.id.iv_avatar).clipToOutline = true
         return hostView
     }
 
@@ -138,8 +138,7 @@ class PersonalFragment: BaseFragment(){
             hostView!!.findViewById<TextView>(R.id.tv_signature).text = UserData.userInfo.signature
         }
         if (UserData.userInfo.avatar.isNotEmpty()) {
-            Glide.with(this).load(UserData.userInfo.avatar).centerCrop()
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).into(hostView!!.findViewById<ImageView>(R.id.iv_avatar))
+            Glide.with(this).load(UserData.userInfo.avatar).centerCrop().into(hostView!!.findViewById<ImageView>(R.id.iv_avatar))
         }
     }
 
@@ -186,7 +185,7 @@ class PersonalFragment: BaseFragment(){
                 }
             }
             val filePath = "file://$path"
-            Glide.with(this).load(filePath).transform(CenterInside(), RoundedCorners(50)).into(hostView!!.findViewById<ImageView>(R.id.iv_avatar))
+            Glide.with(this).load(filePath).into(hostView!!.findViewById<ImageView>(R.id.iv_avatar))
         } else if (requestCode == REQUEST_CAMERA_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null) {
             var path = data.getStringExtra("result")
 

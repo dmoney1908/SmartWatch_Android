@@ -93,7 +93,8 @@
         </activity>
         <activity
             android:name=".mine.PersonalInfoActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -54,6 +54,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:clipToOutline="true"
+                    android:background="@drawable/rounded_corner"
+                    android:scaleType="fitXY"
                     android:src="@drawable/avatar_user"/>
                 <ImageView
                     android:id="@+id/iv_photo"
