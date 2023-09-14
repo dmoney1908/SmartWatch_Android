@@ -56,6 +56,7 @@
                 android:id="@+id/iv_tribe_avatar"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
+                android:scaleType="fitXY"
                 android:layout_gravity="center_horizontal"
                 android:clipToOutline="true"
                 android:src="@drawable/avatar_user" />
@@ -93,6 +94,7 @@
                         android:layout_width="16dp"
                         android:layout_marginTop="2dp"
                         android:layout_height="16dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/icon_tribe_members" />
 
                     <TextView
@@ -147,6 +149,7 @@
                     android:id="@+id/iv_creator_avatar"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:scaleType="fitXY"
                     android:clipToOutline="true"
                     android:src="@drawable/avatar_user" />
 

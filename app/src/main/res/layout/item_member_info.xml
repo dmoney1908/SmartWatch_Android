@@ -93,7 +93,7 @@
             android:textColor="@color/gray2"
             android:layout_marginStart="4dp"
             android:textSize="12sp"
-            tools:text="Device" />
+            android:text="@string/sleep"/>
     </LinearLayout>
 
 </RelativeLayout>
