@@ -14,9 +14,17 @@ class TermsActivity : CommonActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTermsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.wvTerms.loadUrl("https://tribesmartwatch.com/Termsofuse.html");
         binding.wvTerms.settings.loadWithOverviewMode = true;
         binding.wvTerms.settings.useWideViewPort = true;
+        binding.wvTerms.settings.javaScriptEnabled = true
+        binding.wvTerms.settings.domStorageEnabled = true
+        binding.wvTerms.settings.loadsImagesAutomatically = true
+        binding.wvTerms.settings.builtInZoomControls = true
+        binding.wvTerms.settings.displayZoomControls = true
+        binding.wvTerms.settings.useWideViewPort = true
+        binding.wvTerms.settings.loadWithOverviewMode = true
+
+        binding.wvTerms.loadUrl("https://tribesmartwatch.com/Termsofuse.html")
         binding.baseTitleBack.setOnClickListener {
             onBackPressed()
         }

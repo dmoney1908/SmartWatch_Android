@@ -29,10 +29,9 @@ class TribeMemberAdapter(data: MutableList<TribeMemberItem>?) :
                 holder.getView<ImageView>(R.id.iv_avatar).clipToOutline = true
                 if (item.avatar.isNotEmpty()) {
                     Glide.with(context).load(item.avatar).placeholder(R.drawable.avatar_user).centerCrop()
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(22))).into(holder.getView<ImageView>(R.id.iv_avatar))
+                        .into(holder.getView<ImageView>(R.id.iv_avatar))
                 } else {
-                    Glide.with(context).load(R.drawable.avatar_user).centerCrop()
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(22))).into(holder.getView<ImageView>(R.id.iv_avatar))
+                    Glide.with(context).load(R.drawable.avatar_user).centerCrop().into(holder.getView<ImageView>(R.id.iv_avatar))
                 }
                 val steps = item.steps.toString()
                 holder.setText(R.id.tv_steps_num, steps)

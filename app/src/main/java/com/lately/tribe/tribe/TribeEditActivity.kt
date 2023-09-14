@@ -34,12 +34,12 @@ class TribeEditActivity : CommonActivity() {
             onBackPressed()
         }
         binding.etName.setText(UserData.tribe.tribeInfo!!.name)
+        binding.ivAvatar.clipToOutline = true
         if (UserData.tribe.tribeInfo!!.avatar.isNotEmpty()) {
             Glide.with(this).load(UserData.tribe.tribeInfo!!.avatar).placeholder(R.drawable.avatar_user).centerCrop()
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(75))).into(binding.ivAvatar)
+                .into(binding.ivAvatar)
         } else {
-            Glide.with(this).load(R.drawable.avatar_user).centerCrop()
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(75))).into(binding.ivAvatar)
+            Glide.with(this).load(R.drawable.avatar_user).centerCrop().into(binding.ivAvatar)
         }
 
         ISNav.getInstance().init { context, path, imageView ->

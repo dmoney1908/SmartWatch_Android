@@ -118,12 +118,13 @@ class TribeFragment: Fragment(){
             binding.tvTribeName.text = UserData.tribe.tribeInfo!!.name
             binding.ivSettings.visibility = View.VISIBLE
             binding.ivAddMember.visibility = if (UserData.tribe.tribeInfo!!.role == 1) View.VISIBLE else View.INVISIBLE
+            binding.ivTribe.clipToOutline = true
             if (UserData.tribe.tribeInfo!!.avatar.isNotEmpty()) {
                 Glide.with(this).load(UserData.tribe.tribeInfo!!.avatar).placeholder(R.drawable.avatar_user).centerCrop()
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(22))).into(binding.ivTribe)
+                    .into(binding.ivTribe)
             } else {
                 Glide.with(this).load(R.drawable.avatar_user).centerCrop()
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(22))).into(binding.ivTribe)
+                    .into(binding.ivTribe)
             }
             var steps = 0
             var sleepTime = 0
