@@ -128,6 +128,9 @@ object UserData {
     }
 
     fun fetchUserInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         val db = Firebase.firestore
         val docRef = db.collection("profile").document(FirebaseAuth.getInstance().currentUser!!.uid)
         docRef.get().addOnSuccessListener { documentSnapshot ->

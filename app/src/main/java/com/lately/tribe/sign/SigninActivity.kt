@@ -288,6 +288,9 @@ class SigninActivity : CommonActivity() {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
                     showToast("Authentication failed.")
                 }
+            }.addOnFailureListener {
+                Log.w(TAG, "signInWithEmail:failure", it)
+                showToast("Authentication failed.")
             }
     }
 
