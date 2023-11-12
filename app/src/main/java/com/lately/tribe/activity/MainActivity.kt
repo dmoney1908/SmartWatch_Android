@@ -1,11 +1,21 @@
 package com.lately.tribe.activity
 
+import android.Manifest
 import android.bluetooth.BluetoothGatt
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.lately.tribe.R
 import com.lately.tribe.base.BaseActivity
 import com.lately.tribe.helper.UserData
@@ -74,6 +84,32 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
         })
     }
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
+        }
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API Level > 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+
+
     private fun autoConnect() {
         if (!DeviceManager.isSDKAvailable) {
             return
@@ -122,6 +158,36 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
                 hideLoading()
             }
         })
+    }
+
+    override fun initData() {
+        super.initData()
+        askNotificationPermission()
+        if (UserData.userActiveInfo.pushToken.isEmpty()) {
+            UserData.syncActiveUserInfo {
+                if (it) {
+                    UserData.saveUserActiveInfo(null)
+                }
+            }
+        }
+        Firebase.messaging.token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+                UserData.userActiveInfo.pushToken = token
+                UserData.saveUserActiveInfo(null)
+            },
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        UserData.saveUserActiveInfo(null)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

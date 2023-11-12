@@ -628,6 +628,7 @@ class HeartRateActivity : BaseActivity(), OnChartValueSelectedListener {
 
         // set data
         chart.data = data
+
         chart!!.animateX(1500)
     }
 

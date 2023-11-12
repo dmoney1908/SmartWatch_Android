@@ -16,7 +16,7 @@ android {
         applicationId "com.lately.tribe"
         minSdk 26
         targetSdk 33
-        versionCode 6
+        versionCode 7
         versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -80,8 +80,6 @@ dependencies {
     implementation 'no.nordicsemi.android.support.v18:scanner:1.5.0'
     implementation 'com.lxj:xpopup:2.2.14'
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation(name: 'zhj_sdk', ext: 'aar')
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
@@ -96,13 +94,17 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Also add the dependency for the Google Play services library and specify its version
-    implementation 'com.google.android.gms:play-services-auth:20.6.0'
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
     implementation 'com.facebook.android:facebook-login:latest.release'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
+    // Firebase Cloud Messaging (Java)
+    implementation("com.google.firebase:firebase-messaging")
+
+    // Firebase Cloud Messaging (Kotlin)
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
     implementation 'com.github.smuyyh:ImageSelector:3.0'
     // picture display
@@ -111,4 +113,5 @@ dependencies {
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
     // kotlin扩展（可选）
     implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
+    implementation 'com.google.gms:google-services:4.3.15'
 }

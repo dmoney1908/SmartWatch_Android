@@ -3,7 +3,7 @@
     <string name="facebook_app_id">1462069321270859</string>
     <string name="fb_login_protocol_scheme">fb1462069321270859</string>
     <string name="facebook_client_token">c74f7842b7a60da0626e2661c058b901</string>
-
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
     <string name="app_name">Tribe Watch</string>
     <string name="connected">connected</string>

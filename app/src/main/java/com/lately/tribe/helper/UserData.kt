@@ -21,6 +21,7 @@ import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.OnLeWriteCharacteristicLi
 import com.zhj.bluetooth.zhjbluetoothsdk.ble.bluetooth.exception.WriteBleException
 import com.zhj.bluetooth.zhjbluetoothsdk.util.ToastUtil
 import java.io.*
+import java.util.Date
 
 
 object UserData {
@@ -31,6 +32,7 @@ object UserData {
     var userInfo = UserInfo()
     var isLogined = false
     var systemSetting = SystemSettings()
+    var userActiveInfo = UserActiveInfo()
     var tribe = Tribe()
     var deviceConfig: DeviceState? = null
     var lastMac = ""
@@ -46,26 +48,11 @@ object UserData {
         }
     }
 
-    fun syncSystemSettings(completeBlock : ((complete: Boolean) -> Unit)?) {
-        val db = Firebase.firestore
-        val docRef = db.collection("settings").document(FirebaseAuth.getInstance().currentUser!!.uid)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val settings = documentSnapshot.toObject<SystemSettings>()
-            if (settings != null) {
-                systemSetting = settings
-            }
-            if (completeBlock != null) {
-                completeBlock(true)
-            }
-        }
-    }
-
     fun logout() {
         isLogined = false
         userInfo = UserInfo()
         tribe.tribeInfo = null
         tribe.tribeDetail = null
-
     }
 
     fun saveMac(mac: String?) {
@@ -83,7 +70,71 @@ object UserData {
         }
     }
 
+    fun syncActiveUserInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
+        val db = Firebase.firestore
+        val docRef = db.collection("activedUsers").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val activeInfo = documentSnapshot.toObject<UserActiveInfo>()
+            if (activeInfo != null && activeInfo.pushToken.isNotEmpty()) {
+                userActiveInfo.pushToken = activeInfo.pushToken
+            }
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+        }
+    }
+
+    fun saveUserActiveInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
+        if (userActiveInfo.pushToken.isEmpty()) {
+            return
+        }
+        userActiveInfo.lastActiveTime = Date().time.toFloat()
+        val db = Firebase.firestore
+        val settings = hashMapOf(
+            "lastActiveTime" to userActiveInfo.lastActiveTime,
+            "pushToken" to userActiveInfo.pushToken
+        )
+
+        db.collection("activedUsers").document(FirebaseAuth.getInstance().currentUser!!.uid).set(
+            settings).addOnSuccessListener {
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+
+        }.addOnFailureListener {
+            if (completeBlock != null) {
+                completeBlock(false)
+            }
+        }
+    }
+
+    fun syncSystemSettings(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
+        val db = Firebase.firestore
+        val docRef = db.collection("settings").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val settings = documentSnapshot.toObject<SystemSettings>()
+            if (settings != null) {
+                systemSetting = settings
+            }
+            if (completeBlock != null) {
+                completeBlock(true)
+            }
+        }
+    }
+
     fun saveSystemSetting(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         val db = Firebase.firestore
         val settings = hashMapOf(
             "unitSettings" to systemSetting.unitSettings,
@@ -147,6 +198,9 @@ object UserData {
     }
 
     fun fetchTribeInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         val db = Firebase.firestore
         val docRef = db.collection("tribeInfo").document(FirebaseAuth.getInstance().currentUser!!.uid)
         docRef.get().addOnSuccessListener { documentSnapshot ->
@@ -165,6 +219,9 @@ object UserData {
     }
 
     fun checkCodeExist(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
             if (completeBlock != null) {
                 completeBlock(false)
@@ -186,6 +243,9 @@ object UserData {
     }
 
     fun fetchTribeDetail(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
             if (completeBlock != null) {
                 completeBlock(false)
@@ -210,6 +270,9 @@ object UserData {
     }
 
     fun fetchTribe(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         fetchTribeInfo {
             if (it) {
                 fetchTribeDetail(UserData.tribe.tribeInfo!!.code, completeBlock)
@@ -222,6 +285,9 @@ object UserData {
     }
 
     fun updateTribeDetail(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() ||
             UserData.tribe.tribeInfo == null ||
             UserData.tribe.tribeInfo!!.code.isEmpty()) {
@@ -270,6 +336,9 @@ object UserData {
     }
 
     fun sendEmail(to: String, code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         val db = Firebase.firestore
         val message = hashMapOf(
             "subject" to "Tribe Verification Code",
@@ -293,6 +362,9 @@ object UserData {
     }
 
     fun updateTribeInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         val db = Firebase.firestore
         val tribeInfo = hashMapOf(
             "name" to UserData.tribe.tribeInfo!!.name,
@@ -315,6 +387,9 @@ object UserData {
     }
 
     fun deleteTribeDetail(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
             if (completeBlock != null) {
                 completeBlock(false)
@@ -337,6 +412,9 @@ object UserData {
     }
 
     fun deleteTribeInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         val db = Firebase.firestore
         val docRef = db.collection("tribeInfo").document(FirebaseAuth.getInstance().currentUser!!.uid)
         docRef.delete().addOnSuccessListener {
@@ -352,6 +430,9 @@ object UserData {
 
 
     fun leaveTribeDetail(code: String, completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         if (FirebaseAuth.getInstance().currentUser!!.uid.isEmpty() || code.isEmpty()) {
             if (completeBlock != null) {
                 completeBlock(false)
@@ -400,6 +481,9 @@ object UserData {
     }
 
     fun saveUserInfo(completeBlock : ((complete: Boolean) -> Unit)?) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         val db = Firebase.firestore
         val profile = hashMapOf(
             "name" to userInfo.name,
@@ -439,6 +523,9 @@ object UserData {
     }
 
     fun uploadImageToFirebase(path: String, completeBlock : ((complete: Boolean, result: String?) -> Unit)) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            return
+        }
         if (path != null) {
             val storage = Firebase.storage
             val storageRef = storage.reference
