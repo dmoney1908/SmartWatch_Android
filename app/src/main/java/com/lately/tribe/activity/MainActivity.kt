@@ -108,8 +108,6 @@ class MainActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener   
         }
     }
 
-
-
     private fun autoConnect() {
         if (!DeviceManager.isSDKAvailable) {
             return
